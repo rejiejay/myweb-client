@@ -1,0 +1,664 @@
+* {
+	padding:0px;
+	margin: 0px;
+	font-family: "微软雅黑";
+	body {
+		width: 100%;
+		height: 100%;
+	}
+	cursor:url('./pointer.png'),pointer;
+	.Selected {
+		cursor:url('./Selected.png'),pointer;
+	}
+	.clearFloat {
+		clear:both;
+	}
+	.Icon {
+		background:url('/icon.png');
+	}
+}
+
+
+// 首屏导航栏部分
+.topNav {
+	height: 50px;
+	min-width: 1080px;
+	z-index:999;
+	background: #fff;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+	.center {
+		position: relative;
+		.caption {
+			position: relative;
+			line-height: 50px;
+			color: #888;
+			font-size: 18px;
+			img {
+				position: absolute;
+				top: 5px;
+				left: -38px;
+			}
+		}
+		.navigation {
+			position: absolute;
+			height: 32px;
+			top: 9px;
+			line-height: 32px;
+			right: 110px;
+			color: #888;
+			font-size: 16px;
+			.FlatButton {
+				top: -2px;
+				color: #888;
+				line-height: 36px;
+				font-size: 16px;
+			}
+		}
+		.Backstage {
+			height: 32px;
+			width: 90px;
+			color: #888;
+			font-size: 16px;
+			position: absolute;
+			top: 9px;
+			line-height: 32px;
+			right: 0px;
+			padding-left: 10px;
+			border-left: 1px solid #e7e7eb;
+			.FlatButton {
+				width: 88px;
+				top: -2px;
+				color: #888;
+				line-height: 32px;
+				font-size: 16px;
+			}
+		}
+	}
+}
+
+
+// 首屏部分
+.Swiper{
+	position: relative;
+	height: 530px;
+	min-width: 1080px;
+	padding:3px 0px 3px 0px;
+	overflow: hidden;
+	.contain{
+		position: relative;
+		left: 0px;
+		width: 3564px;
+		height: 530px;
+		transition: left 0.4s;
+		-moz-transition: left 0.4s; /* Firefox 4 */
+		-webkit-transition: left 0.4s; /* Safari 和 Chrome */
+		-o-transition: left 0.4s; /* Opera */
+	}
+	.bigBox {
+		display: inline-block;
+		height: 530px;
+		width: 396px;
+		overflow: hidden;
+		>div {
+			float: left;
+			overflow: hidden;
+			position: relative;
+		}
+		.iconBox {
+			margin-right:2px;
+			margin-top:2px;
+			height: 130px;
+			width: 130px;
+			background:#2196f3;
+			.iconTop{
+				position: relative;
+				padding: 14px 17px;
+				.iconName {
+					font-size: 22px;
+					line-height: 27px;
+					color: #fff;
+				}
+				.iconTag {
+					font-size: 18px;
+					color: #fff;
+    				margin-top: 10px;
+				}
+			}
+			.TrueIcon {
+				position: absolute;
+				top:49px;
+				right: 5px;
+				width: 32px;
+				height: 32px;
+			}
+			.bottomIcon {
+				position: absolute;
+				bottom:3px;
+				left: 3px;
+				width: 32px;
+				height: 32px;
+				background-position:-32px 0px;
+				opacity: 0.4;
+			}
+		}
+		// 动画
+		.iconBox:hover {
+			.TrueIcon {
+				animation:trunaround 1s linear infinite;
+				-moz-animation:trunaround 1s linear infinite; /* Firefox */
+				-webkit-animation:trunaround 1s linear infinite; /* Safari and Chrome */
+				-o-animation:trunaround 1s linear infinite; /* Opera */
+			}
+			@keyframes trunaround{
+				0% {right: 5px;}
+				50% {right: 15px;}
+				100% {right: 5px;}
+			}
+			/* Firefox */
+			@-moz-keyframes trunaround{
+				0% {right: 5px;}
+				50% {right: 15px;}
+				100% {right: 5px;}
+			}
+			/* Safari and Chrome */
+			@-webkit-keyframes trunaround {
+				0% {right: 5px;}
+				50% {right: 15px;}
+				100% {right: 5px;}
+			}
+
+			@-o-keyframes trunaround {
+				0% {right: 5px;}
+				50% {right: 15px;}
+				100% {right: 5px;}
+			}
+		}
+		.minBox {
+			margin-right:2px;
+			margin-top:2px;
+			height: 130px;
+			width: 130px;
+			background:#81c784;
+		}
+		.midBox {
+			margin-right:2px;
+			margin-top:2px;
+			height: 262px;
+			width: 262px;
+			background:#00e676;
+		}
+		._right {
+			float: right;
+		}
+        >div img{
+        	width: 100%;
+        	height: 100%;
+            transition: all 0.2s;
+        }
+        >div img:hover{  
+            transform: scale(1.15);  
+        }
+	}
+	.MoveLeft,.MoveRight {
+		position: absolute;
+		top: 225px;
+		width: 80px;
+		height: 80px;
+		border-radius:40px;
+		background:rgba(0, 0, 0, 0.5);
+		z-index: 1;
+		transition: background 0.4s;
+		-moz-transition: background 0.4s; /* Firefox 4 */
+		-webkit-transition: background 0.4s; /* Safari 和 Chrome */
+		-o-transition: background 0.4s; /* Opera */
+		div {
+			position: absolute;
+			top: 24px;
+			left: 26px;
+			width: 32px;
+			height: 32px;
+			background-position:0px 0px;
+			opacity: 0.6;
+			transition: opacity 0.2s;
+			-moz-transition: opacity 0.2s; /* Firefox 4 */
+			-webkit-transition: opacity 0.2s; /* Safari 和 Chrome */
+			-o-transition: opacity 0.2s; /* Opera */
+		}
+	}
+	.MoveLeft {
+		left: 20px;
+        transform:rotate(180deg);  
+	}
+	.MoveRight {
+		right: 20px;
+	}
+	.MoveLeft:hover,.MoveRight:hover {
+		background:rgba(0, 0, 0, 0.7);
+		div {
+			opacity: 1;
+		}
+	}
+}
+
+
+// 缓冲部分
+.Buffer {
+	top: 0px;
+	height: 45px;
+	width: 100%;
+	min-width: 1080px;
+	border-bottom: 1px solid #dddddd;
+	border-top: 1px solid #dddddd;
+	background: #fff;
+	z-index:2;
+	.left {
+		position: relative;
+		top: 5.5px;
+		overflow: hidden;
+		> div {
+			position: relative;
+			float: left;
+			margin-right: 22px;
+			width: 32px;
+			height: 32px;
+		}
+		.sculpture {
+			border-radius: 16px;
+			border:1px solid rgba(0, 0, 0, 0.3);
+			background-position:-64px 0px;
+			transition: border 0.4s;
+			-moz-transition: border 0.4s; /* Firefox 4 */
+			-webkit-transition: border 0.4s; /* Safari 和 Chrome */
+			-o-transition: border 0.4s; /* Opera */
+		}
+		.sculpture:hover {
+			border:1px solid #2196f3;
+		}
+		.allOfThem {
+			top:4px;
+			background-position:-0px -32px;
+		}
+		.activatOfThem,.allOfThem:hover {
+			background-position:-32px -32px;
+		}
+		.week {
+			background-position:-128px 32px;
+		}
+		.activatWeek,.week:hover {
+			background-position:-160px 32px;
+		}
+		.month {
+			background-position:-64px 32px;
+		}
+		.activatMonth,.month:hover {
+			background-position:-96px 32px;
+		}
+		.year {
+			background-position:-192px 32px;
+		}
+		.activatYear,.year:hover {
+			background-position:-224px 32px;
+		}
+	}
+	.middle {
+		position: absolute;
+		top: 0px;
+		left: 50%;
+		width: 90px;
+		margin-left:-45px;
+		color:#888;
+		line-height: 45px;
+	}
+	.right {
+		position: absolute;
+		right: 0px;
+		width: 160px;
+		top: 0px;
+		select {
+			float: left;
+			position: relative;
+			margin-right: 10px;
+			top:8px;
+			padding: 3.5px 0px 4px 6px;
+		}
+		.addItem {
+			padding-left:10px;
+			margin-right: 20px;
+			color: #888;
+			float: left;
+			line-height: 40px;
+			font-size:32px;
+			background-position:-64px 0px;
+			transition: color 0.4s;
+			-moz-transition: color 0.4s; /* Firefox 4 */
+			-webkit-transition: color 0.4s; /* Safari 和 Chrome */
+			-o-transition: color 0.4s; /* Opera */
+		}
+		.addItem:hover {
+			color: #2196f3;
+		}
+		.sculpture {
+			position: relative;
+			top: 5.5px;
+			float: left;
+			width: 32px;
+			height: 32px;
+			border-radius: 16px;
+			border:1px solid rgba(0, 0, 0, 0.3);
+			background-position:-64px 0px;
+			transition: border 0.4s;
+			-moz-transition: border 0.4s; /* Firefox 4 */
+			-webkit-transition: border 0.4s; /* Safari 和 Chrome */
+			-o-transition: border 0.4s; /* Opera */
+		}
+		.sculpture:hover {
+			border:1px solid #2196f3;
+		}
+		.Cover {
+			position: fixed;
+			left: 0px;
+			top: 0px;
+			width:100%;
+			height: 100%;
+			z-index: 2;
+		}
+		.menu {
+			position: absolute;
+			left: 28px;
+			top:50px;
+			width: 130px;
+			background: #FFF;
+			border: 1px solid rgba(34,36,38,.15);
+			border-color: #96C8DA;
+			border-radius: 4px;
+			box-shadow: 0 2px 3px 0 rgba(34,36,38,.15);
+			z-index: 3;
+			.item {
+				position: relative;
+				display: block;
+				border: none;
+				height: auto;
+				text-align: left;
+				border-top: none;
+				line-height: 16px;
+				color: rgba(0,0,0,.87);
+				padding: .78571429rem 1.14285714rem !important;
+				font-size: 16px;
+				text-transform: none;
+				font-weight: 400;
+				box-shadow: none;
+			}
+			.item:hover {
+				background:rgba(0,0,0,0.08);
+			}
+		}
+	}
+	.content {
+		position: relative;
+		height: 45px;
+	}
+}
+
+// 主要部分
+.Main {
+	padding-top:47px;
+	.content {
+		position: relative;
+		.Nav {
+			position: absolute;
+			top: 0px;
+			width:164px;
+			border-right: 1px solid #dddddd;
+			> a {
+				display: block;
+			}
+			.nav-header {
+				border-left: 3px solid #3bb4f2;
+				padding: 0 1em;
+				margin-bottom: .4em;
+				margin-top: 10px;
+				color:#555;
+			}
+			.nav-ordinary {
+				padding-top: .3em;
+				padding-bottom: .3em;
+				font-size: 16px;
+				padding: .4em 1em;
+				color: #888;
+			}
+			.select {
+				color:#3bb4f2;
+			}
+			.nav-ordinary:hover {
+				background:#eeeeee;
+			}
+		}
+		.fixed {
+			position: fixed;
+			top: 45px;
+		}
+		.Content {
+			position: relative;
+			left: -1px;
+			margin-left:165px;
+		    border-left: 1px solid #dddddd;
+		    .title {
+		    	>div {
+		    		padding:1.6rem 0px 1rem;
+		        	font-size: 24px;
+		    		border-bottom: 3px double #dddddd;
+		    	}
+		    	margin-left:50px;
+		    }
+		    .activatMore {
+		    	margin-top:30px;
+		    	margin-left:50px;
+		    	.FlatButton {
+		    		color:#888;
+					box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+					transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+					width: 100%;
+		    	}
+		    	.FlatButton:hover {
+		    		color:#888;
+		    	}
+		    }
+			.block {
+				position: relative;
+				padding-top:30px;
+				padding-left:50px;
+				.block-content {
+					box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+					transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+					padding:30px 30px 15px;
+					.Main-Title {
+						font-size: 24px;
+						color: #888;
+						line-height: 1.3;
+						padding-bottom:10px;
+					}
+					.Sub-Title {
+						text-transform: uppercase;
+						letter-spacing: 1px;
+						font-size: 0.825em;
+						color:#888;
+						padding-bottom:15px;
+					}
+					.line {
+						padding-bottom:15px;
+						border-top: 3px double #dddddd;
+					}
+					.row {
+						img {
+							width: 100%;
+							margin-bottom: 8px;
+						}
+					}
+					.Main-content {
+						font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+						font-size: 16px;
+						line-height: 1.7;
+						text-indent:2em;
+						color: #737373;
+					}
+					.Main-Bottom {
+						padding-top:10px;
+						overflow: hidden;
+						a {
+							color: #888;
+							text-decoration: none;
+						}
+						a:visited{
+							color: #888;
+						}
+						> div {
+							color: #888;
+							font-size: 14px;
+						}
+						.Left {
+							float: left;
+						}
+						.Right {
+							float: right;
+						}
+						.Right:hover,span:hover {
+							color: #3bb4f2;
+						}
+					}
+				}
+				.triangle {
+					position: absolute;
+					top: 54px;
+					left: 28px;
+					width: 32px;
+					height: 32px;
+					background:url('/icon.png');
+					background-position:-96px 0px;
+				}
+				.dayTime {
+					position: absolute;
+					top: 30px;
+					left: -26px;
+					width: 46px;
+					height: 46px;
+					font-size:20px;
+					color: #888;
+					line-height: 46px;
+					border-radius: 26px;
+					background:#fff;
+					text-align: center;
+					border:2px solid #888;
+					transition: all 0.4s;
+					-moz-transition: all 0.4s;	/* Firefox 4 */
+					-webkit-transition: all 0.4s;	/* Safari 和 Chrome */
+					-o-transition: all 0.4s;	/* Opera */
+				}
+				.dayTime:hover {
+					background:#3bb4f2;
+					color:#fff;
+					border:2px solid #fff;
+				}
+				.monthTime {
+					position: absolute;
+					top: 88px;
+					left: -15px;
+					width: 26px;
+					height: 26px;
+					color: #888;
+					font-size:14px;
+					line-height: 26px;
+					border-radius: 4px;
+					background:#fff;
+					text-align: center;
+					border:1px solid #dddddd;
+					transition: all 0.4s;
+					-moz-transition: all 0.4s;	/* Firefox 4 */
+					-webkit-transition: all 0.4s;	/* Safari 和 Chrome */
+					-o-transition: all 0.4s;	/* Opera */
+				}
+				.monthTime:hover {
+					background:#2979ff;
+					color:#fff;
+					border:1px solid #fff;
+				}
+			}
+		}
+	}
+}
+
+// 底部
+.All-bottom {
+	
+	.bottom-Tail {
+		position: relative;
+		left: -1px;
+		height: 50px;
+		width:165px;
+		border-right: 1px solid #dddddd;
+		margin-bottom: 100px;
+		.point {
+			position: absolute;
+			right: -6.5px;
+			bottom:-5px;
+			width: 11px;
+			height: 11px;
+			border-radius: 6px;
+			background:#dddddd;
+			transition: all 0.4s;
+			-moz-transition: all 0.4s;	/* Firefox 4 */
+			-webkit-transition: all 0.4s;	/* Safari 和 Chrome */
+			-o-transition: all 0.4s;	/* Opera */
+		}
+		.point:hover {
+			background:#f44336;
+		}
+	}
+	.Copyright {
+		color: #888;
+		text-align: center;
+		font-size: 14px;
+	}
+}
+
+
+
+// ——————————————————————————————————————————————————————————————————————————————————————————————————
+// 用法 <button className='FlatButton'>按钮</button>
+.FlatButton {
+	position: relative;
+	background: rgba(0, 0, 0, 0);
+	border: 10px;
+	height: 36px;
+	text-align: center;
+	min-width: 70px;
+
+	box-sizing: border-box;
+	display: inline-block;
+	font-family: Roboto, sans-serif;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	text-decoration: none;
+	outline: none;
+	line-height: 36px;
+	color: rgba(0, 0, 0, 0.870588);
+	transition: background 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+	border-radius: 2px;
+	user-select: none;
+	overflow: hidden;
+	z-index: 1;
+	canvas {
+	  opacity: 0.2;
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	}
+}
+.FlatButton:hover {
+	background: rgba(153, 153, 153, 0.2);
+}
+
+
+
+
+
+
