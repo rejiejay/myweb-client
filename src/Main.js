@@ -41,7 +41,8 @@ class Main extends Component {
       }
     }
     // 请求代码
-    fetch("http://localhost:3193/Home/getCode",{
+    // 生产环境记得 http://localhost:3193/ 替换 http://119.29.140.46:3193/
+    fetch("http://119.29.140.46:3193/Home/getCode",{
         method: 'GET'
     }).then(function(res){
         return res.json()
@@ -65,7 +66,7 @@ class Main extends Component {
       }
     })
     // 请求文章
-    fetch("http://localhost:3193/Home/getArticle",{
+    fetch("http://119.29.140.46:3193/Home/getArticle",{
         method: 'GET'
     }).then(function(res){
         return res.json()
@@ -89,7 +90,7 @@ class Main extends Component {
       }
     })
     // 请求设计
-    fetch("http://localhost:3193/Home/getDesign",{
+    fetch("http://119.29.140.46:3193/Home/getDesign",{
         method: 'GET'
     }).then(function(res){
         return res.json()
@@ -406,7 +407,7 @@ export default Main
       return
     }
     _DOM.setAttribute('data-already','false');
-    fetch("http://localhost:3193/Home/likePlus",{
+    fetch("http://119.29.140.46:3193/Home/likePlus",{
      method: 'POST',
      headers:{
        'Accept': 'application/json',
@@ -430,7 +431,7 @@ export default Main
   // 阅读
   function readPlus(identify,collection) {
     const _data = {identify:identify,collection:collection};
-    fetch("http://localhost:3193/Home/readPlus",{
+    fetch("http://119.29.140.46:3193/Home/readPlus",{
      method: 'POST',
      headers:{
        'Accept': 'application/json',
@@ -459,7 +460,7 @@ export default Main
       RenderDOM.setAttribute('data-read','detail');
       ShowDOM.innerHTML = '收起';
       RenderDOM.innerHTML = '正在加载...';
-      fetch("http://localhost:3193/Home/getDetail",{
+      fetch("http://119.29.140.46:3193/Home/getDetail",{
         method: 'POST',
         headers:{
           'Accept': 'application/json',
