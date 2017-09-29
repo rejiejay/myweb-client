@@ -1,34 +1,25 @@
+import dva, { connect } from 'dva';
+import { Router, Route, Switch } from 'dva/router';
+import fetch from 'dva/fetch';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import NavHeard from './NavHeard.js';
-import Swiper from './Swiper.js';
-import Main from './Main.js';
-import Bottom from './Bottom.js';
+import less from './index.less';
 
-// let _data = {identify:'1XZZcZeleFD2pplD'};
-// fetch("http://localhost:3193/Home/getDetail",{
-// 	method: 'POST',
-// 	headers:{
-// 		'Accept': 'application/json',
-// 		"Content-Type":"application/json"
-// 	},
-// 	body:JSON.stringify(_data)
-// }).then(function(res){
-//     return res.json()
-// }).then(function(value){
-// 	console.log(value)
-// })
+// 1. Initialize
+const app = dva();
 
-const App = () => (
-  <div>
-    <NavHeard/>
-    <Swiper/>
-    <Main/>
-    <Bottom/>
-  </div>
+// 2. Model
+// Remove the comment and define your model.
+//app.model({});
+
+// 3. Router
+const HomePage = () => <div>Hello Dva!</div>;
+app.router(({ history }) =>
+  <Router history={history}>
+    <Switch>
+      <Route path="/" exact component={HomePage} />
+    </Switch>
+  </Router>
 );
- 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
+
+// 4. Start
+app.start('#root');
