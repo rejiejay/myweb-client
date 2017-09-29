@@ -1,13 +1,15 @@
 var path = require("path");
 var webpack = require("webpack");
+
 module.exports = {
 	entry: {
-		app: ['whatwg-fetch',"./src/index.js"]
+		app: ['whatwg-fetch',"./src2/index.js"]
 	},
 	output: {
-		path: path.resolve(__dirname, "build"),
-		publicPath: "/assets/",
-		filename: "bundle.js"
+		path: path.resolve(__dirname, "build2"),
+		publicPath: "./",
+		filename: '[name].js',
+		chunkFilename: '[name].js'
 	},
 	plugins: [
 		new webpack.DefinePlugin({
@@ -19,6 +21,9 @@ module.exports = {
 			compress:{
 				warnings: true
 			}
+		}),
+		new webpack.optimize.CommonsChunkPlugin({
+			name:'vendor'
 		})
 	],
 	module: {

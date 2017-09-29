@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import NavHeard from './NavHeard/index.js';
+import Swiper from './Swiper/index.js';
 
 class PCside extends Component {
-    constructor (props, context) {
-        super(props, context);
-    }
     render() {
         return <div>
-            <h1 onClick={function(){
-                console.log(this.context.router)
-                this.context.router.push('/mobile');
-            }.bind(this)}>!!!!!!!!!!!!!!!!!!!</h1>
+            <NavHeard/>
+            <Swiper/>
         </div>
     }
 }
