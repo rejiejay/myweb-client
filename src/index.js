@@ -4,17 +4,13 @@ import fetch from 'dva/fetch';
 import React from 'react';
 import less from './index.less';
 
-import Index from './routes';
+import models from './models';
+import routes from './routes';
 
 const app = dva();
 
-app.model({
-  namespace: 'user',
-  state: {},
-  reducers: {
-  }
-});
+app.model(models);
 
-app.router(require('./routes/index'));
+app.router(routes);
 
 app.start('#root');

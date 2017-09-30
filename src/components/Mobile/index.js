@@ -1,8 +1,12 @@
-import React, {Component} from 'react';
+import React from 'react';
+import { connect } from 'dva';
 
-class Mobile extends Component {
-    render() {
-        return <h1>Mobile</h1>
-    }
+function Mobile({ location }) {
+  return (
+    <div>
+      hi, this is Mobile.
+    </div>
+  );
 }
-export default Mobile
+  
+export default connect()(Mobile);

@@ -39,3 +39,4 @@ function RouterConfig({ history, app }) {
 }  
 
 export default RouterConfig;
+
