@@ -1,25 +1,20 @@
 import dva, { connect } from 'dva';
-import { Router, Route, Switch } from 'dva/router';
+
 import fetch from 'dva/fetch';
 import React from 'react';
 import less from './index.less';
 
-// 1. Initialize
+import Index from './routes';
+
 const app = dva();
 
-// 2. Model
-// Remove the comment and define your model.
-//app.model({});
+app.model({
+  namespace: 'user',
+  state: {},
+  reducers: {
+  }
+});
 
-// 3. Router
-const HomePage = () => <div>Hello Dva!</div>;
-app.router(({ history }) =>
-  <Router history={history}>
-    <Switch>
-      <Route path="/" exact component={HomePage} />
-    </Switch>
-  </Router>
-);
+app.router(require('./routes/index'));
 
-// 4. Start
 app.start('#root');
