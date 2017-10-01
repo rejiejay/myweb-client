@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import Publishdynamic from './../../components/PCside/Publishdynamic';
+import Dynamic from './../../components/PCside/Dynamic';
 
 class PCside extends Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class PCside extends Component {
   render() {
     return (
       <div>
-        <Publishdynamic />
+        <Dynamic />
       </div>
     )
   }
