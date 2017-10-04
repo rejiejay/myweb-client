@@ -3,7 +3,7 @@ let config = (() => {
 
     if (NODE_ENV === 'development') {
         return {
-            basicUrl: 'http://192.168.1.106:3000'
+            basicUrl: 'http://localhost:3000'
         }
     } else {
 

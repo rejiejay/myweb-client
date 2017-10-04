@@ -2,7 +2,9 @@ import dva, { connect } from 'dva';
 
 import fetch from 'dva/fetch';
 import React from 'react';
-import less from './index.less';
+
+import index from './index.less';
+import Dynamic from './components/PCside/Dynamic/index.less';
 
 import models from './models';
 import routes from './routes';

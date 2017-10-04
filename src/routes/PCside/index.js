@@ -27,7 +27,7 @@ class PCside extends Component {
 
   render() {
     return (
-      <div>
+      <div className='pc-side'>
         <Dynamic />
       </div>
     )

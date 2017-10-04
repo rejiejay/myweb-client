@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import { connect } from 'dva';
+import shuffle from 'shuffle-array';
 
+import DynamicItem from './DynamicItem';
 import config from './../../../config';
-import time from './../../../utils/time.js';
 import quickSortBy from './../../../utils/quickSortBy.js';
-import shuffle from './../../../utils/shuffle.js';
 
 class Dynamic extends Component {
   constructor(props) {
@@ -19,11 +19,14 @@ class Dynamic extends Component {
       dynamicData: [
         // {
         //   '_id': '59d0aa8a9d53b82a4cdff15d',
+        //   'isDelete': false,
         //   'date': 1506847370000,
         //   'title': '标题',
         //   'content': '内容',
         //   'thoughtsCount': 0,
-        //   'upvote': 0
+        //   'thoughtsIsSelected': false,
+        //   'upvote': 0,
+        //   'upvoteIsSelected': false
         // }
       ],
 
@@ -48,7 +51,7 @@ class Dynamic extends Component {
         }
       ).then(function (val) {
         if (val.result === 1) {
-          _this.setState({dynamicData: val.data});
+          _this.setState({dynamicData: dealWithDynamicData(val.data)});
         } else {
           if (val.message) { alert(`提交数据发生错误, 原因: ${val.message}`) }
         }
@@ -96,6 +99,22 @@ class Dynamic extends Component {
             content: '',
             isSubmiting: false
           });
+
+          getDynamicByTime()
+            .then(
+              function (response) {
+                return response.json()
+              }, function (error) {
+                alert(`提交数据发生错误, 原因: ${error}`);
+                return { 'result': 0, 'message': '' }
+              }
+            ).then(function (val) {
+              if (val.result === 1) {
+                _this.setState({dynamicData: dealWithDynamicData(val.data)});
+              } else {
+                if (val.message) { alert(`提交数据发生错误, 原因: ${val.message}`) }
+              }
+            });
           alert('成功');
         } else {
           if (val.message) { alert(`提交数据发生错误, 原因: ${val.message}`) }
@@ -125,7 +144,7 @@ class Dynamic extends Component {
             'sortType': 'date', 
             'sortByTimeIsOld': false,
             'showDynamicNum': 5,
-            'dynamicData': val.data
+            'dynamicData': dealWithDynamicData(val.data)
           });
           _this.increaseShowNum = 5;
         } else {
@@ -154,7 +173,7 @@ class Dynamic extends Component {
             'sortType': 'date', 
             'sortByTimeIsOld': false,
             'showDynamicNum': 5,
-            'dynamicData': val.data
+            'dynamicData': dealWithDynamicData(val.data)
           });
           _this.increaseShowNum = 5;
         } else {
@@ -182,7 +201,7 @@ class Dynamic extends Component {
             'sortType': 'date', 
             'sortByTimeIsOld': false,
             'showDynamicNum': 5,
-            'dynamicData': val.data
+            'dynamicData': dealWithDynamicData(val.data)
           });
           _this.increaseShowNum = 5;
         } else {
@@ -276,91 +295,189 @@ class Dynamic extends Component {
     this.setState({showDynamicNum: myNum});
   }
 
+  renderSubmitBtn() {
+    let _this = this,
+    isSubmiting = this.state.isSubmiting;
+
+    if (isSubmiting) {
+      return <div
+        className='publish-submiting'
+      >正在发布...</div>;
+    } else {
+      return <div
+        onClick={_this.submitData.bind(_this)}
+        className='publish-submit'
+      >发布</div>;
+    } 
+  }
+
+  renderDynamicList() {
+    let _this = this,
+      myList = [],
+      dataList = this.state.dynamicData,
+      ListNum = this.state.showDynamicNum;
+  
+    if (dataList.length === 0) {
+      return <div>暂无数据</div>
+    }
+    
+    if (ListNum > dataList.length) {
+      ListNum = dataList.length;
+    }
+  
+    for (let i = 0; i < ListNum; i++) {
+      myList.push(
+        <DynamicItem
+          key={i}
+          id={i}
+          updateState={(itemState, id) => {
+            let myDynamicData = _this.state.dynamicData.slice(0);
+
+            myDynamicData[id] = itemState;
+            _this.setState({dynamicData: myDynamicData});
+          }}
+          data={dataList[i]}
+        />
+      )
+    }
+    return <div>{myList}</div>;
+  }
+
+  renderShowMore() {
+    let allDynamicNum = this.state.dynamicData.length,
+      showNum = this.state.showDynamicNum;
+
+    if (allDynamicNum === showNum) {
+      return <div></div>
+    }
+
+    return <div 
+      className='dynamic-item-showMore'
+      onClick={this.showMore.bind(this)}
+    >显示更多</div>
+  }
+
   render() {
     return (
-      <div className='PC-Main'>
-        <h2>发布动态</h2>
-        <div>
-          <div>
-            <h3>请输入标题</h3>
-            <input type="text" value={this.state.title} onChange={function (event) { this.setState({title: event.target.value}) }.bind(this)} />
-          </div>
-          <div>
-            <h3>请输入标题</h3>
-            <textarea rows="3" cols="20" value={this.state.content} onChange={function (event) { this.setState({content: event.target.value}) }.bind(this)} />
-          </div>
-          <div onClick={this.submitData.bind(this)} >
-            <SubmitBtn isSubmiting={this.state.isSubmiting} />
+      <div className='dynamic-main'>
+        <div className='publish-main'>
+          <h2>发布动态</h2>
+          <div className='publish-content'>
+            <div className='publish-title'>
+              <input
+                type="text"
+                placeholder='请输入标题'
+                value={this.state.title}
+                onChange={function (event) {
+                  this.setState({title: event.target.value})
+                }.bind(this)}
+              />
+            </div>
+            <div className='publish-textarea'>
+              <textarea
+                rows="3"
+                cols="20"
+                placeholder='请输入内容'
+                value={this.state.content}
+                onChange={function (event) {
+                  this.setState({content: event.target.value})
+                }.bind(this)}
+              />
+            </div>
+            {this.renderSubmitBtn.call(this)}
           </div>
         </div>
+        <div className='dynamic-list'>
           <h2>动态列表</h2>
-          <div>
-            <h3>加载</h3>
-            <button onClick={this.loadNew.bind(this)}>按最新加载</button>
-            <button onClick={this.loadRandom.bind(this)}>随机加载</button>
-            <button onClick={this.loadOld.bind(this)}>按最久远加载</button>
+          <div className='dynamic-operate'>
+            <div className='dynamic-reload'>
+              <h3>加载</h3>
+              <DynamicButton
+                isSelected={this.loadType === 'new'}
+                canRepeat={false}
+                buttonName={'按最新加载'}
+                myClick={function () { this.loadNew.call(this) }.bind(this)}
+              />
+              <DynamicButton
+                isSelected={this.loadType === 'random'}
+                canRepeat={true}
+                buttonName={'随机加载'}
+                myClick={function () { this.loadRandom.call(this) }.bind(this)}
+              />
+              <DynamicButton
+                isSelected={this.loadType === 'old'}
+                canRepeat={false}
+                buttonName={'按最久远加载'}
+                myClick={function () { this.loadOld.call(this) }.bind(this)}
+              />
+            </div>
+            <div className='dynamic-sort'>
+              <h3>排序</h3>
+              <DynamicButton
+                isSelected={this.state.sortType === 'date'}
+                canRepeat={true}
+                buttonName={'时间'}
+                myClick={function () { this.sortBy('date') }.bind(this)}
+                pointer={(function () {
+                  if (this.state.sortByTimeIsOld) {
+                    return ' ↑'
+                  } else {
+                    return ' ↓'
+                  }
+                }.bind(this))()}
+              />
+              <DynamicButton
+                isSelected={this.state.sortType === 'thoughtsCount'}
+                canRepeat={false}
+                buttonName={'需记'}
+                myClick={function () { this.sortBy('thoughtsCount') }.bind(this)}
+              />
+              <DynamicButton
+                isSelected={this.state.sortType === 'upvote'}
+                canRepeat={false}
+                buttonName={'赞'}
+                myClick={function () { this.sortBy('upvote') }.bind(this)}
+              />
+              <DynamicButton
+                isSelected={this.state.sortType === 'random'}
+                canRepeat={true}
+                buttonName={'乱序'}
+                myClick={function () { this.sortByRandom.call(this) }.bind(this)}
+              />
+            </div>
           </div>
-          <div>
-            <h3>排序</h3>
-            <button onClick={function () { this.sortBy('date') }.bind(this)}>时间 {(function () { if (this.state.sortByTimeIsOld) { return '↑' } else { return '↓' } }.bind(this))()}</button>
-            <button onClick={function () { this.sortBy('thoughtsCount') }.bind(this)}>需记</button>
-            <button onClick={function () { this.sortBy('upvote') }.bind(this)}>赞</button>
-            <button onClick={this.sortByRandom.bind(this)}>乱序</button>
-          </div>
-          <DynamicList
-            dataList={this.state.dynamicData}
-            ListNum={this.state.showDynamicNum}
-          />
-          <button onClick={this.showMore.bind(this)}>加载更多</button>
+          {this.renderDynamicList.call(this)}
+          {this.renderShowMore.call(this)}
+        </div>
       </div>
     )
   }
 }
+
+let DynamicButton = ({isSelected, canRepeat, buttonName, myClick, pointer}) => {
+  if (isSelected) {
+    if (canRepeat) {
+      return <div 
+        onClick={myClick}
+        className='dynamic-button-selected'
+      >{buttonName}{pointer}</div>
+    } else {
+      return <div
+        className='dynamic-button-selected'
+      >{buttonName}{pointer}</div>
+    }
+  } else {
+    return <div 
+      onClick={myClick}
+      className='dynamic-button'
+    >{buttonName}{pointer}</div>
+  }
+};
 
 let SubmitBtn = ({isSubmiting}) => (
   <button>{(() => { if (isSubmiting) { return '正在提交'; } else { return '提交'; } })()}</button>
 );
 
-let DynamicList = ({dataList, ListNum}) => {
-  let myList = [];
-
-  if (dataList.length === 0) {
-    return <div>暂无数据</div>
-  }
-  
-  if (ListNum > dataList.length) {
-    ListNum = dataList.length;
-  }
-
-
-  for (let i = 0; i < ListNum; i++) {
-    myList.push(
-      <DynamicItem
-        key={i}
-        data={dataList[i]}
-      />
-    )
-  }
-  return <div>{myList}</div>;
-};
-
-let DynamicItem = ({data: data}) => {
-  return (
-    <div>
-      <h4>{data.title}</h4>
-      <div>{data.content}</div>
-      <div>
-        <div>点赞 {data.upvote}</div>
-        <div>
-          <button>-</button>
-          需记 {data.thoughtsCount}
-          <button>+</button>
-        </div>
-        <div>{time.timestampToyyyyMMddHHmmFormat(data.date)}</div>
-      </div>
-    </div>
-  )
-}
 
 let getDynamicByTime = (sequenceType) => {
   let sort = sequenceType || 'new';
@@ -373,6 +490,21 @@ let getDynamicByTime = (sequenceType) => {
 
 let getDynamicByRandom = () => {
     return fetch(`${config.basicUrl}/dynamic/getdata/sortbyrandom`, { method: 'GET' })
+}
+
+
+let dealWithDynamicData = (data) => {
+  return data.map((val) => ({
+    '_id': val._id,
+    'isDelete': false,
+    'date': val.date,
+    'title': val.title,
+    'content': val.content,
+    'thoughtsCount': val.thoughtsCount,
+    'thoughtsIsSelected': false,
+    'upvote': val.upvote,
+    'upvoteIsSelected': false
+  }));
 }
 
 export default connect()(Dynamic);
