@@ -6,9 +6,10 @@ let config = (() => {
             basicUrl: 'http://localhost:3000'
         }
     } else {
-
+        return {
+            basicUrl: 'http://119.29.140.46:1938'
+        }
     }
-
 })();
 
 export default config
