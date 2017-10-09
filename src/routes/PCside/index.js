@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 
 import Dynamic from './../../components/PCside/Dynamic';
+import NavHeader from './../../components/PCside/NavHeader';
 import config from './../../config';
 import docCookies from './../../utils/cookies.js';
 
@@ -36,7 +37,8 @@ class PCside extends Component {
   render() {
     return (
       <div className='pc-side'>
-        <Dynamic />
+        <NavHeader/>
+        <Dynamic/>
       </div>
     )
   }

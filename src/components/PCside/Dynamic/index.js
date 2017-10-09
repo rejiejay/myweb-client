@@ -399,7 +399,7 @@ class Dynamic extends Component {
     } else {
       return <div
         onClick={_this.submitData.bind(_this)}
-        className='publish-submit'
+        className='publish-submit cursor-selected'
       >发布</div>;
     } 
   }
@@ -445,7 +445,7 @@ class Dynamic extends Component {
     }
 
     return <div 
-      className='dynamic-item-showMore'
+      className='dynamic-item-showMore cursor-selected'
       onClick={this.showMore.bind(this)}
     >显示更多</div>
   }
@@ -557,17 +557,17 @@ let DynamicButton = ({isSelected, canRepeat, buttonName, myClick, pointer}) => {
     if (canRepeat) {
       return <div 
         onClick={myClick}
-        className='dynamic-button-selected'
+        className='dynamic-button-selected cursor-selected'
       >{buttonName}{pointer}</div>
     } else {
       return <div
-        className='dynamic-button-selected'
+        className='dynamic-button-selected cursor-selected'
       >{buttonName}{pointer}</div>
     }
   } else {
     return <div 
       onClick={myClick}
-      className='dynamic-button'
+      className='dynamic-button cursor-selected'
     >{buttonName}{pointer}</div>
   }
 };

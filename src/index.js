@@ -5,6 +5,7 @@ import React from 'react';
 
 import index from './index.less';
 import Dynamic from './components/PCside/Dynamic/index.less';
+import NavHeard from './components/PCside/NavHeader/index.less';
 
 import models from './models';
 import routes from './routes';
