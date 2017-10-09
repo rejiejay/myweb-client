@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import shuffle from 'shuffle-array';
 
 import DynamicItem from './DynamicItem';
+import Toast from './../../toast';
 import config from './../../../config';
 import quickSortBy from './../../../utils/quickSortBy.js';
 
@@ -14,6 +15,9 @@ class Dynamic extends Component {
       title: '',
       content: '',
       isSubmiting: false,
+
+      toastIsShow: false,
+      toastMessage: '',
 
       showDynamicNum: 5,
       dynamicData: [
@@ -46,14 +50,22 @@ class Dynamic extends Component {
         function (response) {
           return response.json()
         }, function (error) {
-          alert(`提交数据发生错误, 原因: ${error}`);
+          _this.setState({
+            toastIsShow: true,
+            toastMessage: `提交数据发生错误, 原因: ${error}`
+          })
           return { 'result': 0, 'message': '' }
         }
       ).then(function (val) {
         if (val.result === 1) {
           _this.setState({dynamicData: dealWithDynamicData(val.data)});
         } else {
-          if (val.message) { alert(`提交数据发生错误, 原因: ${val.message}`) }
+          if (val.message) {
+            _this.setState({
+              toastIsShow: true,
+              toastMessage: `提交数据发生错误, 原因: ${val.message}`
+            })
+          }
         }
       });
   }
@@ -63,20 +75,36 @@ class Dynamic extends Component {
       mytitle = this.state.title,
       myContent = this.state.content;
     
+    if (this.props.isLogin === false) {
+      _this.setState({
+        toastIsShow: true,
+        toastMessage: '(。・＿・。)ﾉI’m sorry~ 你没有登录/限权!',
+      })
+      return
+    }
     if (this.state.isSubmiting) { return } 
     if (!myContent) {
-      alert('提交的内容不能为空!');
+      _this.setState({
+        toastIsShow: true,
+        toastMessage: '(⊙o⊙)… 提交的内容不能为空噢!',
+      })
       return
     }
     
-    this.setState({isSubmiting: true});
+    this.setState({
+      isSubmiting: true,
+      toastIsShow: true,
+      toastMessage: 'loading'
+    });
 
     fetch(`${config.basicUrl}/dynamic`, {
+      mode: 'cors',
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
       },
-      body:JSON.stringify({
+      body: JSON.stringify({
         title: mytitle,
         content: myContent
       })
@@ -84,8 +112,11 @@ class Dynamic extends Component {
         function (response) {
           return response.json()
         }, function (error) {
-          _this.setState({isSubmiting: false});
-          alert(`提交数据发生错误, 原因: ${error}`);
+          _this.setState({
+            isSubmiting: false,
+            toastIsShow: true,
+            toastMessage: `提交数据发生错误, 原因: ${error}`
+          })
 
           return {
             'result': 0,
@@ -105,19 +136,35 @@ class Dynamic extends Component {
               function (response) {
                 return response.json()
               }, function (error) {
-                alert(`提交数据发生错误, 原因: ${error}`);
+                _this.setState({
+                  toastIsShow: true,
+                  toastMessage: `提交数据发生错误, 原因: ${error}`
+                })
                 return { 'result': 0, 'message': '' }
               }
             ).then(function (val) {
               if (val.result === 1) {
                 _this.setState({dynamicData: dealWithDynamicData(val.data)});
               } else {
-                if (val.message) { alert(`提交数据发生错误, 原因: ${val.message}`) }
+                if (val.message) {
+                  _this.setState({
+                    toastIsShow: true,
+                    toastMessage: `提交数据发生错误, 原因: ${val.message}`
+                  })
+                }
               }
             });
-          alert('成功');
+            _this.setState({
+              toastIsShow: true,
+              toastMessage: '恭喜你,数据提交成功!'
+            })
         } else {
-          if (val.message) { alert(`提交数据发生错误, 原因: ${val.message}`) }
+          if (val.message) {
+            _this.setState({
+              toastIsShow: true,
+              toastMessage: `提交数据发生错误, 原因: ${val.message}`
+            })
+          }
           _this.setState({isSubmiting: false});
         }
       });
@@ -130,17 +177,28 @@ class Dynamic extends Component {
     if (this.loadType === 'new') { return }
     this.loadType = 'new';
 
+    this.setState({
+      toastIsShow: true,
+      toastMessage: 'loading'
+    });
+
     getDynamicByTime('new')
       .then(
         function (response) {
           return response.json()
         }, function (error) {
-          alert(`提交数据发生错误, 原因: ${error}`);
+          _this.setState({
+            toastIsShow: true,
+            toastMessage: `提交数据发生错误, 原因: ${error}`
+          })
           return { 'result': 0, 'message': '' }
         }
       ).then(function (val) {
         if (val.result === 1) {
           _this.setState({
+            'toastIsShow': false,
+            'toastMessage': '',
+
             'sortType': 'date', 
             'sortByTimeIsOld': false,
             'showDynamicNum': 5,
@@ -148,7 +206,12 @@ class Dynamic extends Component {
           });
           _this.increaseShowNum = 5;
         } else {
-          if (val.message) { alert(`提交数据发生错误, 原因: ${val.message}`) }
+          if (val.message) {
+            _this.setState({
+              toastIsShow: true,
+              toastMessage: `提交数据发生错误, 原因: ${val.message}`
+            })
+          }
         }
       });
   }
@@ -159,25 +222,40 @@ class Dynamic extends Component {
     if (this.loadType === 'old') { return }
     this.loadType = 'old';
 
+    this.setState({
+      toastIsShow: true,
+      toastMessage: 'loading'
+    });
+
     getDynamicByTime('old')
       .then(
         function (response) {
           return response.json()
         }, function (error) {
-          alert(`提交数据发生错误, 原因: ${error}`);
+          _this.setState({
+            toastIsShow: true,
+            toastMessage: `提交数据发生错误, 原因: ${error}`
+          })
           return { 'result': 0, 'message': '' }
         }
       ).then(function (val) {
         if (val.result === 1) {
           _this.setState({
+            'toastIsShow': false,
+            'toastMessage': '',
             'sortType': 'date', 
-            'sortByTimeIsOld': false,
+            'sortByTimeIsOld': true,
             'showDynamicNum': 5,
             'dynamicData': dealWithDynamicData(val.data)
           });
           _this.increaseShowNum = 5;
         } else {
-          if (val.message) { alert(`提交数据发生错误, 原因: ${val.message}`) }
+          if (val.message) {
+            _this.setState({
+              toastIsShow: true,
+              toastMessage: `提交数据发生错误, 原因: ${val.message}`
+            })
+          }
         }
       });
   }
@@ -187,17 +265,27 @@ class Dynamic extends Component {
 
     this.loadType = 'random';
 
+    this.setState({
+      toastIsShow: true,
+      toastMessage: 'loading'
+    });
+
     getDynamicByRandom()
       .then(
         function (response) {
           return response.json()
         }, function (error) {
-          alert(`提交数据发生错误, 原因: ${error}`);
+          _this.setState({
+            toastIsShow: true,
+            toastMessage: `提交数据发生错误, 原因: ${error}`
+          })
           return { 'result': 0, 'message': '' }
         }
       ).then(function (val) {
         if (val.result === 1) {
           _this.setState({
+            'toastIsShow': false,
+            'toastMessage': '',
             'sortType': 'date', 
             'sortByTimeIsOld': false,
             'showDynamicNum': 5,
@@ -205,7 +293,12 @@ class Dynamic extends Component {
           });
           _this.increaseShowNum = 5;
         } else {
-          if (val.message) { alert(`提交数据发生错误, 原因: ${val.message}`) }
+          if (val.message) {
+            _this.setState({
+              toastIsShow: true,
+              toastMessage: `提交数据发生错误, 原因: ${val.message}`
+            })
+          }
         }
       });
   }
@@ -345,9 +438,9 @@ class Dynamic extends Component {
 
   renderShowMore() {
     let allDynamicNum = this.state.dynamicData.length,
-      showNum = this.state.showDynamicNum;
+      showDynamicNum = this.state.showDynamicNum;
 
-    if (allDynamicNum === showNum) {
+    if (allDynamicNum < showDynamicNum || allDynamicNum === showDynamicNum) {
       return <div></div>
     }
 
@@ -449,6 +542,11 @@ class Dynamic extends Component {
           {this.renderDynamicList.call(this)}
           {this.renderShowMore.call(this)}
         </div>
+        <Toast
+          isShow={this.state.toastIsShow}
+          message={this.state.toastMessage}
+          hideToast={function () { this.setState({ toastIsShow: false }) }.bind(this)}
+        />
       </div>
     )
   }
@@ -478,7 +576,6 @@ let SubmitBtn = ({isSubmiting}) => (
   <button>{(() => { if (isSubmiting) { return '正在提交'; } else { return '提交'; } })()}</button>
 );
 
-
 let getDynamicByTime = (sequenceType) => {
   let sort = sequenceType || 'new';
 
@@ -491,7 +588,6 @@ let getDynamicByTime = (sequenceType) => {
 let getDynamicByRandom = () => {
     return fetch(`${config.basicUrl}/dynamic/getdata/sortbyrandom`, { method: 'GET' })
 }
-
 
 let dealWithDynamicData = (data) => {
   return data.map((val) => ({
@@ -507,4 +603,8 @@ let dealWithDynamicData = (data) => {
   }));
 }
 
-export default connect()(Dynamic);
+const mapStateToProps = (state) => ({
+  isLogin: state.user.isLogin
+})
+
+export default connect(mapStateToProps)(Dynamic);

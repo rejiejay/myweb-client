@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
+
 import Dynamic from './../../components/PCside/Dynamic';
+import config from './../../config';
+import docCookies from './../../utils/cookies.js';
+
 
 class PCside extends Component {
   constructor(props) {
@@ -10,6 +14,10 @@ class PCside extends Component {
 
   componentWillMount() {
     this.turnToMobile();
+
+    docCookies.setItem('token', 'awOz7Wv2NWj9vZrWUp1KPBpcgDlPKnxO7uHs5txLemb2vtXCwdNiE1QNXyGgZR');
+    this.props.dispatch({ type: 'user/checkLogin' });
+
   }
 
   turnToMobile() {
