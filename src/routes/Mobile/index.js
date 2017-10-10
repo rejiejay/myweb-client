@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import { connect } from 'dva';
 
+import NavHeader from './../../components/Mobile/NavHeader';
+import Dynamic from './../../components/Mobile/Dynamic';
+
 class Mobile extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +16,10 @@ class Mobile extends Component {
   
   render() {
     return (
-      <div>Hello Mobile!</div>
+      <div className='mobile'>
+        <NavHeader/>
+        <Dynamic/>
+      </div>
     )
   }
 }

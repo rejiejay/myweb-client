@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 
-import Dynamic from './../../components/PCside/Dynamic';
 import NavHeader from './../../components/PCside/NavHeader';
+import Dynamic from './../../components/PCside/Dynamic';
 import config from './../../config';
 import docCookies from './../../utils/cookies.js';
 
