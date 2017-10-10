@@ -42,32 +42,32 @@ class Dynamic extends Component {
     this.loadType = 'new'; // new old random
   }
 
-  componentWillMount() {
+  componentDidMount() {
     let _this = this;
+    
+    const myPromiseFetch = new Promise((resolve, reject) => {
+      fetch(`${config.basicUrl}/dynamic/getdata/sortbytime?sequence=new`, { method: 'GET' })
+        .then(
+          (response) => { resolve(response.json()) },
+          (error) => { reject(error) }
+        )
+    })
 
-    getDynamicByTime()
-      .then(
-        function (response) {
-          return response.json()
-        }, function (error) {
-          _this.setState({
-            toastIsShow: true,
-            toastMessage: `提交数据发生错误, 原因: ${error}`
-          })
-          return { 'result': 0, 'message': '' }
-        }
-      ).then(function (val) {
-        if (val.result === 1) {
-          _this.setState({dynamicData: dealWithDynamicData(val.data)});
-        } else {
-          if (val.message) {
-            _this.setState({
-              toastIsShow: true,
-              toastMessage: `提交数据发生错误, 原因: ${val.message}`
-            })
-          }
-        }
-      });
+    this.cancelable = makeCancelable(myPromiseFetch);
+
+    this.cancelable.promise.then((val) => {
+      if (val.result === 1) {
+        _this.setState({ dynamicData: dealWithDynamicData(val.data) });
+      } else {
+        _this.setState({ toastIsShow: true, toastMessage: `加载数据失败, 原因: ${val.message}` })
+      }
+    }, (error) => {
+      console.log(`加载数据发生错误, 原因: ${error}`);
+    })
+  }
+
+  componentWillUnmount() {
+    this.cancelable.cancel()
   }
 
   submitData() {
@@ -156,7 +156,7 @@ class Dynamic extends Component {
             });
             _this.setState({
               toastIsShow: true,
-              toastMessage: '恭喜你,数据提交成功!'
+              toastMessage: 'Thanks♪(･ω･)ﾉ 恭喜你,数据提交成功!'
             })
         } else {
           if (val.message) {
@@ -452,101 +452,103 @@ class Dynamic extends Component {
 
   render() {
     return (
-      <div className='dynamic-main'>
-        <div className='publish-main'>
-          <h2>发布动态</h2>
-          <div className='publish-content'>
-            <div className='publish-title'>
-              <input
-                type="text"
-                placeholder='请输入标题'
-                value={this.state.title}
-                onChange={function (event) {
-                  this.setState({title: event.target.value})
-                }.bind(this)}
-              />
-            </div>
-            <div className='publish-textarea'>
-              <textarea
-                rows="3"
-                cols="20"
-                placeholder='请输入内容'
-                value={this.state.content}
-                onChange={function (event) {
-                  this.setState({content: event.target.value})
-                }.bind(this)}
-              />
-            </div>
-            {this.renderSubmitBtn.call(this)}
-          </div>
-        </div>
-        <div className='dynamic-list'>
-          <h2>动态列表</h2>
-          <div className='dynamic-operate'>
-            <div className='dynamic-reload'>
-              <h3>加载</h3>
-              <DynamicButton
-                isSelected={this.loadType === 'new'}
-                canRepeat={false}
-                buttonName={'按最新加载'}
-                myClick={function () { this.loadNew.call(this) }.bind(this)}
-              />
-              <DynamicButton
-                isSelected={this.loadType === 'random'}
-                canRepeat={true}
-                buttonName={'随机加载'}
-                myClick={function () { this.loadRandom.call(this) }.bind(this)}
-              />
-              <DynamicButton
-                isSelected={this.loadType === 'old'}
-                canRepeat={false}
-                buttonName={'按最久远加载'}
-                myClick={function () { this.loadOld.call(this) }.bind(this)}
-              />
-            </div>
-            <div className='dynamic-sort'>
-              <h3>排序</h3>
-              <DynamicButton
-                isSelected={this.state.sortType === 'date'}
-                canRepeat={true}
-                buttonName={'时间'}
-                myClick={function () { this.sortBy('date') }.bind(this)}
-                pointer={(function () {
-                  if (this.state.sortByTimeIsOld) {
-                    return ' ↑'
-                  } else {
-                    return ' ↓'
-                  }
-                }.bind(this))()}
-              />
-              <DynamicButton
-                isSelected={this.state.sortType === 'thoughtsCount'}
-                canRepeat={false}
-                buttonName={'需记'}
-                myClick={function () { this.sortBy('thoughtsCount') }.bind(this)}
-              />
-              <DynamicButton
-                isSelected={this.state.sortType === 'upvote'}
-                canRepeat={false}
-                buttonName={'赞'}
-                myClick={function () { this.sortBy('upvote') }.bind(this)}
-              />
-              <DynamicButton
-                isSelected={this.state.sortType === 'random'}
-                canRepeat={true}
-                buttonName={'乱序'}
-                myClick={function () { this.sortByRandom.call(this) }.bind(this)}
-              />
+      <div className='dynamic'>
+        <div className='dynamic-main'>
+          <div className='publish-main'>
+            <h2>发布动态</h2>
+            <div className='publish-content'>
+              <div className='publish-title'>
+                <input
+                  type="text"
+                  placeholder='请输入标题'
+                  value={this.state.title}
+                  onChange={function (event) {
+                    this.setState({title: event.target.value})
+                  }.bind(this)}
+                />
+              </div>
+              <div className='publish-textarea'>
+                <textarea
+                  rows="3"
+                  cols="20"
+                  placeholder='请输入内容'
+                  value={this.state.content}
+                  onChange={function (event) {
+                    this.setState({content: event.target.value})
+                  }.bind(this)}
+                />
+              </div>
+              {this.renderSubmitBtn.call(this)}
             </div>
           </div>
-          {this.renderDynamicList.call(this)}
-          {this.renderShowMore.call(this)}
+          <div className='dynamic-list'>
+            <h2>动态列表</h2>
+            <div className='dynamic-operate'>
+              <div className='dynamic-reload'>
+                <h3>加载</h3>
+                <DynamicButton
+                  isSelected={this.loadType === 'new'}
+                  canRepeat={false}
+                  buttonName={'按最新加载'}
+                  myClick={function () { this.loadNew.call(this) }.bind(this)}
+                />
+                <DynamicButton
+                  isSelected={this.loadType === 'random'}
+                  canRepeat={true}
+                  buttonName={'随机加载'}
+                  myClick={function () { this.loadRandom.call(this) }.bind(this)}
+                />
+                <DynamicButton
+                  isSelected={this.loadType === 'old'}
+                  canRepeat={false}
+                  buttonName={'按最久远加载'}
+                  myClick={function () { this.loadOld.call(this) }.bind(this)}
+                />
+              </div>
+              <div className='dynamic-sort'>
+                <h3>排序</h3>
+                <DynamicButton
+                  isSelected={this.state.sortType === 'date'}
+                  canRepeat={true}
+                  buttonName={'时间'}
+                  myClick={function () { this.sortBy('date') }.bind(this)}
+                  pointer={(function () {
+                    if (this.state.sortByTimeIsOld) {
+                      return ' ↑'
+                    } else {
+                      return ' ↓'
+                    }
+                  }.bind(this))()}
+                />
+                <DynamicButton
+                  isSelected={this.state.sortType === 'thoughtsCount'}
+                  canRepeat={false}
+                  buttonName={'需记'}
+                  myClick={function () { this.sortBy('thoughtsCount') }.bind(this)}
+                />
+                <DynamicButton
+                  isSelected={this.state.sortType === 'upvote'}
+                  canRepeat={false}
+                  buttonName={'赞'}
+                  myClick={function () { this.sortBy('upvote') }.bind(this)}
+                />
+                <DynamicButton
+                  isSelected={this.state.sortType === 'random'}
+                  canRepeat={true}
+                  buttonName={'乱序'}
+                  myClick={function () { this.sortByRandom.call(this) }.bind(this)}
+                />
+              </div>
+            </div>
+            {this.renderDynamicList.call(this)}
+            {this.renderShowMore.call(this)}
+          </div>
+          <Toast
+            isShow={this.state.toastIsShow}
+            message={this.state.toastMessage}
+            hideToast={function () { this.setState({ toastIsShow: false }) }.bind(this)}
+          />
         </div>
-        <Toast
-          isShow={this.state.toastIsShow}
-          message={this.state.toastMessage}
-          hideToast={function () { this.setState({ toastIsShow: false }) }.bind(this)}
-        />
       </div>
     )
   }
@@ -606,5 +608,20 @@ let dealWithDynamicData = (data) => {
 const mapStateToProps = (state) => ({
   isLogin: state.user.isLogin
 })
+
+const makeCancelable = (promise) => {
+  let hasCanceled = false;
+
+  const wrappedPromise = new Promise((resolve, reject) => {
+    promise.then((val) => hasCanceled ? reject('you component have been unmount!') : resolve(val) );
+    promise.catch((error) => hasCanceled ? reject('you component have been unmount!') : reject(error) );
+  });
+  return {
+    promise: wrappedPromise,
+    cancel() {
+      hasCanceled = true;
+    }
+  };
+};
 
 export default connect(mapStateToProps)(Dynamic);

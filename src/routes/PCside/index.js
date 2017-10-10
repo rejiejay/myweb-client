@@ -13,15 +13,7 @@ class PCside extends Component {
     super(props);
   }
 
-  componentWillMount() {
-    this.turnToMobile();
-
-    docCookies.setItem('token', 'awOz7Wv2NWj9vZrWUp1KPBpcgDlPKnxO7uHs5txLemb2vtXCwdNiE1QNXyGgZR');
-    this.props.dispatch({ type: 'user/checkLogin' });
-
-  }
-
-  turnToMobile() {
+  componentDidMount() {
     let isFirstVisit = this.props.isFirstVisit;
 
     if (isFirstVisit) {
@@ -29,9 +21,12 @@ class PCside extends Component {
 
       if (myClientWidth <= 768) {
         this.props.dispatch(routerRedux.push('/mobile'));
+        return
       }
-      this.props.dispatch({ type: 'user/visit' });
     }
+    
+    this.props.dispatch({ type: 'user/visit' });
+    this.props.dispatch({ type: 'user/checkLogin' });
   }
 
   render() {
