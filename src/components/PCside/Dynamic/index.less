@@ -177,6 +177,7 @@
 
             .dynamic-item-content {
                 padding-bottom: 10px;
+                word-wrap: break-word;
             }
                 
             .dynamic-item-operate {
@@ -288,7 +289,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.46);
-            z-index: 2;
+            z-index: 1000;
 
             .dynamic-modal-main {
                 position: relative;
@@ -341,12 +342,12 @@
                 .edit-textarea {
                     position: relative;
                     overflow: hidden;
-                    min-height: 100px;
+                    min-height: 150px;
                     border: 1px solid #dfdfdf;
                     background: #fff;
                     
                     textarea {
-                        width: 100%;
+                        width: 480px;
                         padding: 10px;
                         font-size: 16px;
                         overflow-y: visible;

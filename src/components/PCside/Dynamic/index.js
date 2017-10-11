@@ -168,7 +168,6 @@ class Dynamic extends Component {
           _this.setState({isSubmiting: false});
         }
       });
-
   }
 
   loadNew() {
@@ -591,19 +590,17 @@ let getDynamicByRandom = () => {
     return fetch(`${config.basicUrl}/dynamic/getdata/sortbyrandom`, { method: 'GET' })
 }
 
-let dealWithDynamicData = (data) => {
-  return data.map((val) => ({
-    '_id': val._id,
-    'isDelete': false,
-    'date': val.date,
-    'title': val.title,
-    'content': val.content,
-    'thoughtsCount': val.thoughtsCount,
-    'thoughtsIsSelected': false,
-    'upvote': val.upvote,
-    'upvoteIsSelected': false
-  }));
-}
+let dealWithDynamicData = (data) => ( data.map((val) => ({
+  '_id': val._id,
+  'isDelete': false,
+  'date': val.date,
+  'title': val.title,
+  'content': val.content,
+  'thoughtsCount': val.thoughtsCount,
+  'thoughtsIsSelected': false,
+  'upvote': val.upvote,
+  'upvoteIsSelected': false
+})))
 
 const mapStateToProps = (state) => ({
   isLogin: state.user.isLogin

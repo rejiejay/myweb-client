@@ -494,7 +494,7 @@ class DynamicItem extends Component {
                     </div>
                     <div className='edit-textarea'>
                         <textarea
-                        rows="3"
+                        rows="7"
                         cols="20"
                         placeholder='请输入内容'
                         value={_this.state.modalContent}
