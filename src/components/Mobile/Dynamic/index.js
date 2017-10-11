@@ -59,7 +59,7 @@ class Dynamic extends Component {
         // 可视窗口 的总高度
         windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
 
-      if (scrollTop > offsetTop) {
+      if (scrollTop >= offsetTop) {
         if (isOperateShow === false) {
           _this.myemoji = textFaces();
           _this.setState({isOperateShow: true});

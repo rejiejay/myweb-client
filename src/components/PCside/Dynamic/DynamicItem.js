@@ -30,7 +30,6 @@ class DynamicItem extends Component {
             this.state.modalIsShow = false;
             this.state.modalTitle = props.data.title;
             this.state.modalContent = props.data.content;
-            this.state.isSubmiting = false;
     }
 
     componentWillReceiveProps(nextProps) {
@@ -42,7 +41,6 @@ class DynamicItem extends Component {
         myNextState.modalIsShow = false;
         myNextState.modalTitle = nextProps.data.title;
         myNextState.modalContent = nextProps.data.content;
-        myNextState.isSubmiting = false;
         
         this.id = nextProps.id;
         this.updateState = nextProps.updateState;
@@ -52,7 +50,6 @@ class DynamicItem extends Component {
 
     renderUpvote() {
         let upvoteIsSelected = this.state.upvoteIsSelected || false,
-            isSubmiting = false,
             _this = this;
 
         if (upvoteIsSelected) {
@@ -64,10 +61,7 @@ class DynamicItem extends Component {
         return <div
             className='dynamic-item-upvote cursor-selected'
             onClick={() => {
-                if (isSubmiting) { return }
-                isSubmiting = true;
-
-                this.setState({
+                _this.setState({
                     toastIsShow: true,
                     toastMessage: 'loading'
                 });
@@ -109,7 +103,6 @@ class DynamicItem extends Component {
                             }) 
                         }
                     }
-                    isSubmiting = false;
                 })
             }}
         >赞( {this.state.upvote} )</div>
@@ -118,7 +111,6 @@ class DynamicItem extends Component {
     renderThoughtsCount() {
         let _this = this,
             thoughtsIsSelected = this.state.thoughtsIsSelected || false,
-            isSubmiting = false,
             thoughtsCount = this.state.thoughtsCount;
 
         if (thoughtsIsSelected) {
@@ -136,52 +128,31 @@ class DynamicItem extends Component {
                     className='cursor-selected'
                     onClick={() => {
                         if (_this.props.isLogin === false) {
-                            _this.setState({
-                                toastIsShow: true,
-                                toastMessage: '(。・＿・。)ﾉI’m sorry~ 你没有登录/限权!',
-                            })
+                            _this.setState({ toastIsShow: true, toastMessage: '(。・＿・。)ﾉI’m sorry~ 你没有登录/限权!' });
                             return
                         }
+                        _this.setState({ toastIsShow: true, toastMessage: 'loading' });
 
-                        if (isSubmiting) { return }
-                        isSubmiting = true;
-
-                        _this.setState({
-                            toastIsShow: true,
-                            toastMessage: 'loading'
-                        });
                         updateDynamicThoughtsCount(_this.state._id, true)
-                            .then((response) => (
-                                response.json()
-                            ), (error) => {
-                                _this.setState({
-                                toastIsShow: true,
-                                toastMessage: `提交数据发生错误, 原因: ${error}`
-                                })
-                                return { 'result': 0, 'message': '' }
-                            })
-                            .then((val) => {
-                                if (val.result === 1) {
-                                    let myId = _this.id,
-                                        myDate = _this.state;
+                        .then(
+                            (response) => ( response.json() ),
+                            (error) => ({ 'result': 0, 'message': error })
+                        ).then((val) => {
+                            if (val.result === 1) {
+                                let myId = _this.id,
+                                    myDate = _this.state;
 
-                                    myDate.thoughtsCount++
-                                    myDate.thoughtsIsSelected = true;
-                                    _this.updateState(myDate, myId);
-                                    _this.setState({
-                                        toastIsShow: false,
-                                        toastMessage: ''
-                                    });
-                                } else {
-                                    if (val.message) {
-                                        _this.setState({
-                                            toastIsShow: true,
-                                            toastMessage: `提交数据发生错误, 原因: ${val.message}`
-                                        })
-                                    }
-                                }
-                                isSubmiting = false;
-                            })
+                                myDate.thoughtsCount++
+                                myDate.thoughtsIsSelected = true;
+                                _this.updateState(myDate, myId);
+                                _this.setState({
+                                    toastIsShow: false,
+                                    toastMessage: ''
+                                });
+                            } else {
+                                _this.setState({ toastIsShow: true, toastMessage: `提交数据发生错误, 原因: ${val.message}` })
+                            }
+                        });
                     }}
                 >+</button>
             </div>
@@ -195,126 +166,74 @@ class DynamicItem extends Component {
                 className='cursor-selected'
                 onClick={() => {
                     if (_this.props.isLogin === false) {
-                        _this.setState({
-                            toastIsShow: true,
-                            toastMessage: '(。・＿・。)ﾉI’m sorry~ 你没有登录/限权!',
-                        })
+                        _this.setState({ toastIsShow: true, toastMessage: '(。・＿・。)ﾉI’m sorry~ 你没有登录/限权!', });
                         return
                     }
-                    if (isSubmiting) { return }
-                    isSubmiting = true;
+                    _this.setState({ toastIsShow: true, toastMessage: 'loading' });
 
-                    _this.setState({
-                        toastIsShow: true,
-                        toastMessage: 'loading'
-                    });
                     updateDynamicThoughtsCount(_this.state._id, false)
-                        .then((response) => (
-                            response.json()
-                        ), (error) => {
-                            _this.setState({
-                                toastIsShow: true,
-                                toastMessage: `提交数据发生错误, 原因: ${error}`
-                            })
-                            return { 'result': 0, 'message': '' }
-                        })
-                        .then((val) => {
-                            if (val.result === 1) {
-                                let myId = _this.id,
-                                    myDate = _this.state;
+                    .then(
+                        (response) => (response.json()),
+                        (error) => ({ 'result': 0, 'message': error })
+                    ).then((val) => {
+                        if (val.result === 1) {
+                            let myId = _this.id,
+                                myDate = _this.state;
 
-                                myDate.thoughtsCount--
-                                myDate.thoughtsIsSelected = true;
-                                _this.updateState(myDate, myId);
-                                _this.setState({
-                                    toastIsShow: false,
-                                    toastMessage: ''
-                                });
-                            } else {
-                                if (val.message) {
-                                    _this.setState({
-                                        toastIsShow: true,
-                                        toastMessage: `提交数据发生错误, 原因: ${val.message}`
-                                    })
-                                }
-                            }
-                            isSubmiting = false;
-                        })
+                            myDate.thoughtsCount--
+                            myDate.thoughtsIsSelected = true;
+                            _this.updateState(myDate, myId);
+                            _this.setState({
+                                toastIsShow: false,
+                                toastMessage: ''
+                            });
+                        } else {
+                            _this.setState({ toastIsShow: true, toastMessage: `提交数据发生错误, 原因: ${val.message}` })
+                        }
+                    });
                 }}
             >-</button>
             <button
                 className='cursor-selected'
                 onClick={() => {
                     if (_this.props.isLogin === false) {
-                        _this.setState({
-                            toastIsShow: true,
-                            toastMessage: '(。・＿・。)ﾉI’m sorry~ 你没有登录/限权!',
-                        })
+                        _this.setState({ toastIsShow: true, toastMessage: '(。・＿・。)ﾉI’m sorry~ 你没有登录/限权!' });
                         return
                     }
-                    if (isSubmiting) { return }
-                    isSubmiting = true;
-
-                    _this.setState({
-                        toastIsShow: true,
-                        toastMessage: 'loading'
-                    });
+                    _this.setState({ toastIsShow: true, toastMessage: 'loading' });
+                    
                     updateDynamicThoughtsCount(_this.state._id, true)
-                        .then((response) => (
-                            response.json()
-                        ), (error) => {
-                            _this.setState({
-                                toastIsShow: true,
-                                toastMessage: `提交数据发生错误, 原因: ${error}`
-                            })
-                            return { 'result': 0, 'message': '' }
-                        })
-                        .then((val) => {
-                            if (val.result === 1) {
-                                let myId = _this.id,
-                                    myDate = _this.state;
+                    .then(
+                        (response) => (response.json()),
+                        (error) => ({ 'result': 0, 'message': error })
+                    ).then((val) => {
+                        if (val.result === 1) {
+                            let myId = _this.id,
+                                myDate = _this.state;
 
-                                myDate.thoughtsCount++
-                                myDate.thoughtsIsSelected = true;
-                                _this.updateState(myDate, myId);
-                                _this.setState({
-                                    toastIsShow: false,
-                                    toastMessage: ''
-                                });
-                            } else {
-                                if (val.message) {
-                                    _this.setState({
-                                        toastIsShow: true,
-                                        toastMessage: `提交数据发生错误, 原因: ${val.message}`
-                                    })
-                                }
-                            }
-                            isSubmiting = false;
-                        })
+                            myDate.thoughtsCount++
+                            myDate.thoughtsIsSelected = true;
+                            _this.updateState(myDate, myId);
+                            _this.setState({ toastIsShow: false, toastMessage: '' });
+                        } else {
+                            _this.setState({ toastIsShow: true, toastMessage: `提交数据发生错误, 原因: ${val.message}` })
+                        }
+                    })
                 }}
             >+</button>
         </div>
     }
 
     deleteItem() {
-        let _this = this,
-            isSubmiting = false;
+        const _this = this;
 
         if (_this.props.isLogin === false) {
-            _this.setState({
-                toastIsShow: true,
-                toastMessage: '(。・＿・。)ﾉI’m sorry~ 你没有登录/限权!',
-            })
+            _this.setState({ toastIsShow: true, toastMessage: '(。・＿・。)ﾉI’m sorry~ 你没有登录/限权!' });
             return
         }
-        if (isSubmiting) { return }
-        isSubmiting = true;
 
         if(confirm('你确认要删除吗?')) {
-            _this.setState({
-                toastIsShow: true,
-                toastMessage: 'loading'
-            });
+            _this.setState({ toastIsShow: true, toastMessage: 'loading' });
 
             fetch(`${config.basicUrl}/dynamic/delete`, {
                 mode: 'cors',
@@ -326,38 +245,22 @@ class DynamicItem extends Component {
                 body:JSON.stringify({
                     id: _this.state._id
                 })
-            }).then((response) => (
-                response.json()
-            ), (error) => {
-                _this.setState({
-                  toastIsShow: true,
-                  toastMessage: `提交数据发生错误, 原因: ${error}`
-                })
-                return { 'result': 0, 'message': '' }
-            }).then((val) => {
+            }).then(
+                (response) => (response.json()),
+                (error) => ( { 'result': 0, 'message': error })
+            ).then((val) => {
                 if (val.result === 1) {
                     let myId = _this.id,
                         myDate = _this.state;
 
                     myDate.isDelete = true;
                     _this.updateState(myDate, myId);
-                    _this.setState({
-                        toastIsShow: false,
-                        toastMessage: ''
-                    });
+                    _this.setState({ toastIsShow: false, toastMessage: '' });
                 } else {
-                    if (val.message) {
-                        _this.setState({
-                            toastIsShow: true,
-                            toastMessage: `提交数据发生错误, 原因: ${val.message}`
-                        })
-                    }
+                    _this.setState({ toastIsShow: true, toastMessage: `提交数据发生错误, 原因: ${val.message}` })
                 }
-                isSubmiting = false;
             })
 
-        } else {
-            isSubmiting = false;
         }
     }
 
@@ -372,58 +275,33 @@ class DynamicItem extends Component {
             myContent = this.state.modalContent;
 
         if (_this.props.isLogin === false) {
-            _this.setState({
-                toastIsShow: true,
-                toastMessage: '(。・＿・。)ﾉI’m sorry~ 你没有登录/限权!',
-            })
+            _this.setState({ toastIsShow: true, toastMessage: '(。・＿・。)ﾉI’m sorry~ 你没有登录/限权!' });
             return
         }
-        if (this.state.isSubmiting) { return } 
         if (myContent === content && mytitle === title) {
-            _this.setState({
-                toastIsShow: true,
-                toastMessage: '你没有修改任何内容!'
-            })
+            _this.setState({ toastIsShow: true, toastMessage: '你没有修改任何内容!' });
             return
         }
         if (!myContent) {
-            _this.setState({
-                toastIsShow: true,
-                toastMessage: '内容不能为空!'
-            })
+            _this.setState({ toastIsShow: true, toastMessage: '内容不能为空!' });
             return
         }
         
-        this.setState({
-            isSubmiting: true,
-            toastIsShow: true,
-            toastMessage: 'loading'
-        });
+        this.setState({ toastIsShow: true, toastMessage: 'loading' });
     
         fetch(`${config.basicUrl}/dynamic/update`, {
             mode: 'cors',
             method: 'POST',
             credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-            },
-            body:JSON.stringify({
-                id: myId,
-                title: mytitle,
-                content: myContent
-            })
-        }).then(
-            function (response) {
-                return response.json()
-            }, function (error) {
-                _this.setState({
-                    isSubmiting: false,
-                    toastIsShow: true,
-                    toastMessage: `提交数据发生错误, 原因: ${error}`
-                });
-                return { 'result': 0, 'message': '' }
-            }
-        ).then(function (val) {
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            body: JSON.stringify({
+                'id': myId,
+                'title': mytitle,
+                'content': myContent
+        })}).then(
+            (response) => ( response.json() ),
+            (error) => ( { 'result': 0, 'message': error } )
+        ).then( (val) => {
             if (val.result === 1) {
                 let myId = _this.id,
                     myDate = _this.state;
@@ -434,38 +312,15 @@ class DynamicItem extends Component {
                 _this.setState({
                     title: mytitle,
                     content: myContent,
-                    isSubmiting: false,
                     modalIsShow: false,
                     toastIsShow: false,
                     toastMessage: ''
                 });
             } else {
-                if (val.message) {
-                    _this.setState({
-                        isSubmiting: false,
-                        toastIsShow: true,
-                        toastMessage: `提交数据发生错误, 原因: ${val.message}`
-                    });
-                }
+                _this.setState({ toastIsShow: true, toastMessage: `提交数据发生错误, 原因: ${val.message}` })
             }
         });
     
-    }
-
-    renderSubmitBtn() {
-        let _this = this,
-        isSubmiting = this.state.isSubmiting;
-    
-        if (isSubmiting) {
-          return <div
-            className='edit-submiting'
-          >正在保存...</div>;
-        } else {
-          return <div
-            onClick={_this.submitData.bind(_this)}
-            className='edit-submit cursor-selected'
-          >保存</div>;
-        } 
     }
 
     renderModal() {
@@ -482,29 +337,30 @@ class DynamicItem extends Component {
                         }}
                     >X</div>
                     <div className='edit-content'>
-                    <div className='edit-title'>
-                        <input
-                        type="text"
-                        placeholder='请输入标题'
-                        value={_this.state.modalTitle}
-                        onChange={(event) => {
-                            _this.setState({modalTitle: event.target.value})
-                        }}
-                        />
-                    </div>
-                    <div className='edit-textarea'>
-                        <textarea
-                        rows="7"
-                        cols="20"
-                        placeholder='请输入内容'
-                        value={_this.state.modalContent}
-                        onChange={(event) => {
-                            _this.setState({modalContent: event.target.value})
-                        }}
-                        />
-                    </div>
-
-                    {this.renderSubmitBtn.call(this)}
+                        <div className='edit-title'>
+                            <input
+                            type="text"
+                            placeholder='请输入标题'
+                            value={_this.state.modalTitle}
+                            onChange={(event) => {
+                                _this.setState({modalTitle: event.target.value})
+                            }}
+                            />
+                        </div>
+                        <div className='edit-textarea'>
+                            <textarea
+                            rows="7"
+                            cols="20"
+                            placeholder='请输入内容'
+                            value={_this.state.modalContent}
+                            onChange={(event) => {
+                                _this.setState({modalContent: event.target.value})
+                            }}
+                            />
+                        </div>
+                        <div className='edit-submit cursor-selected'
+                            onClick={_this.submitData.bind(_this)}
+                        >保存</div>
                     </div>
                 </div>
             </div>
@@ -513,8 +369,8 @@ class DynamicItem extends Component {
         }
 
     }
-
-    renderItemIsDelete() {
+    
+    render() {
         let isDelete = this.state.isDelete || false;
 
         if (isDelete) {
@@ -546,10 +402,6 @@ class DynamicItem extends Component {
                 {this.renderModal.call(this)}
             </div>
         }
-    }
-    
-    render() {
-        return <div>{this.renderItemIsDelete.call(this)}</div>
     }
 }
 
