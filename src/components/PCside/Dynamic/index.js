@@ -43,15 +43,14 @@ class Dynamic extends Component {
   }
 
   componentDidMount() {
-    let _this = this;
-    
-    const myPromiseFetch = new Promise((resolve, reject) => {
-      fetch(`${config.basicUrl}/dynamic/getdata/sortbytime?sequence=new`, { method: 'GET' })
-        .then(
-          (response) => { resolve(response.json()) },
-          (error) => { reject(error) }
-        )
-    })
+    const _this = this,
+      myPromiseFetch = new Promise((resolve, reject) => {
+        fetch(`${config.basicUrl}/dynamic/getdata/sortbytime?sequence=new`, { method: 'GET' })
+          .then(
+            (response) => { resolve(response.json()) },
+            (error) => { reject(error) }
+          )
+      });
 
     this.cancelable = makeCancelable(myPromiseFetch);
 
@@ -63,7 +62,7 @@ class Dynamic extends Component {
       }
     }, (error) => {
       console.log(`加载数据发生错误, 原因: ${error}`);
-    })
+    });
   }
 
   componentWillUnmount() {
@@ -71,7 +70,7 @@ class Dynamic extends Component {
   }
 
   submitData() {
-    let _this = this,
+    const _this = this,
       mytitle = this.state.title,
       myContent = this.state.content;
     

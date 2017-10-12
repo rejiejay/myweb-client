@@ -159,7 +159,6 @@
             background: #fff;
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            z-index: 1;
         }
 
         .dynamic-publish-hidden {
@@ -287,7 +286,7 @@
                 padding: 0px 20px;
                 line-height: 45px;
     
-                >div {
+                > div {
                     color: #fff;
                 }
 
@@ -326,6 +325,83 @@
                     right: 20px;
                 }
 
+                .nav-sort-content {
+                    position: absolute;
+                    height: 35px;
+                    border-radius: 5px;
+                    background: rgba(0, 0, 0, 0.75);
+                    z-index: 3;
+
+                    > div {
+                        float: left;
+                        font-size: 14px;
+                        line-height: 35px;
+                        color: #fff;
+                    }
+
+                    .nav-sort-item {
+                        padding: 0px 12px;
+                    }
+
+                    .nav-sort-item:active {
+                        color: #108ee9;
+                    }
+
+                    .nav-sort-separate {
+                        width: 1px;
+                        height: 100%;
+                        background: #fff;
+                    }
+                }
+
+                .nav-sort-content::after {
+                    border: solid transparent;
+                    position: absolute;
+                    content: ' ';
+                    height: 0;
+                    width: 0;
+                    border-width: 10px;
+                    border-bottom-color:  rgba(0, 0, 0, 0.75);
+                }
+
+                .nav-load-list {
+                    .nav-sort-content {
+                        top: 65px;
+                        left: 10px;
+                    }
+
+                    .nav-sort-content::after {
+                        left: 20px;
+                        top: -20px;
+                    }
+                }
+                .nav-sort-list {
+                    .nav-sort-content {
+                        top: 65px;
+                        right: 10px;
+                    }
+
+                    .nav-sort-content::after {
+                        right: 10px;
+                        top: -20px;
+                    }
+                }
+
+                .nav-sort-background {
+                    position: fixed;
+                    top: 0px;
+                    left: 0px;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 2;
+                }
+
+                .dynamic-nav-load:active,
+                .dynamic-nav-title:active,
+                .dynamic-nav-sort:active {
+                    color: #6fcca6;
+                    p { color: #6fcca6; }
+                }
             }
 
         }

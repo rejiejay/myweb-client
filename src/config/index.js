@@ -7,7 +7,8 @@ let config = (() => {
         }
     } else {
         return {
-            basicUrl: 'http://119.29.140.46:1938'
+            // basicUrl: 'http://119.29.140.46:1938'
+            basicUrl: 'https://rejiejay.cn/server'
         }
     }
 })();

@@ -329,7 +329,7 @@ class DynamicItem extends Component {
         }
 
         if (type !== 'add' && this.state.thoughtsCount === 0) {
-            this.setState({ toastIsShow: true, toastMessage: `${textFaces()} 不能少于0噢~` });
+            this.setState({ toastIsShow: true, toastMessage: `${textFaces()} 你的脑袋想鄙视这条数据吗?` });
             return
         }
 

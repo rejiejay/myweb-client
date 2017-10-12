@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import { connect } from 'dva';
+import shuffle from 'shuffle-array';
 
 import DynamicItem from './DynamicItem';
 import Toast from './../../toast';
 import config from './../../../config';
 import textFaces from './../../../utils/TextFaces.js';
+import quickSortBy from './../../../utils/quickSortBy.js';
 
 class Dynamic extends Component {
   constructor(props) {
@@ -14,12 +16,16 @@ class Dynamic extends Component {
       title: '',
       content: '',
 
-      isOperateShow: false,
-
       toastIsShow: false,
       toastMessage: '',
 
+      isOperateShow: false,
+
       isShowPublish: false,
+
+      isLoadListShow: false,
+
+      isSortListShow: false,
 
       showDynamicNum: 8,
       dynamicData: [
@@ -35,12 +41,21 @@ class Dynamic extends Component {
         //   'upvoteIsSelected': false
         // }
       ],
+      
+      sortType: null, // date thoughtsCount upvote random
+      sortByTimeIsOld: false
     }
 
     this.increaseShowNum = 5;
-
+    this.loadType = 'new'; // new old random
+    
     this.myemoji = textFaces();
     this.showMore.bind(this);
+    this.sortBy.bind(this);
+    this.sortByRandom.bind(this);
+    this.loadNew.bind(this);
+    this.loadOld.bind(this);
+    this.loadRandom.bind(this);
   }
 
   componentDidMount() {
@@ -77,7 +92,11 @@ class Dynamic extends Component {
         }
       } else {
         if (isOperateShow === true) {
-          _this.setState({isOperateShow: false});
+          _this.setState({
+            'isLoadListShow': false,
+            'isSortListShow': false,
+            'isOperateShow': false
+          });
           isOperateShow = false;
         }
       }
@@ -168,6 +187,224 @@ class Dynamic extends Component {
     });
   }
 
+  loadNew() {
+    let _this = this;
+
+    if (this.loadType === 'new') {
+      this.setState({
+        isLoadListShow: false,
+        toastIsShow: true,
+        toastMessage: `${textFaces()} 你不能窥探未来噢~`
+      });
+      return
+    }
+    this.loadType = 'new';
+
+    this.setState({
+      isLoadListShow: false,
+      toastIsShow: true,
+      toastMessage: 'loading'
+    });
+
+    getDynamicByTime('new')
+      .then(
+        function (response) {
+          return response.json()
+        }, function (error) {
+          _this.setState({
+            toastIsShow: true,
+            toastMessage: `提交数据发生错误, 原因: ${error}`
+          })
+          return { 'result': 0, 'message': '' }
+        }
+      ).then(function (val) {
+        if (val.result === 1) {
+          _this.setState({
+            'toastIsShow': false,
+            'toastMessage': '',
+
+            'sortType': 'date', 
+            'sortByTimeIsOld': false,
+            'showDynamicNum': 8,
+            'dynamicData': dealWithDynamicData(val.data)
+          });
+          _this.increaseShowNum = 5;
+        } else {
+          if (val.message) {
+            _this.setState({
+              toastIsShow: true,
+              toastMessage: `提交数据发生错误, 原因: ${val.message}`
+            })
+          }
+        }
+      });
+  }
+
+  loadOld() {
+    let _this = this;
+
+    if (this.loadType === 'old') {
+      this.setState({
+        isLoadListShow: false,
+        toastIsShow: true,
+        toastMessage: `${textFaces()} 只能穿越到这里了~`
+      });
+      return
+    }
+    this.loadType = 'old';
+
+    this.setState({
+      isLoadListShow: false,
+      toastIsShow: true,
+      toastMessage: 'loading'
+    });
+
+    getDynamicByTime('old')
+      .then(
+        function (response) {
+          return response.json()
+        }, function (error) {
+          _this.setState({
+            toastIsShow: true,
+            toastMessage: `提交数据发生错误, 原因: ${error}`
+          })
+          return { 'result': 0, 'message': '' }
+        }
+      ).then(function (val) {
+        if (val.result === 1) {
+          _this.setState({
+            'toastIsShow': false,
+            'toastMessage': '',
+            'sortType': 'date', 
+            'sortByTimeIsOld': true,
+            'showDynamicNum': 8,
+            'dynamicData': dealWithDynamicData(val.data)
+          });
+          _this.increaseShowNum = 5;
+        } else {
+          if (val.message) {
+            _this.setState({
+              toastIsShow: true,
+              toastMessage: `提交数据发生错误, 原因: ${val.message}`
+            })
+          }
+        }
+      });
+  }
+
+  loadRandom() {
+    let _this = this;
+
+    this.loadType = 'random';
+
+    this.setState({
+      isLoadListShow: false,
+      toastIsShow: true,
+      toastMessage: 'loading'
+    });
+
+    getDynamicByRandom()
+      .then(
+        function (response) {
+          return response.json()
+        }, function (error) {
+          _this.setState({
+            toastIsShow: true,
+            toastMessage: `提交数据发生错误, 原因: ${error}`
+          })
+          return { 'result': 0, 'message': '' }
+        }
+      ).then(function (val) {
+        if (val.result === 1) {
+          _this.setState({
+            'toastIsShow': false,
+            'toastMessage': '',
+            'sortType': 'date', 
+            'sortByTimeIsOld': false,
+            'showDynamicNum': 8,
+            'dynamicData': dealWithDynamicData(val.data)
+          });
+          _this.increaseShowNum = 5;
+        } else {
+          if (val.message) {
+            _this.setState({
+              toastIsShow: true,
+              toastMessage: `提交数据发生错误, 原因: ${val.message}`
+            })
+          }
+        }
+      });
+  }
+  
+  sortBy(sortType) {
+    let mydynamicList = [],
+      dynamicData = this.state.dynamicData,
+      mysortType = this.state.sortType,
+      sortByTimeIsOld = this.state.sortByTimeIsOld;
+
+    // 从其他的排序 转移到 日期排序
+    if (sortType === 'date' && mysortType !== 'date') {
+      if (sortByTimeIsOld) {
+        mydynamicList = quickSortBy(dynamicData, 'date', true);
+      } else {
+        mydynamicList = quickSortBy(dynamicData, 'date');
+      }
+      this.setState({
+        'sortType': 'date',
+        'dynamicData': mydynamicList
+      });
+    }
+
+    // 重复点击 日期排序
+    if (sortType === 'date' && mysortType === 'date') {
+      let sortIsOld
+      // 如果日期是从古老到现代, 那么应该转换为 日期从现代到古老
+      if (sortByTimeIsOld) {
+        sortIsOld = false;
+        mydynamicList = quickSortBy(dynamicData, 'date');
+      } else {
+        sortIsOld = true;
+        mydynamicList = quickSortBy(dynamicData, 'date', true);
+      }
+      this.setState({
+        sortByTimeIsOld: sortIsOld,
+        'sortType': 'date',
+        'dynamicData': mydynamicList
+      });
+    }
+
+    // 从其他的排序 转移到 需记排序
+    if (sortType === 'thoughtsCount' && mysortType !== 'thoughtsCount') {
+      mydynamicList = quickSortBy(dynamicData, 'thoughtsCount');
+      this.setState({
+        'sortByTimeIsOld': false,
+        'sortType': 'thoughtsCount',
+        'dynamicData': mydynamicList
+      });
+    }
+
+    // 从其他的排序 转移到 点赞排序
+    if (sortType === 'upvote' && mysortType !== 'upvote') {
+      mydynamicList = quickSortBy(dynamicData, 'upvote');
+      this.setState({
+        'sortByTimeIsOld': false,
+        'sortType': 'upvote',
+        'dynamicData': mydynamicList
+      });
+    }
+  }
+  
+  sortByRandom() {
+    let mydynamicList = [];
+
+    mydynamicList = shuffle(this.state.dynamicData);
+    this.setState({
+      'sortByTimeIsOld': false,
+      'sortType': 'random',
+      'dynamicData': mydynamicList
+    });
+  }
+
   showMore() {
     let _this = this,
       myNum = this.state.showDynamicNum + this.increaseShowNum,
@@ -195,15 +432,98 @@ class Dynamic extends Component {
     },500);
   }
 
-  renderDynamicNav() {
-    let isOperateShow = this.state.isOperateShow;
+  renderNavLoadList() {
+    const _this = this;
 
-    if (isOperateShow) {
+    if (this.state.isLoadListShow) {
+      return <div className='nav-load-list'>
+        <div className='nav-sort-background' onClick={() => {
+          _this.setState({'isLoadListShow': false});
+        }}/>
+        <div className='nav-sort-content'>
+          <div className='nav-sort-item' onClick={() => {
+            _this.loadNew()
+          }}>按最新加载</div>
+          <div className='nav-sort-separate'></div>
+          <div className='nav-sort-item' onClick={() => {
+            _this.loadRandom()
+          }}>随机加载</div>
+          <div className='nav-sort-separate'></div>
+          <div className='nav-sort-item' onClick={() => {
+            _this.loadOld()
+          }}>按最久远加载</div>
+        </div>
+      </div>
+    }
+    return <div></div>
+  }
+
+  renderNavSortList() {
+    const _this = this;
+
+    if (this.state.isSortListShow) {
+      return <div className='nav-sort-list'>
+        <div className='nav-sort-background' onClick={() => {
+          _this.setState({'isSortListShow': false});
+        }}/>
+        <div className='nav-sort-content'>
+          <div className='nav-sort-item' onClick={() => {
+            _this.sortBy('date')
+          }}>时间 {this.state.sortByTimeIsOld ? '↑' : '↓'}</div>
+          <div className='nav-sort-separate'></div>
+          <div className='nav-sort-item' onClick={() => {
+            _this.sortBy('thoughtsCount')
+          }}>需记</div>
+          <div className='nav-sort-separate'></div>
+          <div className='nav-sort-item' onClick={() => {
+            _this.sortBy('upvote')
+          }}>赞同</div>
+          <div className='nav-sort-separate'></div>
+          <div className='nav-sort-item' onClick={() => {
+            _this.sortByRandom()
+          }}>乱序</div>
+        </div>
+      </div>
+    }
+    return <div></div>
+  }
+
+  renderDynamicNav() {
+    const _this = this,
+      sortType = this.state.sortType,
+      sortByTimeIsOld = this.state.sortByTimeIsOld,
+      sortName = () => {
+        if (sortType === 'date') {
+          if (sortByTimeIsOld) {
+            return '时间 ↑'
+          } else {
+            return '时间 ↓'
+          }
+        } else if (sortType === 'thoughtsCount') {
+          return '需记'
+        } else if (sortType === 'upvote') {
+          return '赞'
+        } else if (sortType === 'random') {
+          return '乱序'
+        } else {
+          return '排序'
+        }
+      }
+
+    if (this.state.isOperateShow) {
       return <div className='dynamic-nav'>
         <div className='dynamic-nav-content'>
-          <div className='dynamic-nav-load'><span></span><p>Reload</p></div>
-          <div className='dynamic-nav-title'>{this.myemoji}</div>
-          <div className='dynamic-nav-sort'>排序</div>
+          <div className='dynamic-nav-load' onClick={() => {
+            _this.setState({'isLoadListShow': true});
+          }}><span></span><p>Reload</p></div>
+          {this.renderNavLoadList.call(this)}
+          <div className='dynamic-nav-title' onClick={() => {
+            _this.setState({ toastMessage: `${textFaces()} 你点击我干嘛?`, toastIsShow: true })
+          }}>{this.myemoji}</div>
+          <div className='dynamic-nav-sort' onClick={() => {
+            _this.setState({'isSortListShow': true});
+          }}>{sortName()}</div>
+          {this.renderNavSortList.call(this)}
         </div>
       </div>
     }
@@ -338,6 +658,11 @@ class Dynamic extends Component {
       </div>
     )
   }
+}
+
+
+let getDynamicByRandom = () => {
+  return fetch(`${config.basicUrl}/dynamic/getdata/sortbyrandom`, { method: 'GET' })
 }
 
 let dealWithDynamicData = (data) => ( data.map((val) => ({
