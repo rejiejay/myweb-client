@@ -42,7 +42,7 @@ html, body {
     background: #f3f3f3;
 }
 
-.toast {
+.toast,.confirm {
     position: fixed;
 
     display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
@@ -71,6 +71,29 @@ html, body {
     left: 0px;
     z-index: 100;
     
+    .confirm-content {
+        position: relative;
+        padding: 10px;
+        min-width: 150px;
+        border-radius: 5px;
+        background: rgba(0, 0, 0, 0.75);
+        
+        div {
+            text-align: center;
+            color: #fff;
+        }
+
+        .confirm-operate {
+            padding-top: 15px;
+
+            > div {
+                float: left;
+                width: 50%;
+            }
+        }
+
+    }
+
     .toast-content {
         padding: 15px;
     }

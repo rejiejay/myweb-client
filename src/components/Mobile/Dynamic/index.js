@@ -81,6 +81,10 @@ class Dynamic extends Component {
           isOperateShow = true;
         }
 
+        if (_this.state.isLoadListShow || _this.state.isSortListShow) {
+          _this.setState({isLoadListShow: false, isSortListShow: false,});
+        }
+        
         if (isShowIng === false && _this.state.isShowPublish === false) {
           if( (scrollTop + windowHeight) >= (scrollHeight + offsetTop) ){
             _this.showMore();

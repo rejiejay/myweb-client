@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import time from './../../../utils/time.js';
 import config from './../../../config';
 import Toast from './../../toast';
+import Confirm from './../../confirm';
 import textFaces from './../../../utils/TextFaces.js';
 
 class DynamicItem extends Component {
@@ -27,13 +28,15 @@ class DynamicItem extends Component {
         // }
             this.state.toastIsShow = false;
             this.state.toastMessage = '';
+            
+            this.state.isConfirmShow = false;   
 
             this.state.operateIsShow = false;
 
             this.state.modalIsShow = false;
             this.state.modalTitle = props.data.title;
             this.state.modalContent = props.data.content;
-
+            
         this.itemUpvoted.bind(this);
         this.operateThoughtsCount.bind(this);
     }
@@ -49,6 +52,7 @@ class DynamicItem extends Component {
         myNextState.modalIsShow = this.state.modalIsShow;
         myNextState.modalTitle = this.state.modalTitle;
         myNextState.modalContent = this.state.modalContent;
+        myNextState.isConfirmShow = this.state.isConfirmShow;
 
         this.id = nextProps.id;
         this.updateState = nextProps.updateState;
@@ -167,43 +171,41 @@ class DynamicItem extends Component {
             return
         }
 
-        if(confirm(`${textFaces()} 你确认要删除吗?`)) {
-            _this.setState({
-                operateIsShow: false,
-                toastIsShow: true,
-                toastMessage: 'loading'
-            });
+        this.setState({
+            operateIsShow: false,
+            toastIsShow: true,
+            toastMessage: 'loading'
+        });
 
-            fetch(`${config.basicUrl}/dynamic/delete`, {
-                mode: 'cors',
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8',
-                },
-                body:JSON.stringify({
-                    id: _this.state._id
-                })
-            }).then(
-                (response) => ( response.json() ),
-                (error) => ({ 'result': 0, 'message': error }
-            )).then((val) => {
-                if (val.result === 1) {
-                    let myId = _this.id,
-                        myDate = _this.state;
-
-                    myDate.isDelete = true;
-                    _this.updateState(myDate, myId);
-                    _this.setState({
-                        toastIsShow: false,
-                        toastMessage: ''
-                    });
-                } else {
-                    _this.setState({ toastIsShow: true, toastMessage: `提交数据发生错误, 原因: ${val.message}` })
-                }
+        fetch(`${config.basicUrl}/dynamic/delete`, {
+            mode: 'cors',
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+            },
+            body:JSON.stringify({
+                id: _this.state._id
             })
+        }).then(
+            (response) => ( response.json() ),
+            (error) => ({ 'result': 0, 'message': error }
+        )).then((val) => {
+            if (val.result === 1) {
+                let myId = _this.id,
+                    myDate = _this.state;
 
-        }
+                myDate.isDelete = true;
+                _this.updateState(myDate, myId);
+                _this.setState({
+                    toastIsShow: false,
+                    toastMessage: ''
+                });
+            } else {
+                _this.setState({ toastIsShow: true, toastMessage: `提交数据发生错误, 原因: ${val.message}` })
+            }
+        })
+
     }
 
     submitData() {
@@ -387,11 +389,11 @@ class DynamicItem extends Component {
                     }}>-1</div>
                     <div className='decorate-operate-separate'></div>
                     <div className='decorate-operate-item' onClick={() => {
-                        _this.setState({modalIsShow: true});
+                        _this.setState({operateIsShow: false, modalIsShow: true});
                     }}>编辑</div>
                     <div className='decorate-operate-separate'></div>
                     <div className='decorate-operate-item' onClick={() => {
-                        _this.deleteItem.call(_this);
+                        _this.setState({operateIsShow: false, isConfirmShow: true})
                     }}>删除</div>
                 </div>
             </div>
@@ -428,6 +430,10 @@ class DynamicItem extends Component {
                     isShow={this.state.toastIsShow}
                     message={this.state.toastMessage}
                     hideToast={function () { this.setState({ toastIsShow: false }) }.bind(this)}
+                />
+                <Confirm
+                    isShow={this.state.isConfirmShow}
+                    changeState={function (val) { if (val === 'OK') { this.deleteItem() } this.setState({isConfirmShow: false}) }.bind(this)}
                 />
                 {this.renderModal.call(this)}
             </div>
