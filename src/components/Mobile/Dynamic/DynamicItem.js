@@ -49,9 +49,9 @@ class DynamicItem extends Component {
 
         myNextState.operateIsShow = this.state.operateIsShow;
 
-        myNextState.modalIsShow = this.state.modalIsShow;
-        myNextState.modalTitle = this.state.modalTitle;
-        myNextState.modalContent = this.state.modalContent;
+        myNextState.modalIsShow = nextProps.data.modalIsShow;
+        myNextState.modalTitle = nextProps.data.modalTitle;
+        myNextState.modalContent = nextProps.data.modalContent;
         myNextState.isConfirmShow = this.state.isConfirmShow;
 
         this.id = nextProps.id;
@@ -369,7 +369,6 @@ class DynamicItem extends Component {
 
         if (operateIsShow) {
             return <div>
-                <div className='dynamic-item-decorate'>· · ·</div>
                 <div className='dynamic-item-decorate-background'
                     onClick={() => {
                     _this.setState({operateIsShow: false});
@@ -399,21 +398,23 @@ class DynamicItem extends Component {
             </div>
         }
 
-        return <div className='dynamic-item-decorate'
-            onClick={() => {
-                _this.setState({operateIsShow: true});
-            }}
-        >· · ·</div>
+        return <div></div>
     }
 
     render() {
-        let isDelete = this.state.isDelete || false;
+        let mysetTimeout;
+        const _this = this,
+            isDelete = this.state.isDelete || false;
 
         if (isDelete) {
             return <div></div>
         } 
         return <div className='dynamic-item'>
-            <div>
+            <div onTouchEnd={()=>{ window.clearInterval(mysetTimeout) }}
+                onTouchStart={()=>{
+                    mysetTimeout = setTimeout(() => { _this.setState({operateIsShow: true}) }, 500);
+                }}
+            >
                 {this.renderTitle.call(this)}
                 {this.renderDecorate.call(this)}
                 <div className='dynamic-item-content'>{this.state.content}</div>

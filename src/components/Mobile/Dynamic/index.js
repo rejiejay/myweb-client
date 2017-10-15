@@ -476,12 +476,12 @@ class Dynamic extends Component {
           }}>时间 {this.state.sortByTimeIsOld ? '↑' : '↓'}</div>
           <div className='nav-sort-separate'></div>
           <div className='nav-sort-item' onClick={() => {
-            _this.sortBy('thoughtsCount')
-          }}>需记</div>
-          <div className='nav-sort-separate'></div>
-          <div className='nav-sort-item' onClick={() => {
             _this.sortBy('upvote')
           }}>赞同</div>
+          <div className='nav-sort-separate'></div>
+          <div className='nav-sort-item' onClick={() => {
+            _this.sortBy('thoughtsCount')
+          }}>需记</div>
           <div className='nav-sort-separate'></div>
           <div className='nav-sort-item' onClick={() => {
             _this.sortByRandom()

@@ -28,8 +28,15 @@ class NavHeader extends Component {
     }
 
     render() {
+        let mytime;
+
         return (
-            <div className='navHeader'>
+            <div className='navHeader' onTouchStart={()=>{
+                mytime = setTimeout(()=>{alert('1s 过去了')},1000);
+            }}
+            onTouchEnd={()=>{
+                window.clearInterval(mytime);
+            }}>
                 <span>
                     <div className='navHeader-logo'></div>
                     <div className='navHeader-SeparLine'></div>

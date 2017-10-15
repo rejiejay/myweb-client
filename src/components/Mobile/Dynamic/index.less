@@ -6,21 +6,25 @@
         background: #f3f3f3; 
 
         .dynamic-content {
+            padding-top: 10px;
+
             .dynamic-item {
                 width: 100%;
                 margin-bottom: 10px;
-                background: #fff;
-                border-top: 1px solid #dfdfdf;
-                border-bottom: 1px solid #dfdfdf;
-    
                 > div {
                     position: relative;
                     padding: 10px 15px;
+                    margin: 0px 10px;
+                    border: 1px solid #dfdfdf;
+                    background: #fff;
+                }
+
+                > div:active {
+                    border: 1px solid #108ee9;
                 }
 
                 h4 {
                     overflow: hidden;
-                    padding-right: 40px;
                     padding-bottom: 10px;
                     font-size: 18px;
                     font-weight: 600;
@@ -43,12 +47,23 @@
 
                 .decorate-operate {
                     position: absolute;
-                    top: 7px;
-                    right: 55px;
+                    bottom: -25px;
+                    right: 30px;
                     height: 35px;
                     border-radius: 5px;
                     background: rgba(0, 0, 0, 0.75);
                     z-index: 2;
+
+                    .decorate-operate-after {
+                        position: absolute;
+                        top: -10px;
+                        right: 15px;
+                        width: 0;
+                        height: 0;
+                        border-right: 8px solid transparent;
+                        border-left: 8px solid transparent;
+                        border-bottom: 10px solid rgba(0, 0, 0, 0.75);
+                    }
 
                     .decorate-operate-item {
                         float: left;
@@ -68,17 +83,6 @@
                         height: 100%;
                         background: #fff;
                     }
-
-                    .decorate-operate-after {
-                        position: absolute;
-                        top: 8px;
-                        right: -10px;
-                        width: 0;
-                        height: 0;
-                        border-top: 8px solid transparent;
-                        border-left: 10px solid rgba(0, 0, 0, 0.75);
-                        border-bottom: 8px solid transparent;
-                    }
                 }
 
                 .dynamic-item-decorate-background {
@@ -92,7 +96,6 @@
 
                 .dynamic-item-content {
                     padding-bottom: 10px;
-                    padding-right: 40px;
                     font-size: 16px;
                     word-wrap: break-word;
                     color: #4d5d77;
