@@ -410,7 +410,8 @@ class DynamicItem extends Component {
             return <div></div>
         } 
         return <div className='dynamic-item'>
-            <div onTouchEnd={()=>{ window.clearInterval(mysetTimeout) }}
+            <div onTouchMove={()=>{ window.clearInterval(mysetTimeout) }}
+                onTouchEnd={()=>{ window.clearInterval(mysetTimeout) }}
                 onTouchStart={()=>{
                     mysetTimeout = setTimeout(() => { _this.setState({operateIsShow: true}) }, 500);
                 }}
