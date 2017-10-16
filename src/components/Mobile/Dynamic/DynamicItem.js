@@ -418,7 +418,7 @@ class DynamicItem extends Component {
             >
                 {this.renderTitle.call(this)}
                 {this.renderDecorate.call(this)}
-                <div className='dynamic-item-content'>{this.state.content}</div>
+                <div className='dynamic-item-content' dangerouslySetInnerHTML={{__html: this.state.content}}/>
                 <div className='dynamic-item-operate'>
                     {this.renderUpvote.call(this)}
                     <div className='dynamic-item-separate'>·</div>

@@ -383,7 +383,7 @@ class DynamicItem extends Component {
                     hideToast={function () { this.setState({ toastIsShow: false }) }.bind(this)}
                 />
                 <h4>{this.state.title}</h4>
-                <div className='dynamic-item-content'>{this.state.content}</div>
+                <div className='dynamic-item-content' dangerouslySetInnerHTML={{__html: this.state.content}} />
                 <div className='dynamic-item-operate'>
                     {this.renderUpvote.call(this)}
                     {this.renderThoughtsCount.call(this)}
