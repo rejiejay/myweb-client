@@ -1,0 +1,120 @@
+.todo {
+    position: relative;
+    width: 942px;
+    margin: 0 auto;
+    display: -webkit-flex;
+	display: flex;
+    -webkit-flex-direction: row;
+	flex-direction: row;
+
+    .todo-list {
+        width: 242px;
+
+        >div {
+            padding:20px 0px;
+        }
+    }
+
+    .todo-main {
+        width: 680px;
+        position: relative;
+        padding-left: 20px;
+
+        > div {
+            padding-top: 20px;
+        }
+
+        .todo-discard {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            cursor: pointer;
+        }
+
+        .todo-publish {
+
+            .publish-content {
+                width: 100%;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-flex-direction: row;
+                flex-direction: row;
+            }
+
+            .publish-input {
+                width: 80%;
+                position: relative;
+                height: 40px;
+                margin-bottom: -1px;
+                line-height: 40px;
+                border: 1px solid #dfdfdf;
+                background: #fff;
+        
+                input {
+                    width: 100%;
+                    position: relative;
+                    height: 30px;
+                    line-height: 30px;
+                    padding: 5px 10px;
+                    margin: 0;
+                    color: #4d5d77;
+                    font-size: 16px;
+                    border: none;
+                    background-color: transparent;
+                    outline: none;
+                }
+            }
+            .publish-submit {
+                margin-left: 5%;
+                width: 15%;
+                position: relative;
+                height: 40px;
+                text-align: center;
+                line-height: 40px;
+                border: 1px solid #dfdfdf;
+                background: #fff;
+            }
+        }
+
+        .todo-Ongoing {
+            .Ongoing-item {
+                width: 100%;
+                min-height: 40px;
+                margin-top: 15px;
+                font-size: 18px;
+                line-height: 40px;
+                border: #dbdbdb solid 1px;
+                background: #fff;
+                color: #888;
+            }
+        }
+
+        .todo-await {
+            .await-item {
+                width: 100%;
+                min-height: 40px;
+                margin-top: 15px;
+                font-size: 18px;
+                line-height: 40px;
+                border: #dbdbdb solid 1px;
+                background: #fff;
+                color: #888;
+            }
+        }
+
+        .todo-ok {
+            .ok-item {
+                width: 100%;
+                min-height: 40px;
+                margin-top: 15px;
+                font-size: 18px;
+                line-height: 40px;
+                border: #dbdbdb solid 1px;
+                background: #fff;
+                color: #888;
+            }
+        }
+    }
+}
+
+
