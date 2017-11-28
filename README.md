@@ -1,43 +1,56 @@
-# 个人网站第二期前端 第三版
+# Frontend Boilerplate with React, MobX & TypeScript
 
-### [首页](http://119.29.140.46/)
+A bare minimum react-mobx-webpack-typescript boilerplate with TodoMVC example.
 
-有个 dva/fetch 就不用考虑额外的东西了. 再说我也不考虑兼容性.
+Note that this project does not include **Server-Side Rendering**,  **Testing Frameworks** and other stuffs that makes the package unnecessarily complicated.
 
-功能也是一样, 先实现最简单的, 能用就行, 有总比没好的功能, 再考虑复杂的功能.
+Ideal for creating React apps from the scratch.
+
+See also: [react-redux-typescript-boilerplate](https://github.com/rokoroku/react-redux-typescript-boilerplate)
+
+## Contains
+
+- [x] [Typescript](https://www.typescriptlang.org/) 2.5
+- [x] [React](https://facebook.github.io/react/) 16
+- [x] [React Router](https://github.com/ReactTraining/react-router) 4.2
+- [x] [Mobx](https://github.com/mobxjs/mobx)
+- [x] [Mobx React](https://github.com/mobxjs/mobx-react)
+- [x] [Mobx React Router](https://github.com/alisd23/mobx-react-router/)
+- [x] [Mobx React Devtools](https://github.com/mobxjs/mobx-react-devtools)
+- [x] [TodoMVC example](http://todomvc.com)
+
+### Build tools
+
+- [x] [Webpack](https://webpack.github.io) 3.8
+  - [x] [Tree Shaking](https://webpack.js.org/guides/tree-shaking/)
+  - [x] [Webpack Dev Server](https://github.com/webpack/webpack-dev-server)
+- [x] [Awesome Typescript Loader](https://github.com/s-panferov/awesome-typescript-loader)
+- [x] [PostCSS Loader](https://github.com/postcss/postcss-loader)
+  - [x] [CSS next](https://github.com/MoOx/postcss-cssnext)
+  - [x] [CSS modules](https://github.com/css-modules/css-modules)
+- [x] [React Hot Loader](https://github.com/gaearon/react-hot-loader)
+- [x] [ExtractText Plugin](https://github.com/webpack/extract-text-webpack-plugin)
+- [x] [HTML Webpack Plugin](https://github.com/ampedandwired/html-webpack-plugin)
 
 
+## Setup
 
+```
+$ npm install
+```
 
+## Running
 
+```
+$ npm start
+```
 
+## Build
 
-<容器类组件> 可以写的class形式.
-<表现类组> 建议写函数形式.
+```
+$ npm run build
+```
 
-有个 dva/fetch 就不用考虑额外的东西了. 再说我也不考虑兼容性.
+# License
 
-### 第二版的目标与期望是什么？
-—— 不断给予用户惊喜(细分功能)  
-—— 完成一些功能  
-———— 展示轮播图  
-———— 展示文章  
-———— 展示设计  
-———— 展示一些作品  
-———— 留言功能  
-———— 后台功能  
-———— 手机端
-—— 代码优雅工整
-
-### 为了达到目标与期望做了以及发生了哪些事？
-
-3.后面已经不想做了.许久都已经没有动这个项目.  
-2.有很多解决方案,并不知道哪个方案好  
-1.感觉很多东西没有考虑不清楚, 未来将会发生的东西充满未知, 无从下手.  
-
-### 如何评估所做以及发生的事情？
-
-3.为了表面工程终究没有动力. 本质是因为没有价值.
-2.需求不应该考虑太多. 应该想一个做一个.
-1.考虑不清楚就不考虑了, 如果有什么不满. 那就直接下一版本. 反正是自己的网站. 我做网站本身的目标就是为了提升.  
-
+MIT
