@@ -6,8 +6,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server -d --history-api-fallback --hot --inline --progress --colors --port 8000 --open",
-    "build": "webpack -p --progress --colors"
+    "start": "webpack-dev-server -d --history-api-fallback --hot --inline --progress --colors --port 8000 --open --config webpack.config.js",
+    "build": "webpack -p --progress --colors --config webpack.pro.config.js"
   },
   "license": "MIT",
   "devDependencies": {
@@ -23,6 +23,8 @@
     "file-loader": "^1.1.5",
     "html-loader": "^0.5.1",
     "html-webpack-plugin": "^2.30.1",
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
     "mobx-react-devtools": "^4.2.15",
     "postcss": "^6.0.13",
     "postcss-browser-reporter": "^0.5.0",
@@ -44,6 +46,7 @@
     "mobx": "^3.3.1",
     "mobx-react": "^4.3.3",
     "mobx-react-router": "^4.0.1",
+    "rc-animate": "^2.4.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router": "^4.2.0"

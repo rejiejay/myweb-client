@@ -2,13 +2,18 @@ var webpack = require('webpack');
 var path = require('path');
 
 // variables
-var isProduction = false;
+var isProduction = true;
 var sourcePath = path.join(__dirname, './src');
 var outPath = path.join(__dirname, './dist');
 
 // plugins
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+const extractLess = new ExtractTextPlugin({
+  filename: 'styles.css',
+  disable: !isProduction
+});
 
 module.exports = {
   context: sourcePath,
@@ -26,7 +31,8 @@ module.exports = {
   output: {
     path: outPath,
     filename: 'bundle.js',
-    publicPath: '/'
+		// chunkFilename: '[name].[chunkhash:5].chunk.js', // 这个是代码分割
+    publicPath: './'
   },
   target: 'web',
   resolve: {
@@ -78,19 +84,18 @@ module.exports = {
           ]
         })
       },
-      // less 
+      // less
       {
         test: /\.less$/,
-        use: [{
-            loader: "style-loader"
-        }, {
-            loader: "css-loader"
-        }, {
-            loader: "less-loader", options: {
-                strictMath: true,
-                noIeCompat: true
-            }
-        }]
+        use: extractLess.extract({
+            use: [{
+                loader: "css-loader"
+            }, {
+                loader: "less-loader"
+            }],
+            // use style-loader in development
+            fallback: "style-loader"
+        })
       },
       // static assets 
       { test: /\.html$/, use: 'html-loader' },
@@ -101,7 +106,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('development')
+        NODE_ENV: JSON.stringify('production')
       }
     }),
     new webpack.LoaderOptionsPlugin({
@@ -115,10 +120,7 @@ module.exports = {
       minChunks: Infinity
     }),
     new webpack.optimize.AggressiveMergingPlugin(),
-    new ExtractTextPlugin({
-      filename: 'styles.css',
-      disable: !isProduction
-    }),
+    extractLess,
     new webpack.optimize.ModuleConcatenationPlugin(),
     new HtmlWebpackPlugin({
       template: 'assets/index.html'
