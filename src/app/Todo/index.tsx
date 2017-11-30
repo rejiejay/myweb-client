@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { config } from './../config';
 import { inject, observer } from 'mobx-react';
+import notice from './../../component/notice';
 
 interface TodoProps {
   STORE_USER: {
@@ -23,6 +24,9 @@ export class Todo extends React.Component<TodoProps, TodoState> {
     this.state = {
       aaaaa: props.STORE_USER.text
     };
+
+    
+    notice.error('错误');
   }
 
   componentDidMount() {

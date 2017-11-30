@@ -1,2 +1,2 @@
 import './app';
-import './assets/index.less';
+import './assets/less/index.less';
