@@ -1,2 +1,3 @@
 import './app';
-import './assets/less/index.less';
+import './assets/index.less';
+import './component/index.less';

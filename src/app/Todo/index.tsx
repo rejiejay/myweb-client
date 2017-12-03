@@ -2,6 +2,7 @@ import * as React from 'react';
 import { config } from './../config';
 import { inject, observer } from 'mobx-react';
 import notice from './../../component/notice';
+import loading from './../../component/loading';
 
 interface TodoProps {
   STORE_USER: {
@@ -48,7 +49,13 @@ export class Todo extends React.Component<TodoProps, TodoState> {
   }
 
   addError() {
-    notice.error(`${Math.random()}-错误`);
+    loading.service();
+    setTimeout(()=> {
+      loading.destroy();
+    }, 500);
+    notice.info(`提示`);
+    notice.success(`成功`);
+    notice.error(`错误`);
   }
 
   render() {
