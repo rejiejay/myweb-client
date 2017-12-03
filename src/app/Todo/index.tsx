@@ -24,9 +24,6 @@ export class Todo extends React.Component<TodoProps, TodoState> {
     this.state = {
       aaaaa: props.STORE_USER.text
     };
-
-    
-    notice.error('错误');
   }
 
   componentDidMount() {
@@ -50,10 +47,15 @@ export class Todo extends React.Component<TodoProps, TodoState> {
     })
   }
 
+  addError() {
+    notice.error(`${Math.random()}-错误`);
+  }
+
   render() {
     return (
       <div>
         <h1>代办项目</h1>
+        <button onClick={this.addError}>创建</button>
         <div className="todo-list"></div>
         <div className="todo-main"></div>
       </div>
