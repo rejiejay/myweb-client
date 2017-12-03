@@ -3,6 +3,7 @@ import { config } from './../config';
 import { inject, observer } from 'mobx-react';
 import notice from './../../component/notice';
 import loading from './../../component/loading';
+import request from './request';
 
 interface TodoProps {
   STORE_USER: {
@@ -12,7 +13,20 @@ interface TodoProps {
 };
 
 interface TodoState {
-  aaaaa: number
+  todoItem: {
+    name: string
+    list: {
+      key: number
+      id: number
+      description: string
+      priority: number
+      createTime: number
+    }[]
+  }
+  categoryList: {
+    key: number
+    content: string
+  }[]
 };
 
 @inject('STORE_USER', 'STORE_ROUTER')
@@ -23,27 +37,47 @@ export class Todo extends React.Component<TodoProps, TodoState> {
     super(props);
 
     this.state = {
-      aaaaa: props.STORE_USER.text
+      'todoItem': {
+        'name': '未完成项目',
+        'list': []
+      },
+      'categoryList': []
     };
   }
 
   componentDidMount() {
-    let self: any;
+    let self = this;
 
-    self = this;
-
-    fetch(`${config.basicUrl}/todo/getAllByTime`, {
-      method: 'GET'
-    }).then(
-      response => response.json(),
-      error => ({
-        'result': 0, 
-        'message': `Fetch is error, The reason is ${error}`
-      }) 
-    )
-    .then((val) => {
+    request.getAllByTime().then((val) => {
+      console.log(val)
       if (val.result === 1) {
+        self.setState({
+          'todoItem': {
+            'name': '未完成项目',
+            'list': val.data.map((data) => ({
+              'key': Math.random(),
+              'id': data.id,
+              'description': data.description,
+              'priority': data.priority,
+              'createTime': data.createTime
+            }))
+          } 
+        })
+      } else {
+        notice.error(val.message);
+      }
+    })
 
+    request.getAllCategory().then((val) => {
+      if (val.result === 1) {
+        self.setState({
+          'categoryList': val.data.map((data) => ({
+            'key': Math.random(),
+            'content': data.category
+          }))
+        })
+      } else {
+        notice.error(val.message);
       }
     })
   }
@@ -59,12 +93,25 @@ export class Todo extends React.Component<TodoProps, TodoState> {
   }
 
   render() {
+    let NodeCategoryList = this.state.categoryList.map((val, key) => (
+      <li key={val.key}>{val.content}</li>
+    ))
+
+    let NodeItemList = this.state.todoItem.list.map((val, key) => (
+      <li key={val.key}>{val.description}</li>
+    ))
+
     return (
       <div>
         <h1>代办项目</h1>
-        <button onClick={this.addError}>创建</button>
-        <div className="todo-list"></div>
-        <div className="todo-main"></div>
+        <div className="todo-list">
+          <h2>项目分类列表</h2>
+          <ul>{NodeCategoryList}</ul>
+        </div>
+        <div className="todo-main">
+          <h2>{this.state.todoItem.name}</h2>
+          <ul>{NodeItemList}</ul>
+        </div>
       </div>
     );
   }
