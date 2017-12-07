@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { createBrowserHistory } from 'history';
+import { createMemoryHistory } from 'history';
 import { useStrict } from 'mobx';
 import { Provider } from 'mobx-react';
 import { Router, Route, Switch } from 'react-router';
@@ -11,7 +11,7 @@ import { Todo } from './Todo/index';
 useStrict(true);
 
 // prepare MobX stores
-const history = createBrowserHistory();
+const history = createMemoryHistory();
 const rootStores = {
   'STORE_USER': new UserStore('Use Mobx'),
   'STORE_ROUTER': new RouterStore(history)
