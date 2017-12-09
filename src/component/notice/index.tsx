@@ -7,10 +7,17 @@ type NoticeType = 'info' | 'success' | 'error';
 
 let instance;
 
+let div;
+div = document.createElement('div');
+div.id = 'notice';
+div.className = 'notice';
+document.body.appendChild(div);
+
 async function notice(content: ConfigContent, type: NoticeType) {
   // 单例模式, 保证 instance 仅有一个
   if (!instance) {
-    await newNotice()
+
+    await newNotice(div)
       .then((notification) => {
         instance = notification;
       });
@@ -33,11 +40,7 @@ async function notice(content: ConfigContent, type: NoticeType) {
 }
 
 // 创建 控制添加删除
-function newNotice() {
-  let div;
-  div = document.createElement('div');
-  div.className = 'notice';
-  document.body.appendChild(div);
+function newNotice(div: HTMLDivElement) {
   
   return new Promise((resolve, reject) => {
     let ref = notification => {

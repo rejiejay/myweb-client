@@ -7,7 +7,7 @@ export default {
         response => response.json(),
         error => ({
             'result': 0, 
-            'message': `Fetch is error, The reason is ${error}`
+            'message': `Fetch all todo is error, The reason is ${error}`
         }) 
     ),
     getAllCategory: () => fetch(`${config.basicUrl}/todo/getAllCategory`, {
@@ -16,7 +16,7 @@ export default {
         response => response.json(),
         error => ({
             'result': 0, 
-            'message': `Fetch is error, The reason is ${error}`
+            'message': `Fetch category is error, The reason is ${error}`
         }) 
     )
 }

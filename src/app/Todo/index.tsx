@@ -3,6 +3,7 @@ import { config } from './../config';
 import { inject, observer } from 'mobx-react';
 import notice from './../../component/notice';
 import loading from './../../component/loading';
+import Collapse from './../../component/Collapse';
 import request from './request';
 
 interface TodoProps {
@@ -94,7 +95,7 @@ export class Todo extends React.Component<TodoProps, TodoState> {
 
   render() {
     let NodeCategoryList = this.state.categoryList.map((val, key) => (
-      <li key={val.key}>{val.content}</li>
+      <li key={val.key} onClick={this.addError.bind(this)}>{val.content}</li>
     ))
 
     let NodeItemList = this.state.todoItem.list.map((val, key) => (
@@ -104,14 +105,18 @@ export class Todo extends React.Component<TodoProps, TodoState> {
     return (
       <div>
         <h1>代办项目</h1>
-        <div className="todo-list">
-          <h2>项目分类列表</h2>
+        <Collapse
+          title='项目分类列表'
+          isShow={true}
+        >
           <ul>{NodeCategoryList}</ul>
-        </div>
+        </Collapse>
         <div className="todo-main">
           <h2>{this.state.todoItem.name}</h2>
           <ul>{NodeItemList}</ul>
         </div>
+
+
       </div>
     );
   }
