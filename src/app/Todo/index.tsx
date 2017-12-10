@@ -39,7 +39,7 @@ export class Todo extends React.Component<TodoProps, TodoState> {
 
     this.state = {
       'todoItem': {
-        'name': '未完成项目',
+        'name': '',
         'list': []
       },
       'categoryList': []
@@ -49,9 +49,29 @@ export class Todo extends React.Component<TodoProps, TodoState> {
   componentDidMount() {
     let self = this;
 
-    request.getAllByTime().then((val) => {
-      console.log(val)
+    this.getDatabyTime.call(this)
+
+    request.getAllCategory().then((val) => {
       if (val.result === 1) {
+        self.setState({
+          'categoryList': val.data.map((data) => ({
+            'key': Math.random(),
+            'content': data.category
+          }))
+        })
+      } else {
+        notice.error(val.message);
+      }
+    })
+  }
+
+  getDatabyTime() {
+    let self = this;
+
+    loading.service();
+    request.getAllByTime().then((val) => {
+      if (val.result === 1) {
+        loading.destroy();
         self.setState({
           'todoItem': {
             'name': '未完成项目',
@@ -63,20 +83,7 @@ export class Todo extends React.Component<TodoProps, TodoState> {
               'createTime': data.createTime
             }))
           } 
-        })
-      } else {
-        notice.error(val.message);
-      }
-    })
-
-    request.getAllCategory().then((val) => {
-      if (val.result === 1) {
-        self.setState({
-          'categoryList': val.data.map((data) => ({
-            'key': Math.random(),
-            'content': data.category
-          }))
-        })
+        });
       } else {
         notice.error(val.message);
       }
@@ -106,7 +113,7 @@ export class Todo extends React.Component<TodoProps, TodoState> {
       <div className='Todo'>
         <div className="todo-list">
           <div className="list-title">
-            <h1>代办项目</h1>
+            <h1 onClick={this.getDatabyTime.bind(this)}>代办项目</h1>
           </div>
           <Collapse
             title='项目分类列表'
@@ -117,6 +124,23 @@ export class Todo extends React.Component<TodoProps, TodoState> {
         </div>
         <div className="todo-main">
           <h2>{this.state.todoItem.name}</h2>
+          <div className="todo-input">
+            <select
+              defaultValue="0"
+            >
+              <option 
+                value ="0" 
+                disabled={true} 
+              >请选择优先级</option>
+              <option value ="1">重要紧急</option>
+              <option value ="2">重要不紧急</option>
+              <option value="3">不重要紧急</option>
+              <option value="4">不重要不紧急</option>
+              <option value="0">暂无优先级</option>
+            </select>
+            <input/>
+            <label>添加</label>
+          </div>
           <ul>{NodeItemList}</ul>
         </div>
       </div>

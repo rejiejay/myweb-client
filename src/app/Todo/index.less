@@ -5,7 +5,6 @@
     display: -webkit-flex;
     display: -moz-flex;
     display: -ms-flexbox;
-    
 
     .todo-list {
         position: relative;
@@ -13,6 +12,7 @@
 
         .list-title {
             padding: 5px 40px;
+
             h1 {
                 font-size: 14px;
                 cursor: pointer;
@@ -40,11 +40,81 @@
 
         .Collapse-Icon {
             position: absolute;
-            right: 7.5px;
+            right: 10px;
             margin-top: 2.5px;
         }
     }
+
     .todo-main {
         padding: 0px 40px;
+
+        h2 {
+            font-size: 20px;
+            padding-bottom: 20px;
+            padding-top: 8px;
+        }
+
+
+        .todo-input {
+            padding-bottom: 20px;
+
+            select {
+                position: relative;
+                left: 1px;
+                border: 1px solid #d9d9d9;
+                height: 32px;
+                outline: none;
+            }
+            select:focus {
+                z-index: 1;
+                border: 1px solid #44a8ff;
+            }
+            input {
+                position: relative;
+                width: 500px;
+                top: 1px;
+                height: 22px;
+                padding: 4px 46px 4px 11px;
+                border: 1px solid #d9d9d9;
+                font-size: 14px;
+                outline: none;
+            }
+            label {
+                position: relative;
+                left: -1px;
+                border: 1px solid #1890ff;
+                padding: 4px 15px;
+                display: inline-block;
+                line-height: 22px;
+                height: 22px;
+                font-size: 14px;
+                color: #fff;
+                background-color: #1890ff;
+                cursor: pointer;
+                transition: all 0.2s;
+                -moz-transition: all 0.2s;	/* Firefox 4 */
+                -webkit-transition: all 0.2s;	/* Safari 和 Chrome */
+                -o-transition: all 0.2s;	/* Opera */
+                -moz-user-select: none; /*火狐*/
+                -webkit-user-select: none; /*webkit浏览器*/
+                -ms-user-select: none; /*IE10*/
+                -khtml-user-select: none; /*早期浏览器*/
+                user-select: none;
+            }
+
+        }
+        .todo-input:hover {
+            input {
+                border: 1px solid #44a8ff;
+            }
+            label {
+                background-color: #44a8ff;
+                border-color: #44a8ff;
+            }
+            label:active {
+                background-color: #1890ff;
+                border-color: #1890ff;
+            }
+        }
     }
 }
