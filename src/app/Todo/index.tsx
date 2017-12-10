@@ -88,14 +88,14 @@ export class Todo extends React.Component<TodoProps, TodoState> {
     setTimeout(()=> {
       loading.destroy();
     }, 500);
-    notice.info(`提示`);
     notice.success(`成功`);
+    notice.info(`提示`);
     notice.error(`错误`);
   }
 
   render() {
     let NodeCategoryList = this.state.categoryList.map((val, key) => (
-      <li key={val.key} onClick={this.addError.bind(this)}>{val.content}</li>
+      <li key={val.key}>{val.content}</li>
     ))
 
     let NodeItemList = this.state.todoItem.list.map((val, key) => (
@@ -103,20 +103,22 @@ export class Todo extends React.Component<TodoProps, TodoState> {
     ))
 
     return (
-      <div>
-        <h1>代办项目</h1>
-        <Collapse
-          title='项目分类列表'
-          isShow={true}
-        >
-          <ul>{NodeCategoryList}</ul>
-        </Collapse>
+      <div className='Todo'>
+        <div className="todo-list">
+          <div className="list-title">
+            <h1>代办项目</h1>
+          </div>
+          <Collapse
+            title='项目分类列表'
+            isShow={true}
+          >
+            <ul>{NodeCategoryList}</ul>
+          </Collapse>
+        </div>
         <div className="todo-main">
           <h2>{this.state.todoItem.name}</h2>
           <ul>{NodeItemList}</ul>
         </div>
-
-
       </div>
     );
   }

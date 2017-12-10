@@ -6,12 +6,22 @@ type ConfigContent = React.ReactNode | string;
 type NoticeType = 'info' | 'success' | 'error';
 
 let instance;
-
 let div;
-div = document.createElement('div');
-div.id = 'notice';
-div.className = 'notice';
-document.body.appendChild(div);
+
+let init = () => {
+  div = document.createElement('div');
+  div.id = 'notice';
+  div.className = 'notice';
+  document.body.appendChild(div);
+  let ref = notification => {
+    instance = {
+      notice(noticeProps) {
+        notification.add(noticeProps);
+      }
+    };
+  }
+  ReactDOM.render(<Notification ref={ref}/>, div)
+};
 
 async function notice(content: ConfigContent, type: NoticeType) {
   // 单例模式, 保证 instance 仅有一个
@@ -22,7 +32,7 @@ async function notice(content: ConfigContent, type: NoticeType) {
         instance = notification;
       });
   }
-
+  
   let iconType = ({
     info: 'item-img img-info',
     success: 'item-img img-success',
@@ -41,7 +51,6 @@ async function notice(content: ConfigContent, type: NoticeType) {
 
 // 创建 控制添加删除
 function newNotice(div: HTMLDivElement) {
-  
   return new Promise((resolve, reject) => {
     let ref = notification => {
       resolve({
@@ -161,6 +170,7 @@ class Notice extends React.Component<NoticeProp> {
   }
 }
 
+init();
 export default {
   info(content: ConfigContent) { notice(content, 'info') },
   success(content: ConfigContent) { notice(content, 'success') },
