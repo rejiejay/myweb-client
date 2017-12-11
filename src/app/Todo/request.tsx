@@ -10,6 +10,7 @@ export default {
             'message': `Fetch all todo is error, The reason is ${error}`
         }) 
     ),
+
     getAllCategory: () => fetch(`${config.basicUrl}/todo/getAllCategory`, {
         method: 'GET'
     }).then(

@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import notice from './../../component/notice';
 import loading from './../../component/loading';
 import Collapse from './../../component/Collapse';
+import utilitieTime from './../method/utilitieTime';
 import request from './request';
 
 interface TodoProps {
@@ -14,16 +15,16 @@ interface TodoProps {
 };
 
 interface TodoState {
-  todoItem: {
-    name: string
-    list: {
-      key: number
-      id: number
-      description: string
-      priority: number
-      createTime: number
-    }[]
-  }
+  name: string
+  list: {
+    key: number
+    id: number
+    isComplete: number
+    description: string
+    priority: number
+    createTime: number
+    category: string
+  }[]
   categoryList: {
     key: number
     content: string
@@ -38,12 +39,12 @@ export class Todo extends React.Component<TodoProps, TodoState> {
     super(props);
 
     this.state = {
-      'todoItem': {
-        'name': '',
-        'list': []
-      },
+      'name': '',
+      'list': [],
       'categoryList': []
     };
+
+    this.setComplete.bind(this);
   }
 
   componentDidMount() {
@@ -73,16 +74,16 @@ export class Todo extends React.Component<TodoProps, TodoState> {
       if (val.result === 1) {
         loading.destroy();
         self.setState({
-          'todoItem': {
-            'name': '未完成项目',
-            'list': val.data.map((data) => ({
-              'key': Math.random(),
-              'id': data.id,
-              'description': data.description,
-              'priority': data.priority,
-              'createTime': data.createTime
-            }))
-          } 
+          'name': '未完成项目',
+          'list': val.data.map((data) => ({
+            'key': Math.random(),
+            'id': data.id,
+            'isComplete': data.isComplete,
+            'description': data.description,
+            'priority': data.priority,
+            'category': data.category,
+            'createTime': data.createTime
+          }))
         });
       } else {
         notice.error(val.message);
@@ -90,14 +91,58 @@ export class Todo extends React.Component<TodoProps, TodoState> {
     })
   }
 
-  addError() {
-    loading.service();
-    setTimeout(()=> {
-      loading.destroy();
-    }, 500);
-    notice.success(`成功`);
-    notice.info(`提示`);
-    notice.error(`错误`);
+  setComplete(val, key) {
+    let newList = this.state.list.slice();
+    newList[key].isComplete = this.state.list[key].isComplete === 1 ? 0 : 1;
+
+    this.setState({ list: newList });
+  }
+
+  renderNodeItemList() {
+    const self = this;
+
+    return this.state.list.map((val, key) => {
+      let checkboxInput = (
+        <div>
+          <input 
+            checked={val.isComplete === 1}
+            onChange={() => {self.setComplete(val, key)}}
+            key={val.key}
+            type="checkbox"
+            id={`my-ckbox${val.key}`}
+            className="input-checkbox"
+          /> 
+          <label htmlFor={`my-ckbox${val.key}`}>完成</label>
+        </div>
+      );
+
+      let mycategory = ({
+        '0': '无优先',
+        '1': '重 + 急',
+        '2': '重 & 缓',
+        '3': '要做',
+        '4': '不重要'
+      })[val.priority];
+
+      let YYYYMMDD = utilitieTime.TimestampToYYYYMMDDFormat(val.createTime);
+
+      return (
+        <li className="row" key={val.key}>
+          <div className="col-1">{checkboxInput}</div>
+          <div className="col-6">{val.description}</div>
+          <div className="col-2">
+            <div className="litem-category">{val.category}</div>
+          </div>
+          <div className="col-1">
+            <div className="litem-priority">{mycategory}</div>
+          </div>
+          <div className="col-1">{YYYYMMDD}</div>
+          <div className="col-1">
+            <div className="btn-primary litem-btn">编辑</div>
+          </div>
+        </li>
+      )
+    });
   }
 
   render() {
@@ -105,9 +150,7 @@ export class Todo extends React.Component<TodoProps, TodoState> {
       <li key={val.key}>{val.content}</li>
     ))
 
-    let NodeItemList = this.state.todoItem.list.map((val, key) => (
-      <li key={val.key}>{val.description}</li>
-    ))
+    let NodeItemList = this.renderNodeItemList.call(this);
 
     return (
       <div className='Todo'>
@@ -123,7 +166,7 @@ export class Todo extends React.Component<TodoProps, TodoState> {
           </Collapse>
         </div>
         <div className="todo-main">
-          <h2>{this.state.todoItem.name}</h2>
+          <h2>{this.state.name}</h2>
           <div className="todo-input">
             <select
               defaultValue="0"
@@ -139,9 +182,20 @@ export class Todo extends React.Component<TodoProps, TodoState> {
               <option value="0">暂无优先级</option>
             </select>
             <input/>
-            <label>添加</label>
+            <label className="btn-primary">添加</label>
           </div>
-          <ul>{NodeItemList}</ul>
+          <label className="check-box"></label> 
+          <ul className="todo-litem">
+            <li className="row litem-title">
+              <div className="col-1">完成</div>
+              <div className="col-6">内容</div>
+              <div className="col-2 litem-category">类别</div>
+              <div className="col-1 litem-category">优先程度</div>
+              <div className="col-1 litem-time">创建时间</div>
+              <div className="col-1 litem-operating">操作</div>
+            </li>
+            {NodeItemList}
+          </ul>
         </div>
       </div>
     );
