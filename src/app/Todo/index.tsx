@@ -15,7 +15,10 @@ interface TodoProps {
 };
 
 interface TodoState {
-  name: string
+  headline: string
+  input: string
+  option: number
+  category: string
   list: {
     key: number
     id: number
@@ -39,19 +42,30 @@ export class Todo extends React.Component<TodoProps, TodoState> {
     super(props);
 
     this.state = {
-      'name': '',
+      'headline': '',
+      'category': '未分类',
+      'option': 0,
+      'input': '',
       'list': [],
       'categoryList': []
     };
 
     this.setComplete.bind(this);
+    this.getDatabyTime.bind(this);
+    this.getAllCategory.bind(this);
   }
 
   componentDidMount() {
     let self = this;
 
-    this.getDatabyTime.call(this)
+    this.getDatabyTime();
+    this.getAllCategory();
+  }
 
+  getAllCategory() {
+    let self = this;
+    
+    loading.service();
     request.getAllCategory().then((val) => {
       if (val.result === 1) {
         self.setState({
@@ -63,7 +77,9 @@ export class Todo extends React.Component<TodoProps, TodoState> {
       } else {
         notice.error(val.message);
       }
+      loading.destroy();
     })
+
   }
 
   getDatabyTime() {
@@ -72,9 +88,9 @@ export class Todo extends React.Component<TodoProps, TodoState> {
     loading.service();
     request.getAllByTime().then((val) => {
       if (val.result === 1) {
-        loading.destroy();
         self.setState({
-          'name': '未完成项目',
+          'headline': '未完成项目',
+          'category': '未分类',
           'list': val.data.map((data) => ({
             'key': Math.random(),
             'id': data.id,
@@ -87,7 +103,9 @@ export class Todo extends React.Component<TodoProps, TodoState> {
         });
       } else {
         notice.error(val.message);
+        loading.destroy();
       }
+      loading.destroy();
     })
   }
 
@@ -96,6 +114,32 @@ export class Todo extends React.Component<TodoProps, TodoState> {
     newList[key].isComplete = this.state.list[key].isComplete === 1 ? 0 : 1;
 
     this.setState({ list: newList });
+  }
+
+  addTodo() {
+    const self = this;
+
+    if (this.state.input === '') {
+      notice.info('非常抱歉，输入的内容不能为空');
+      return 
+    }
+    
+    loading.service();
+    request.createItem({
+      description: this.state.input,
+      category: this.state.category,
+      priority: this.state.option
+    }).then((val) => {
+      if (val.result === 1) {
+        self.getDatabyTime()
+        self.getAllCategory()
+      } else {
+        notice.error(val.message);
+        loading.destroy();
+      }
+    })
+
+
   }
 
   renderNodeItemList() {
@@ -127,16 +171,16 @@ export class Todo extends React.Component<TodoProps, TodoState> {
       let YYYYMMDD = utilitieTime.TimestampToYYYYMMDDFormat(val.createTime);
 
       return (
-        <li className="row" key={val.key}>
+        <li className="row litem-content" key={val.key}>
           <div className="col-1">{checkboxInput}</div>
-          <div className="col-6">{val.description}</div>
+          <div className="col-6 litem-description">{val.description}</div>
           <div className="col-2">
             <div className="litem-category">{val.category}</div>
           </div>
           <div className="col-1">
             <div className="litem-priority">{mycategory}</div>
           </div>
-          <div className="col-1">{YYYYMMDD}</div>
+          <div className="col-1 litem-time">{YYYYMMDD}</div>
           <div className="col-1">
             <div className="btn-primary litem-btn">编辑</div>
           </div>
@@ -166,23 +210,26 @@ export class Todo extends React.Component<TodoProps, TodoState> {
           </Collapse>
         </div>
         <div className="todo-main">
-          <h2>{this.state.name}</h2>
+          <h2>{this.state.headline}</h2>
           <div className="todo-input">
             <select
-              defaultValue="0"
+              className="select-primary"
+              value={this.state.option} 
+              onChange={(event) => {this.setState({option: parseInt(event.target.value)})}}
             >
-              <option 
-                value ="0" 
-                disabled={true} 
-              >请选择优先级</option>
-              <option value ="1">重要紧急</option>
-              <option value ="2">重要不紧急</option>
-              <option value="3">不重要紧急</option>
-              <option value="4">不重要不紧急</option>
-              <option value="0">暂无优先级</option>
+              <option value={0} disabled={true}>请选择优先级</option>
+              <option value={1}>重要紧急</option>
+              <option value={2}>重要不紧急</option>
+              <option value={3}>不重要紧急</option>
+              <option value={4}>不重要不紧急</option>
+              <option value={0}>暂无优先级</option>
             </select>
-            <input/>
-            <label className="btn-primary">添加</label>
+            <input
+              className="input-primary"
+              value={this.state.input}
+              onChange={(event) => {this.setState({input: event.target.value})}}
+            />
+            <label className="btn-primary" onClick={this.addTodo.bind(this)}>添加</label>
           </div>
           <label className="check-box"></label> 
           <ul className="todo-litem">
@@ -190,14 +237,59 @@ export class Todo extends React.Component<TodoProps, TodoState> {
               <div className="col-1">完成</div>
               <div className="col-6">内容</div>
               <div className="col-2 litem-category">类别</div>
-              <div className="col-1 litem-category">优先程度</div>
+              <div className="col-1 litem-priority">优先程度</div>
               <div className="col-1 litem-time">创建时间</div>
               <div className="col-1 litem-operating">操作</div>
             </li>
             {NodeItemList}
+            <EditTodolitem/>
           </ul>
         </div>
       </div>
     );
   }
 };
+
+interface EditTodolitemProps {
+};
+
+class EditTodolitem extends React.Component<EditTodolitemProps> {
+  
+  render() {
+    return (
+      <li className="litem-edit">
+        <div className="row">
+          <div className="col-2">
+            <select
+              className="select-primary edit-category"
+            >
+              <option value={0} disabled={true}>请选择类别</option>
+            </select>
+          </div>
+          <div className="col-2">
+            <select
+              className="select-primary edit-priority"
+            >
+              <option value={0} disabled={true}>请选择优先级</option>
+              <option value={1}>重要紧急</option>
+              <option value={2}>重要不紧急</option>
+              <option value={3}>不重要紧急</option>
+              <option value={4}>不重要不紧急</option>
+              <option value={0}>暂无优先级</option>
+            </select>
+          </div>
+          <div className="col-6">
+            <input className="input-primary" />
+          </div>
+          <div className="col-1">
+            <span className="btn-primary edit-save">保存</span>
+          </div>
+          <div className="col-1">
+            <span className="btn-primary edit-del">删除</span>
+          </div>
+        </div>
+      </li>
+    )
+  }
+}
+

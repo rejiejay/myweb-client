@@ -1,15 +1,17 @@
 .notice {
   position: fixed;
   top: 0px;
-  left: 50%;
-  width: 10%;
-  margin-left: -10%;
-  display: flex;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  justify-content: center;
+  // display: flex;
+  // display: -webkit-box;
+  // display: -webkit-flex;
+  // display: -moz-flex;
+  // display: -ms-flexbox;
+  // justify-content: center;
+  -moz-user-select: none; /*火狐*/
+  -webkit-user-select: none; /*webkit浏览器*/
+  -ms-user-select: none; /*IE10*/
+  -khtml-user-select: none; /*早期浏览器*/
+  user-select: none;
   z-index: 3;
 
   .notice-item {
@@ -24,7 +26,6 @@
     -moz-transition: all 0.5s;	/* Firefox 4 */
     -webkit-transition: all 0.5s;	/* Safari 和 Chrome */
     -o-transition: all 0.5s;	/* Opera */
-    z-index: 3;
 
     .item-close {
       position: absolute;

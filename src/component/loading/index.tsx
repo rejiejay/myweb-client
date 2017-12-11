@@ -16,6 +16,8 @@ export default {
   },
   destroy() {
     document.body.className = '';
-    document.getElementById('loading').remove();
+    if (document.getElementById('loading')) {
+      document.getElementById('loading').remove();
+    }
   }
 }
