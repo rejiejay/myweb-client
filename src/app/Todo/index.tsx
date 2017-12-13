@@ -156,7 +156,6 @@ export class Todo extends React.Component<TodoProps, TodoState> {
       let isCompleteNode = (
         <div>
           <input 
-            key={val.key}
             id={`my-ckbox${val.key}`}
             checked={val.isComplete === 1}
             onChange={() => {self.setComplete(key)}}
@@ -181,10 +180,12 @@ export class Todo extends React.Component<TodoProps, TodoState> {
         return (
           <EditTodolitem 
             key={val.key}
+            mykey={val.key}
             categoryList={self.state.categoryList}
             description={val.description}
             category={val.category}
             priority={val.priority}
+            cancel={()=> { self.setEdit(key, false) }}
           />
         )
       }
@@ -271,6 +272,7 @@ export class Todo extends React.Component<TodoProps, TodoState> {
 };
 
 interface EditTodolitemProps {
+  mykey: number
   categoryList: {
     key: number
     content: string
@@ -278,6 +280,7 @@ interface EditTodolitemProps {
   description: string
   category: string
   priority: number
+  cancel: () => void
 };
 
 class EditTodolitem extends React.Component<EditTodolitemProps> {
@@ -293,20 +296,18 @@ class EditTodolitem extends React.Component<EditTodolitemProps> {
   }
 
   componentDidMount() {
-    // this.setState({
-    //   description: this.props.description
-    // });
+    this.setState({
+      description: this.props.description
+    });
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   this.setState({
-  //     description: nextProps.description
-  //   });
-  // }
-  
+  cancelHandle() {
+    this.props.cancel();
+  }
+
   render() {
     return (
-      <li className="litem-edit" key={Math.random()}>
+      <li className="litem-edit" key={this.props.mykey}>
         <div className="row">
           <div className="col-2">
             <select
@@ -319,7 +320,7 @@ class EditTodolitem extends React.Component<EditTodolitemProps> {
               ))}
             </select>
           </div>
-          <div className="col-2">
+          <div className="col-1">
             <select
               className="select-primary edit-priority"
               defaultValue={this.props.priority.toString()}
@@ -335,8 +336,8 @@ class EditTodolitem extends React.Component<EditTodolitemProps> {
           <div className="col-6">
             <input
               className="input-primary" 
-              defaultValue={this.props.description}
               value={this.state.description}
+              onChange={(event) => {this.setState({description: event.target.value})}}
             />
           </div>
           <div className="col-1">
@@ -344,6 +345,12 @@ class EditTodolitem extends React.Component<EditTodolitemProps> {
           </div>
           <div className="col-1">
             <span className="btn-primary edit-del">删除</span>
+          </div>
+          <div className="col-1">
+            <span
+              className="btn-primary edit-cancel"
+              onClick={this.cancelHandle.bind(this)}
+            >取消</span>
           </div>
         </div>
       </li>
