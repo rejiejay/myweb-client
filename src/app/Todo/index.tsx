@@ -27,6 +27,7 @@ interface TodoState {
     priority: number
     createTime: number
     category: string
+    isEdit: boolean
   }[]
   categoryList: {
     key: number
@@ -56,8 +57,6 @@ export class Todo extends React.Component<TodoProps, TodoState> {
   }
 
   componentDidMount() {
-    let self = this;
-
     this.getDatabyTime();
     this.getAllCategory();
   }
@@ -98,7 +97,8 @@ export class Todo extends React.Component<TodoProps, TodoState> {
             'description': data.description,
             'priority': data.priority,
             'category': data.category,
-            'createTime': data.createTime
+            'createTime': data.createTime,
+            'isEdit': false
           }))
         });
       } else {
@@ -109,9 +109,16 @@ export class Todo extends React.Component<TodoProps, TodoState> {
     })
   }
 
-  setComplete(val, key) {
+  setComplete(key) {
     let newList = this.state.list.slice();
     newList[key].isComplete = this.state.list[key].isComplete === 1 ? 0 : 1;
+
+    this.setState({ list: newList });
+  }
+  
+  setEdit(key, active: boolean = true) {
+    let newList = this.state.list.slice();
+    newList[key].isEdit = active;
 
     this.setState({ list: newList });
   }
@@ -146,21 +153,21 @@ export class Todo extends React.Component<TodoProps, TodoState> {
     const self = this;
 
     return this.state.list.map((val, key) => {
-      let checkboxInput = (
+      let isCompleteNode = (
         <div>
           <input 
-            checked={val.isComplete === 1}
-            onChange={() => {self.setComplete(val, key)}}
             key={val.key}
-            type="checkbox"
             id={`my-ckbox${val.key}`}
+            checked={val.isComplete === 1}
+            onChange={() => {self.setComplete(key)}}
+            type="checkbox"
             className="input-checkbox"
-          /> 
+          />
           <label htmlFor={`my-ckbox${val.key}`}>完成</label>
         </div>
       );
 
-      let mycategory = ({
+      let priorityValue = ({
         '0': '无优先',
         '1': '重 + 急',
         '2': '重 & 缓',
@@ -168,21 +175,35 @@ export class Todo extends React.Component<TodoProps, TodoState> {
         '4': '不重要'
       })[val.priority];
 
-      let YYYYMMDD = utilitieTime.TimestampToYYYYMMDDFormat(val.createTime);
+      let timeValue = utilitieTime.TimestampToYYYYMMDDFormat(val.createTime);
 
+      if (val.isEdit) {
+        return (
+          <EditTodolitem 
+            key={val.key}
+            categoryList={self.state.categoryList}
+            description={val.description}
+            category={val.category}
+            priority={val.priority}
+          />
+        )
+      }
       return (
         <li className="row litem-content" key={val.key}>
-          <div className="col-1">{checkboxInput}</div>
+          <div className="col-1">{isCompleteNode}</div>
           <div className="col-6 litem-description">{val.description}</div>
           <div className="col-2">
             <div className="litem-category">{val.category}</div>
           </div>
           <div className="col-1">
-            <div className="litem-priority">{mycategory}</div>
+            <div className="litem-priority">{priorityValue}</div>
           </div>
-          <div className="col-1 litem-time">{YYYYMMDD}</div>
+          <div className="col-1 litem-time">{timeValue}</div>
           <div className="col-1">
-            <div className="btn-primary litem-btn">编辑</div>
+            <div 
+              className="btn-primary litem-btn" 
+              onClick={() => {self.setEdit(key)}}
+            >编辑</div>
           </div>
         </li>
       )
@@ -242,7 +263,6 @@ export class Todo extends React.Component<TodoProps, TodoState> {
               <div className="col-1 litem-operating">操作</div>
             </li>
             {NodeItemList}
-            <EditTodolitem/>
           </ul>
         </div>
       </div>
@@ -251,24 +271,58 @@ export class Todo extends React.Component<TodoProps, TodoState> {
 };
 
 interface EditTodolitemProps {
+  categoryList: {
+    key: number
+    content: string
+  }[]
+  description: string
+  category: string
+  priority: number
 };
 
 class EditTodolitem extends React.Component<EditTodolitemProps> {
+  state: {
+    description: string
+  }
+
+  constructor(props: EditTodolitemProps) {
+    super(props);
+    this.state = {
+      description: ''
+    }
+  }
+
+  componentDidMount() {
+    // this.setState({
+    //   description: this.props.description
+    // });
+  }
+
+  // componentWillReceiveProps(nextProps) {
+  //   this.setState({
+  //     description: nextProps.description
+  //   });
+  // }
   
   render() {
     return (
-      <li className="litem-edit">
+      <li className="litem-edit" key={Math.random()}>
         <div className="row">
           <div className="col-2">
             <select
               className="select-primary edit-category"
+              defaultValue={this.props.category}
             >
               <option value={0} disabled={true}>请选择类别</option>
+              {this.props.categoryList.map(val => (
+                <option key={val.key} value={val.content}>{val.content}</option>
+              ))}
             </select>
           </div>
           <div className="col-2">
             <select
               className="select-primary edit-priority"
+              defaultValue={this.props.priority.toString()}
             >
               <option value={0} disabled={true}>请选择优先级</option>
               <option value={1}>重要紧急</option>
@@ -279,7 +333,11 @@ class EditTodolitem extends React.Component<EditTodolitemProps> {
             </select>
           </div>
           <div className="col-6">
-            <input className="input-primary" />
+            <input
+              className="input-primary" 
+              defaultValue={this.props.description}
+              value={this.state.description}
+            />
           </div>
           <div className="col-1">
             <span className="btn-primary edit-save">保存</span>
