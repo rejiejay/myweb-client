@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { config } from './../config';
+import { config } from './../../config';
 import { inject, observer } from 'mobx-react';
 import notice from './../../component/notice';
 import loading from './../../component/loading';
 import Collapse from './../../component/Collapse';
-import utilitieTime from './../method/utilitieTime';
+import conversionTime from './../../utils/conversionTime';
 import request from './request';
 
 interface TodoProps {
@@ -57,6 +57,10 @@ export class Todo extends React.Component<TodoProps, TodoState> {
   }
 
   componentDidMount() {
+    this.loadAll.call(this);
+  }
+
+  loadAll() {
     this.getDatabyTime();
     this.getAllCategory();
   }
@@ -174,7 +178,7 @@ export class Todo extends React.Component<TodoProps, TodoState> {
         '4': '不重要'
       })[val.priority];
 
-      let timeValue = utilitieTime.TimestampToYYYYMMDDFormat(val.createTime);
+      let timeValue = conversionTime.TimestampToYYYYMMDDFormat(val.createTime);
 
       if (val.isEdit) {
         return (
@@ -186,6 +190,8 @@ export class Todo extends React.Component<TodoProps, TodoState> {
             category={val.category}
             priority={val.priority}
             cancel={()=> { self.setEdit(key, false) }}
+            save={()=> { }}
+            delete={()=> { }}
           />
         )
       }
@@ -281,17 +287,23 @@ interface EditTodolitemProps {
   category: string
   priority: number
   cancel: () => void
+  save: () => void
+  delete: () => void
 };
 
 class EditTodolitem extends React.Component<EditTodolitemProps> {
   state: {
     description: string
+    category: string
+    priority: string
   }
 
   constructor(props: EditTodolitemProps) {
     super(props);
     this.state = {
-      description: ''
+      description: '',
+      category: this.props.category,
+      priority: this.props.priority.toString(),
     }
   }
 
@@ -299,6 +311,14 @@ class EditTodolitem extends React.Component<EditTodolitemProps> {
     this.setState({
       description: this.props.description
     });
+  }
+
+  saveHandle() {
+    this.props.save();
+  }
+
+  deleteHandle() {
+    this.props.delete();
   }
 
   cancelHandle() {
@@ -312,7 +332,8 @@ class EditTodolitem extends React.Component<EditTodolitemProps> {
           <div className="col-2">
             <select
               className="select-primary edit-category"
-              defaultValue={this.props.category}
+              value={this.state.category}
+              onChange={(event) => {this.setState({category: event.target.value})}}
             >
               <option value={0} disabled={true}>请选择类别</option>
               {this.props.categoryList.map(val => (
@@ -323,7 +344,8 @@ class EditTodolitem extends React.Component<EditTodolitemProps> {
           <div className="col-1">
             <select
               className="select-primary edit-priority"
-              defaultValue={this.props.priority.toString()}
+              value={this.state.priority}
+              onChange={(event) => {this.setState({priority: event.target.value})}}
             >
               <option value={0} disabled={true}>请选择优先级</option>
               <option value={1}>重要紧急</option>
@@ -341,10 +363,16 @@ class EditTodolitem extends React.Component<EditTodolitemProps> {
             />
           </div>
           <div className="col-1">
-            <span className="btn-primary edit-save">保存</span>
+            <span 
+              className="btn-primary edit-save"
+              onClick={this.saveHandle.bind(this)}
+            >保存</span>
           </div>
           <div className="col-1">
-            <span className="btn-primary edit-del">删除</span>
+            <span 
+              className="btn-primary edit-del"
+              onClick={this.deleteHandle.bind(this)}
+            >删除</span>
           </div>
           <div className="col-1">
             <span

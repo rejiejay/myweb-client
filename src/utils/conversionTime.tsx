@@ -1,4 +1,4 @@
-class UtilitieTime {
+class conversionTime {
   public TimestampToYYYYMMDDFormat = (data: number):string => {
     let myDate = new Date(data);
 
@@ -37,5 +37,5 @@ class UtilitieTime {
     return '' + yyyy + '-' + mmstring + '-' + ddstring;
   }
 }
-let utilitieTime = new UtilitieTime();
-export default utilitieTime;
+
+export default new conversionTime();

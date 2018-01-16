@@ -1,3 +1,3 @@
-import './app';
+import './routes';
+import './routes/index.less';
 import './component/index.less';
-import './app/index.less';
