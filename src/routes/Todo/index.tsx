@@ -37,7 +37,7 @@ interface TodoState {
 
 @inject('STORE_USER', 'STORE_ROUTER')
 @observer
-export class Todo extends React.Component<TodoProps, TodoState> {
+export default class Todo extends React.Component<TodoProps, TodoState> {
 
   constructor(props: TodoProps) {
     super(props);

@@ -1,4 +1,4 @@
-import { config } from './../config';
+import { config } from './../../config';
 
 export default {
     getAllByTime: () => fetch(`${config.basicUrl}/todo/getAllByTime`, {

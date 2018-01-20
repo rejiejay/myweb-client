@@ -31,7 +31,7 @@ module.exports = {
   output: {
     path: outPath,
     filename: 'bundle.js',
-		// chunkFilename: '[name].[chunkhash:5].chunk.js', // 这个是代码分割
+		chunkFilename: '[name].[chunkhash:5].chunk.js', // 这个是代码分割
     publicPath: './'
   },
   target: 'web',
