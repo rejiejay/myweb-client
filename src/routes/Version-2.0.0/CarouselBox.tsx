@@ -5,25 +5,38 @@ let CarouselBox = {
   'colorList': ['#F44336', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3', '#00BCD4', '#009688', '#4CAF50', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722'],
   'iconNameList': [
     ['Rejiejay', '欢迎'],
-    ['DVA', '爱你哦'],
+    ['DVA', '碾碎它'],
     ['Saber', '强无敌'],
-    ['Go!', '我们上!'],
+    ['Go!', '你好'],
+  ],
+  'BlockImgList': [
+    // [
+    //   'https://wwww.image.com/1.jpg',
+    //   'https://wwww.image.com/2.jpg',
+    //   'https://wwww.image.com/3.jpg',
+    //   'https://wwww.image.com/4.jpg',
+    //   'https://wwww.image.com/5.jpg',
+    //   'https://wwww.image.com/6.jpg',
+    //   'https://wwww.image.com/7.jpg',
+    //   'https://wwww.image.com/8.jpg',
+    //   'https://wwww.image.com/9.jpg'
+    // ]
   ],
 
-  renderAll(imgList?) {
+  renderAll(BlockImgList?) {
     let _this = this;
     let CarouselList = [];
 
-    // 如果图片数据不存在,则初始化(imgList)
-    if (!imgList) {
-      imgList = this.creatEmptyBlockBoxList(9);
+    // 如果图片数据不存在,则初始化(BlockImgList)
+    if (!BlockImgList) {
+      this.BlockImgList = this.creatEmptyBlockBoxList(9);
     }
 
-    let CarouselBox = imgList.map((imgList, key) => _this.initBlockBox(imgList, key));
+    let CarouselBox = this.BlockImgList.map((imgList, key) => _this.initBlockBox(imgList, key));
 
     return <div 
       className="contain" 
-      id='SwiperContain' 
+      id='CarouselContain' 
       data-offset='0' 
       style={{'left':'0px'}}
     >{CarouselBox}</div>;
@@ -36,7 +49,7 @@ let CarouselBox = {
 
   creatEmptyBoxlist() {
     let myArray = new Array(9);
-    return myArray.fill('');
+    return myArray.fill(null);
   },
 
   initNormalBox(boxSize: string, boxFloatTurn: string, imgUrl: string, uniqueKey: string | number) {
@@ -44,9 +57,9 @@ let CarouselBox = {
     let BoxClassName = '';
 
     if (boxSize === 'min') { // 如果尺寸是小图
-      BoxClassName = boxFloatTurn  === 'left' ? 'minBox' : 'minBox _right';
+      BoxClassName = boxFloatTurn  === 'left' ? 'minBox' : 'minBox Boxfloatright';
     } else { // 如果尺寸是大图
-      BoxClassName = boxFloatTurn  === 'left' ? 'midBox' : 'midBox _right';
+      BoxClassName = boxFloatTurn  === 'left' ? 'midBox' : 'midBox Boxfloatright';
     }
 
     return <div 
@@ -62,7 +75,7 @@ let CarouselBox = {
     const BoxColor = this.colorList[Math.floor( Math.random() * this.colorList.length ) ];
     let BoxClassName = '';
 
-    BoxClassName = boxFloatTurn  === 'left' ? 'iconBox' : 'iconBox _right';
+    BoxClassName = boxFloatTurn  === 'left' ? 'iconBox' : 'iconBox Boxfloatright';
 
     return <div className={BoxClassName} style={{'background': BoxColor}} key={uniqueKey}>
       <div className="iconTop">
@@ -166,7 +179,7 @@ let CarouselBox = {
       BoxList.push(this.initSelectIcon('right',imgList[8],( (keyID + 1) * 10 + 8 )));
     }
 
-    return <div className="bigBox" key={1000+keyID}>{BoxList}</div>
+    return <div className="BlockBox" key={1000+keyID}>{BoxList}</div>
   }
 }
 

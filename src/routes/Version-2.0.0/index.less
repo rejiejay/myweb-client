@@ -1,1 +1,551 @@
+// 轮播图
+.Carousel {
+    position: relative;
+    height: 530px;
+	min-width: 1170px;
+    padding: 3px 0px;
+    overflow: hidden;
+
+    .contain{
+        position: relative;
+        left: 0px;
+        width: 3564px;
+        height: 530px;
+        transition: left 0.4s;
+        -moz-transition: left 0.4s; /* Firefox 4 */
+        -webkit-transition: left 0.4s; /* Safari 和 Chrome */
+        -o-transition: left 0.4s; /* Opera */
+	}
+
+    .BlockBox {
+        display: inline-block;
+        height: 530px;
+        width: 396px;
+        overflow: hidden;
+
+        >div {
+            float: left;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .iconBox {
+            margin-right:2px;
+            margin-top:2px;
+            height: 130px;
+            width: 130px;
+            background:#2196f3;
+
+            .iconTop{
+                position: relative;
+                padding: 14px 17px;
+
+                .iconName {
+                    font-size: 22px;
+                    line-height: 27px;
+                    color: #fff;
+                }
+                
+                .iconTag {
+                    font-size: 18px;
+                    color: #fff;
+                    margin-top: 10px;
+                }
+			}
+
+            .TrueIcon {
+                position: absolute;
+                top:49px;
+                right: 5px;
+                width: 32px;
+                height: 32px;
+			}
+
+            .bottomIcon {
+                position: absolute;
+                left: 3px;
+                bottom: 3px;
+                width: 32px;
+                height: 32px;
+                background-position:-32px 0px;
+                opacity: 0.4;
+			}
+		}
+
+        // 动画
+		.iconBox:hover {
+            .TrueIcon {
+                animation:trunaround 1s linear infinite;
+                -moz-animation:trunaround 1s linear infinite; /* Firefox */
+                -webkit-animation:trunaround 1s linear infinite; /* Safari and Chrome */
+                -o-animation:trunaround 1s linear infinite; /* Opera */
+            }
+
+            @keyframes trunaround{
+                0% {right: 5px;}
+                50% {right: 15px;}
+                100% {right: 5px;}
+            }
+            /* Firefox */
+            @-moz-keyframes trunaround{
+                0% {right: 5px;}
+                50% {right: 15px;}
+                100% {right: 5px;}
+            }
+            /* Safari and Chrome */
+            @-webkit-keyframes trunaround {
+                0% {right: 5px;}
+                50% {right: 15px;}
+                100% {right: 5px;}
+            }
+
+            @-o-keyframes trunaround {
+                0% {right: 5px;}
+                50% {right: 15px;}
+                100% {right: 5px;}
+            }
+        }
+
+        .minBox {
+            margin-right:2px;
+            margin-top:2px;
+            height: 130px;
+            width: 130px;
+            background:#81c784;
+        }
+
+        .midBox {
+            margin-right:2px;
+            margin-top:2px;
+            height: 262px;
+            width: 262px;
+            background:#00e676;
+        }
+
+		.Boxfloatright {
+			float: right;
+        }
+        
+        >div img{
+            width: 100%;
+            height: 100%;
+            transition: all 0.2s;
+        }
+
+        >div img:hover{  
+            transform: scale(1.15);  
+        }
+	}
+
+    .MoveLeft, .MoveRight {
+        position: absolute;
+        top: 225px;
+        width: 80px;
+        height: 80px;
+        border-radius:40px;
+        background:rgba(0, 0, 0, 0.5);
+        z-index: 1;
+        transition: background 0.4s;
+        -moz-transition: background 0.4s; /* Firefox 4 */
+        -webkit-transition: background 0.4s; /* Safari 和 Chrome */
+        -o-transition: background 0.4s; /* Opera */
+
+        div {
+            position: absolute;
+            top: 24px;
+            left: 26px;
+            width: 32px;
+            height: 32px;
+            background-position:0px 0px;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+            -moz-transition: opacity 0.2s; /* Firefox 4 */
+            -webkit-transition: opacity 0.2s; /* Safari 和 Chrome */
+            -o-transition: opacity 0.2s; /* Opera */
+		}
+	}
+
+    .MoveLeft {
+        left: 20px;
+        transform: rotate(180deg);  
+	}
+
+    .MoveRight {
+        right: 20px;
+    }
+    
+	.MoveLeft:hover, .MoveRight:hover {
+        background: rgba(0, 0, 0, 0.7);
+        div {
+            opacity: 1;
+        }
+	}
+
+}
+
+// Main
+.Main {
+	min-width: 1170px;
+}
+
+.Main-Mavigation {
+	height: 45px;
+	width: 100%;
+	border-bottom: 1px solid #dddddd;
+	border-top: 1px solid #dddddd;
+	background: #fff;
+
+    .Mavigation-left {
+		position: relative;
+		top: 5.5px;
+		overflow: hidden;
+
+        > div {
+			position: relative;
+			float: left;
+			margin-right: 22px;
+			width: 32px;
+			height: 32px;
+		}
+
+        .sculpture {
+			border-radius: 16px;
+			border:1px solid rgba(0, 0, 0, 0.3);
+			background-position:-64px 0px;
+			transition: border 0.4s;
+			-moz-transition: border 0.4s; /* Firefox 4 */
+			-webkit-transition: border 0.4s; /* Safari 和 Chrome */
+			-o-transition: border 0.4s; /* Opera */
+        }
+        
+		.sculpture:hover {
+			border:1px solid #2196f3;
+        }
+        
+		.allOfThem {
+			top:4px;
+			background-position:-0px -32px;
+        }
+        
+		.activatOfThem,.allOfThem:hover {
+			background-position:-32px -32px;
+        }
+        
+		.week {
+			background-position:-128px 32px;
+        }
+        
+		.activatWeek,.week:hover {
+			background-position:-160px 32px;
+        }
+        
+		.month {
+			background-position:-64px 32px;
+        }
+        
+		.activatMonth,.month:hover {
+			background-position:-96px 32px;
+        }
+        
+		.year {
+			background-position:-192px 32px;
+        }
+        
+		.activatYear,.year:hover {
+			background-position:-224px 32px;
+		}
+	}
+
+    .Mavigation-middle {
+		position: absolute;
+		top: 0px;
+		left: 50%;
+		width: 90px;
+		margin-left:-45px;
+		color:#888;
+		line-height: 45px;
+    }
+    
+	.Mavigation-right {
+		position: absolute;
+		right: 0px;
+		width: 160px;
+        top: 0px;
+        
+		select {
+			float: left;
+			position: relative;
+			margin-right: 10px;
+			top:8px;
+			padding: 3.5px 0px 4px 6px;
+        }
+        
+		.addItem {
+			padding-left:10px;
+			margin-right: 20px;
+			color: #888;
+			float: left;
+			line-height: 40px;
+			font-size:32px;
+			background-position:-64px 0px;
+			transition: color 0.4s;
+			-moz-transition: color 0.4s; /* Firefox 4 */
+			-webkit-transition: color 0.4s; /* Safari 和 Chrome */
+			-o-transition: color 0.4s; /* Opera */
+        }
+        
+		.addItem:hover {
+			color: #2196f3;
+        }
+        
+		.sculpture {
+			position: relative;
+			top: 5.5px;
+			float: left;
+			width: 32px;
+			height: 32px;
+			border-radius: 16px;
+			border:1px solid rgba(0, 0, 0, 0.3);
+			background-position:-64px 0px;
+			transition: border 0.4s;
+			-moz-transition: border 0.4s; /* Firefox 4 */
+			-webkit-transition: border 0.4s; /* Safari 和 Chrome */
+			-o-transition: border 0.4s; /* Opera */
+        }
+        
+		.sculpture:hover {
+			border:1px solid #2196f3;
+        }
+        
+		.menu {
+			position: absolute;
+			left: 28px;
+			top:50px;
+			width: 130px;
+			background: #FFF;
+			border: 1px solid rgba(34,36,38,.15);
+			border-color: #96C8DA;
+			border-radius: 4px;
+			box-shadow: 0 2px 3px 0 rgba(34,36,38,.15);
+            z-index: 3;
+            
+			.item {
+				position: relative;
+				display: block;
+				border: none;
+				height: auto;
+				text-align: left;
+				border-top: none;
+				line-height: 16px;
+				color: rgba(0,0,0,.87);
+				padding: .78571429rem 1.14285714rem !important;
+				font-size: 16px;
+				text-transform: none;
+				font-weight: 400;
+				box-shadow: none;
+            }
+            
+			.item:hover {
+				background:rgba(0,0,0,0.08);
+			}
+		}
+	}
+
+
+}
+
+.Main-Content {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: row;
+    
+    .Main-Content-Mavigation {
+        min-width: 164px;
+        border-right: 1px solid #dddddd;
+
+        > a {
+            display: block;
+        }
+
+        .nav-header {
+            border-left: 3px solid #3bb4f2;
+            padding: 0 1em;
+            margin-bottom: .4em;
+            margin-top: 10px;
+            color:#555;
+        }
+
+        .nav-ordinary {
+            padding-top: .3em;
+            padding-bottom: .3em;
+            font-size: 16px;
+            padding: .4em 1em;
+            color: #888;
+        }
+
+        .select {
+            color:#3bb4f2;
+        }
+
+        .nav-ordinary:hover {
+            background:#eeeeee;
+        }
+
+    }
+
+    .Main-Content-detailed {
+        position: relative;
+        flex: auto;
+        left: -1px;
+        border-left: 1px solid #dddddd;
+
+        .detailed-title {
+            margin-left: 50px;
+
+            >div {
+                padding: 1.6rem 0px 1rem;
+                font-size: 24px;
+                border-bottom: 3px double #dddddd;
+            }
+        }
+
+        .detailed-Item {
+            position: relative;
+            padding-left: 50px;
+            padding-top: 30px;
+
+            .Item-content {
+                box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+                transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+                padding:30px 30px 15px;
+
+                .Main-Title {
+                    font-size: 24px;
+                    color: #888;
+                    line-height: 1.3;
+                    padding-bottom:10px;
+                }
+
+                .Main-SubTitle {
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    font-size: 0.825em;
+                    color: #888;
+                    padding-bottom: 15px;
+                }
+                
+                .Main-line {
+                    padding-bottom:15px;
+                    border-top: 3px double #dddddd;
+                }
+
+                .Main-img {
+                    width: 100%;
+                    margin-bottom: 8px;
+                }
+
+                .Main-brief {
+                    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+                    font-size: 16px;
+                    line-height: 1.7;
+                    text-indent:2em;
+                    color: #737373;
+                }
+
+                .Main-Bottom {
+                    padding-top:10px;
+                    overflow: hidden;
+
+                    a {
+                        color: #888;
+                        text-decoration: none;
+                    }
+
+                    a:visited {
+                        color: #888;
+                    }
+
+                    > div {
+                        color: #888;
+                        font-size: 14px;
+                    }
+
+                    .Bottom-Left {
+                        float: left;
+                    }
+                
+                    .Bottom-Right {
+                        float: right;
+                    }
+
+                    .Bottom-Right:hover, span:hover {
+                        color: #3bb4f2;
+                    }
+                }
+            }
+
+        }
+        
+        .detailed-More {
+            margin-top: 30px;
+            margin-left: 50px;
+
+            .FlatButton {
+                width: 100%;
+                color:#888;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+                transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+            }
+
+            .FlatButton:hover {
+                color:#888;
+            }
+
+        }
+    }
+}
+
+// Copyright
+.Copyright {
+	min-width: 1170px;
+
+    .bottom-Tail {
+
+        position: relative;
+		left: -1px;
+		height: 50px;
+		width: 165px;
+		border-right: 1px solid #dddddd;
+        margin-bottom: 100px;
+        
+		.point {
+			position: absolute;
+			right: -6.5px;
+			bottom:-5px;
+			width: 11px;
+			height: 11px;
+			border-radius: 6px;
+			background:#dddddd;
+			transition: all 0.4s;
+			-moz-transition: all 0.4s;	/* Firefox 4 */
+			-webkit-transition: all 0.4s;	/* Safari 和 Chrome */
+			-o-transition: all 0.4s;	/* Opera */
+        }
+        
+		.point:hover {
+			background:#f44336;
+		}
+    }
+    
+	.Copyright {
+		color: #888;
+		text-align: center;
+		font-size: 14px;
+	}
+
+}
 

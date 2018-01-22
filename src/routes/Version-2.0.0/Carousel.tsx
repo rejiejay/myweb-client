@@ -14,37 +14,35 @@ export default class Carousel extends React.Component {
   }
 
   MoveLeft() {
-    const SwiperContainDOM = document.getElementById('SwiperContain');
-    let DOMoffset = parseInt(SwiperContainDOM.getAttribute('data-offset'));
+    const CarouselContainDOM = document.getElementById('CarouselContain');
+    let DOMoffset = parseInt(CarouselContainDOM.getAttribute('data-offset'));
 
     DOMoffset = DOMoffset <= 0 ? 0 : DOMoffset - 400;
     
-    SwiperContainDOM.setAttribute('style', `left:-${DOMoffset}px;`);
-    SwiperContainDOM.setAttribute('data-offset', `${DOMoffset}`);
+    CarouselContainDOM.setAttribute('style', `left:-${DOMoffset}px;`);
+    CarouselContainDOM.setAttribute('data-offset', `${DOMoffset}`);
   }
 
   MoveRight() {
     const visibleWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     const MAXoffset = 3580 - visibleWidth;
-    const SwiperContainDOM = document.getElementById('SwiperContain');
-    let DOMoffset = parseInt(SwiperContainDOM.getAttribute('data-offset'));
+    const CarouselContainDOM = document.getElementById('CarouselContain');
+    let DOMoffset = parseInt(CarouselContainDOM.getAttribute('data-offset'));
 
     DOMoffset = DOMoffset >= (MAXoffset - 400) ? MAXoffset : DOMoffset + 400;
 
-    SwiperContainDOM.setAttribute('style', `left:-${DOMoffset}px;`);
-    SwiperContainDOM.setAttribute('data-offset', `${DOMoffset}`);
-  }
-
-  renderCarouselBox() {
-    return CarouselBox.renderAll();
+    CarouselContainDOM.setAttribute('style', `left:-${DOMoffset}px;`);
+    CarouselContainDOM.setAttribute('data-offset', `${DOMoffset}`);
   }
 
   render() {
+    const CarouselBoxNode = CarouselBox.renderAll();
+
     return (
-      <div className="Swiper">
-        <div className="MoveLeft Selected" onClick={this.MoveLeft}><div className='Icon Selected'></div></div>
-        <div className="MoveRight Selected" onClick={this.MoveRight}><div className='Icon Selected'></div></div>
-        {this.renderCarouselBox.call(this)}
+      <div className="Carousel">
+        <div className="MoveLeft" onClick={this.MoveLeft}><div className='Icon'></div></div>
+        <div className="MoveRight" onClick={this.MoveRight}><div className='Icon'></div></div>
+        {CarouselBoxNode}
       </div>
     );
   }
