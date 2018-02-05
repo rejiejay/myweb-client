@@ -9,7 +9,7 @@ declare let System: any;
 
 import { RouterStore, UserStore } from './../models';
 
-import Todo from './Todo/index';
+import English from './English/index';
 
 // enable MobX strict mode
 useStrict(true);
@@ -27,7 +27,8 @@ ReactDOM.render(
   <Provider {...rootStores} >
     <Router history={history} >
       <Switch>
-        <Route exact path="/" component={Todo} />
+        <Route exact path="/" component={English} />
+        <Route path="/todo/" component={asyncComponent({ resolve: () => System.import('./Todo/index') })} />
         <Route path="/version/2/home" component={asyncComponent({ resolve: () => System.import('./Version-2.0.0/index') })} />
       </Switch>
     </Router>
