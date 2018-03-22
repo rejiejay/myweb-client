@@ -2,17 +2,16 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import Vuex from 'vuex';
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-import './index.less';
+
 import store from './store/index';
 import router from './router';
 import Index from './index.vue';
 
+import './index.less';
+
 // Vue.config.productionTip = false
 
 Vue.use(Vuex);
-Vue.use(ElementUI);
 
 // 取消首屏加载动画
 document.getElementById('loading').innerHTML = '';
