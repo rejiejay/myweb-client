@@ -1,82 +1,95 @@
 <template>
   <div class="Mobile">
-    <h1>手机端</h1>
-    <div>
 
-    <div style="padding:15px;">
-      <x-button type="primary" plain @click.native="showPlugin">Used as a plugin</x-button>
+    <div class="navbar">
+      <div>
+        <div class="navbar-heard-item" 
+          @click="changeTab('home')"
+        >主页</div>
+        <div class="navbar-heard-item" 
+          @click="changeDynamicTab('dynamic')"
+        >动态 ({{sortByDynamic}})</div>
+        <div class="navbar-heard-item" 
+          @click="changeTab('group')"
+        >分组</div>
+      </div>
     </div>
 
-    <group title="1">
-      <datetime
-        title="1"
-        v-model="value1"
-        @on-change="change"
-        @on-cancel="log('cancel')"
-        @on-confirm="log('confirm')"
-        @on-hide="log('hide', $event)"></datetime>
-    </group>
-     
+    <div class="tab-container">
+      <div>
+        <div class="tab-item" v-if="navSelected === 'home'">
+          
+        </div>
+        <div class="tab-item" v-if="navSelected === 'dynamic'">
+          
+        </div>
+        <div class="tab-item" v-if="navSelected === 'group'">
+          
+        </div>
+      </div>
+
     </div>
+
+    <mt-actionsheet
+      :actions="sortDynamiAactions"
+      v-model="sheetVisible">
+    </mt-actionsheet>
   </div>
 </template>
 
 <script>
 
 import Vue from 'vue';
-import { Datetime, Group, XButton, LoadingPlugin } from 'vux';
+import { Actionsheet } from 'mint-ui';
+import 'mint-ui/lib/actionsheet/style.css';
 
-Vue.use(Datetime);
-Vue.use(Group);
-Vue.use(XButton);
-Vue.use(LoadingPlugin)
+Vue.component(Actionsheet.name, Actionsheet);
 
 export default {
   name: 'Mobile',
   
-  components: {
-    Datetime,
-    Group,
-    XButton
-  },
+  components: { },
 
-data () {
+  data () {
     return {
-      value1: '2015-11-12',
+      navSelected: 'dynamic',
+      sortByDynamic: '时间↓', // 时间↑ 时间↓ 赞同 乱序
+      sheetVisible: false,
+      sortDynamiAactions: [
+        {name: '按照最久远时间↑', method: () => this.changeSortDynamic('timeUp')},
+        {name: '按照最新时间↓', method: () => this.changeSortDynamic('timeDowm')},
+        {name: '按照赞同量', method: () => this.changeSortDynamic('approval')},
+        {name: '乱序', method: () => this.changeSortDynamic('shuffle')},
+      ],
     }
   },
 
   methods: {
-    log (str1, str2 = '') {
-      console.log(str1, str2)
+    changeTab: function (newnavSelected) {
+      this.navSelected = newnavSelected;
     },
-    change (value) {
-      console.log('change', value)
+
+    changeSortDynamic: function(sortWay) {
+      let sortList = {
+        'timeUp': '时间↑',
+        'timeDowm': '时间↓',
+        'approval': '赞同',
+        'shuffle': '乱序',
+      };
+      this.sortByDynamic = sortList[sortWay];
     },
-    showPlugin () {
-      this.$vux.loading.show({
- text: 'Loading'
-})
-      // this.$vux.datetime.show({
-      //   cancelText: '取消',
-      //   confirmText: '确定',
-      //   format: 'YYYY-MM-DD HH',
-      //   value: '2017-05-20 18',
-      //   onConfirm (val) {
-      //     console.log('plugin confirm', val)
-      //   },
-      //   onShow () {
-      //     console.log('plugin show')
-      //   },
-      //   onHide () {
-      //     console.log('plugin hide')
-      //   }
-      // })
-    },
+
+    changeDynamicTab: function () {
+     if (this.navSelected === 'dynamic') {
+      this.sheetVisible = true;
+     } else {
+      this.navSelected = 'dynamic';
+     }
+    }
   },
 
   mounted: function() {
-    console.log(1)
+    window.myVue = this;
   }
 }
 

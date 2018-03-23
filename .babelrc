@@ -16,6 +16,10 @@
       {
         "libraryName": "element-ui",
         "styleLibraryName": "theme-chalk"
+      },
+      {
+        "libraryName": "mint-ui",
+        "styleLibraryName": true
       }
     ]
   ]
