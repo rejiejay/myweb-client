@@ -1,15 +1,23 @@
-# 个人网站第二期前端 第四版
+# 个人网站 前端 第三期 
 
-### [首页](http://119.29.140.46/)
+> 使用 react 与 dva 与 antd-mobile 搭建项目
 
-有个 dva/fetch 就不用考虑额外的东西了. 再说我也不考虑兼容性.
+## 项目预览
 
-功能也是一样, 先实现最简单的, 能用就行, 有总比没好的功能, 再考虑复杂的功能.
+[https://www.rejiejay.cn/](http://119.29.140.46/)
 
-### 第四版的目标与期望是什么？
-—— 完成设计稿部分
+## 项目搭建
 
-### 为了达到目标与期望做了以及发生了哪些事？
+``` bash
+# 初始化项目
+npm install
 
-### 如何评估所做以及发生的事情？
+# 运行开发环境, 服务端端口热加载 localhost:8000
+npm run dev
 
+# 项目打包
+npm run build
+
+```
+
+> 更多的请查看 [react](https://reactjs.org/)、[dva](https://github.com/dvajs/dva)、[antd-mobile](https://mobile.ant.design/)、

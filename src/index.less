@@ -1,1 +1,18 @@
-@import "./components/CommonCSS/index";
+// 抽象组件css文件
+@import "./components/index";
+
+// PC端的css文件
+@import "./routes/computer/index";
+
+// 手机端的css文件
+@import "./routes/mobile/index";
+
+#root {
+  height: 100%;
+  width: 100%;
+
+  .router-content {
+    height: 100%;
+    width: 100%;
+  }
+}

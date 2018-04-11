@@ -3,12 +3,11 @@ let config = (() => {
 
     if (NODE_ENV === 'development') {
         return {
-            basicUrl: 'http://localhost:3000'
+            url: 'localhost:7001',
         }
     } else {
         return {
-            // basicUrl: 'http://119.29.140.46:1938'
-            basicUrl: 'https://rejiejay.cn/server'
+            url: 'https://www.rejiejay.cn/',
         }
     }
 })();
