@@ -8,6 +8,8 @@ import {
 } from 'antd-mobile';
 // import convertTime from './../../../utils/convertTime.js';
 
+import './index.less';
+
 class dynamic extends Component {
   constructor(props) {
     super(props);

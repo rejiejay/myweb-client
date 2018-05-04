@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import { connect } from 'dva';
 
 import EVA from './../../assets/EVA.jpg';
+import homePageArticles from './../../models/ajax/homePageArticles.js';
 
+// 主页 分页 内容
 class MobileHome extends Component {
   constructor(props) {
     super(props);
@@ -12,7 +14,7 @@ class MobileHome extends Component {
   }
 
   render() {
-    const data = this.props.homeArticles || [] ;
+    const data = homePageArticles; // 数据来源于 写死
 
     return (
       <div className="mobile-home-main">

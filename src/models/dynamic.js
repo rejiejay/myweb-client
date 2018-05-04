@@ -18,6 +18,7 @@ const dynamicList = [
 
 const dynamicGroup = [
 	{
+		id: 0,
 		name: '分组一',
 		amountOwned: 2,
 		children: [
@@ -38,11 +39,13 @@ const dynamicGroup = [
 			}, 
 		]
 	}, {
+		id: 1,
 		name: '分组二',
 		amountOwned: 0,
 		children: [
 		]
 	}, {
+		id: 2,
 		name: '分组三',
 		amountOwned: 4,
 		children: [
@@ -84,8 +87,11 @@ const dynamic = {
 		namespace: 'dynamic',
 
 		state: {
-			list: dynamicList,
-			group: dynamicGroup
+			total: 100,        // 一共多少条数据
+			list: dynamicList, // 所有动态的数据
+
+			group: dynamicGroup, // 所有分组的数据
+			selectGroupId: 0, // 选中的分组 默认第0 组
 		},
 
 		reducers: {}

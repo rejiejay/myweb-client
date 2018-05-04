@@ -3,6 +3,8 @@ import { connect } from 'dva';
 
 // import convertTime from './../../../utils/convertTime.js';
 
+import './index.less';
+
 class DynamicEdit extends Component {
   constructor(props) {
     super(props);

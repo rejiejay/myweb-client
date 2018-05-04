@@ -7,9 +7,12 @@ import {
   Icon
 } from 'antd-mobile';
 
+import './index.less';
 import MobileHome from './home.js';
 import convertTime from './../../utils/convertTime.js';
 import svg_add from './../../assets/add.svg';
+
+import otherPages from './../../models/ajax/otherPages.js';
 
 const clientWidth = document.documentElement.clientWidth || window.innerWidth || window.screen.width;
 
@@ -19,7 +22,7 @@ class mobile extends Component {
 
     this.state = {
       isSidebarOpen: false,
-      selectedTabs: 'home', // home dynamic group
+      selectedTabs: localStorage.recordTabs ? localStorage.recordTabs : 'home', // home dynamic group
       sortMode: '时间↓'
     };
   }
@@ -29,7 +32,10 @@ class mobile extends Component {
     this.setState({ isSidebarOpen: !this.state.isSidebarOpen });
   }
 
-  // 首页 - 分页
+  /**
+   * 首页 - 分页
+   * 抽象到 home.js 文件夹里
+   */
   renderHome() {
     if (this.state.selectedTabs === 'home') {
       return (
@@ -48,7 +54,7 @@ class mobile extends Component {
  
           <div className="home-redirect">
             <div className="redirect-content">
-              {this.props.otherPages.map((val, key) => (
+              {otherPages.map((val, key) => (
                 <div key={key}
                   onClick={() => window.location.href=val.url}
                 >{val.name}</div>
@@ -61,7 +67,10 @@ class mobile extends Component {
     }
   }
 
-  // 动态 - 分页
+  /**
+   * 动态 - 分页
+   * 数据来源于 redux
+   */
   renderDynamic() {
     const _this = this;
     const selectedTabState = this.state.selectedTabs;
@@ -130,11 +139,17 @@ class mobile extends Component {
     }
   }
 
-  // 分组 - 分页
-  renderGroup() {
-    const groupWidth = (clientWidth - (15 * 3) - 4) / 2;
 
-    const renderChildren = children => {
+  /**
+   * 分组 - 分页
+   * 数据来源于 redux
+   */
+  renderGroup() {
+    const _this = this;
+    const jumpToGroupList = id => { // 跳转到 分组列表
+      _this.props.dispatch(routerRedux.push('/mobile/dynamic/group-list'))
+    }
+    const renderChildren = children => { // 渲染 详情
       let childrenCount = children.length;
 
       if (childrenCount > 0) {
@@ -162,7 +177,7 @@ class mobile extends Component {
             <div className="header-name">动态分组</div>
             <div 
               className="header-label"
-              onClick={() => this.props.dispatch(routerRedux.push('/mobile/dynamic/edit'))}
+              onClick={() => this.props.dispatch(routerRedux.push('/mobile/dynamic/group'))}
             >
               <span>查看详情</span>
               <Icon type='right' />
@@ -173,7 +188,8 @@ class mobile extends Component {
             {this.props.dynamicGroup.map((val, key) => (
               <div key={key}
                 className="group-item"
-                style={{width: `${groupWidth}px`}}
+                onClick={() => jumpToGroupList(key)}
+                style={{width: `${(clientWidth - (15 * 3) - 4) / 2}px`}}
               >
                 <div className="item-content">
                   <div className="group-title">{val.name}</div>
@@ -193,6 +209,7 @@ class mobile extends Component {
     const selectedTabState = this.state.selectedTabs;
 
     let changeTabs = (selectedTabs) => {
+      localStorage.setItem('recordTabs', selectedTabs);
       _this.setState({selectedTabs: selectedTabs});
     }
 
@@ -219,7 +236,7 @@ class mobile extends Component {
     const selectedTabs = this.state.selectedTabs;
 
     const sidebar = (
-      <List>{this.props.otherPages.map((val, index) => (
+      <List>{otherPages.map((val, index) => (
         <List.Item 
           key={index}
           onClick={() => window.location.href=val.url}
@@ -268,7 +285,6 @@ class mobile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  otherPages: state.index.otherPages,
   dynamicList: state.dynamic.list,
   dynamicGroup: state.dynamic.group,
 })

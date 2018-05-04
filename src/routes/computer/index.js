@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { connect } from 'dva';
 
+import './index.less';
+
 class computer extends Component {
   constructor(props) {
     super(props);
