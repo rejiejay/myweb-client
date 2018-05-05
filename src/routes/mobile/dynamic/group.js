@@ -8,6 +8,8 @@ import {
 
 import './index.less';
 
+import Copyright from './../../../components/moblie/copyright.js';
+
 class DynamicGroup extends Component {
   constructor(props) {
     super(props);
@@ -49,12 +51,62 @@ class DynamicGroup extends Component {
 
   // 渲染主要内容
   renderGroup() {
+    const _this = this;
+
+    // 跳转到 分组列表
+    const jumpToGroupList = dynamicGroupItem => { 
+      _this.props.dispatch({ // 设置 选中的分组 id
+        'type': 'dynamic/setSelectGroupId',
+        'selectGroupId': dynamicGroupItem.id
+      });
+
+      // 下面判断 '设置选中的分组id' 是否成功过滤
+      let groupfliter = false;
+      _this.props.dynamicGroup.map(item => {
+        if (item.id === dynamicGroupItem.id) {
+          groupfliter = item;
+        }
+        return item;
+      });
+      
+      if (groupfliter) { // 按理说是成功的
+        _this.props.dispatch(routerRedux.push('/mobile/dynamic/group-list'));
+      } else {
+        alert('未找到分组id, 请检查分组的数据: ' + JSON.stringify(dynamicGroupItem))
+      }
+    }
+    const renderChildren = children => { // 渲染 详情
+      let childrenCount = children.length;
+
+      if (childrenCount > 0) {
+        let renderItem = [];
+        childrenCount = childrenCount >= 3 ? 3 : childrenCount;
+
+        for (let i = 0; i < childrenCount; i++) {
+          renderItem.push(
+            <div key={i}
+              className="group-children"
+            >{children[i].title}</div>
+          )
+        }
+
+        return renderItem
+      } else {
+        return <div className="group-children">暂无内容</div>
+      }
+    }
 
     return (
       <div className="group-main">
         {this.props.dynamicGroup.map((val, key) => (
-          <div className="group-item" key={key}>
-
+          <div key={key}
+            className="group-item"
+            onClick={() => jumpToGroupList(val)}
+          >
+            <div className="item-content">
+              <div className="group-title">{val.name}</div>
+              {renderChildren(val.children)}
+            </div>
           </div>
         ))}
       </div>
@@ -67,6 +119,8 @@ class DynamicGroup extends Component {
         {this.renderNavBar()}
 
         {this.renderGroup()}
+
+        <Copyright />
       </div>
     )
   }

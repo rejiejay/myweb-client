@@ -9,10 +9,11 @@ import {
 
 import './index.less';
 import MobileHome from './home.js';
-import convertTime from './../../utils/convertTime.js';
 import svg_add from './../../assets/add.svg';
 
 import otherPages from './../../models/ajax/otherPages.js';
+import DynamicList from './../../components/moblie/dynamic-list.js';
+import Copyright from './../../components/moblie/copyright.js';
 
 const clientWidth = document.documentElement.clientWidth || window.innerWidth || window.screen.width;
 
@@ -68,8 +69,23 @@ class mobile extends Component {
   }
 
   /**
+   * 判断 '设置选中的分组id' 是否成功过滤
+   */
+  initSelectGroup(setSelectGroupId) {
+    let groupfliter = false;
+    this.props.dynamicGroup.map(item => {
+      if (item.id === setSelectGroupId) {
+        groupfliter = item;
+      }
+      return item;
+    });
+
+    return groupfliter;
+  }
+
+  /**
    * 动态 - 分页
-   * 数据来源于 redux
+   * 数据来源于 redux dynamic
    */
   renderDynamic() {
     const _this = this;
@@ -100,11 +116,27 @@ class mobile extends Component {
       }
     }
 
+    const jumpToGroupEdit = dynamic => { // 跳转到编辑页面
+      _this.props.dispatch({ // 设置 选中的分组 id
+        'type': 'dynamic/setEdit',
+        'selectGroupId': dynamic.whichGroup.id,
+        'edit': dynamic
+      });
+
+      if (_this.initSelectGroup(dynamic.whichGroup.id)) { // 如果成功过滤则 逐步跳转
+        _this.props.dispatch(routerRedux.push('/mobile/dynamic/group'));
+        _this.props.dispatch(routerRedux.push('/mobile/dynamic/group-list'));
+        _this.props.dispatch(routerRedux.push('/mobile/dynamic/edit'));
+      } else { // 如果过滤失败则 直接跳转
+        _this.props.dispatch(routerRedux.push('/mobile/dynamic/edit'));
+      }
+    }
+
     if (this.state.selectedTabs === 'dynamic') {
       return (
         <div className="mobile-dynamic">
           <div className="dynamic-header">
-            <div className="header-name">100/100 条动态</div>
+            <div className="header-name">{this.props.dynamicList.length}/{this.props.dynamicTotal} 条动态</div>
             <div 
               className="header-label"
               onClick={dynamicHandle}
@@ -114,42 +146,39 @@ class mobile extends Component {
             </div>
           </div>
 
-          {this.props.dynamicList.map((val, key) => (
-            <div className="dynamic-item" key={key}>
-              {key === 0 ? <div className="dynamic-line"/> : null}
-              <div className="dynamic-contained">
-                <div className="dynamic-title">{val.title}</div>
-                <div 
-                  className={val.content.length > 90 ? "dynamic-content dynamic-ellipsis" : "dynamic-content"}
-                  >{val.content}</div>
-                <div className="dynamic-other">
-                  <div>
-                    {val.read} 阅读
-                    <span>·</span>
-                    {val.read} 赞同
-                    <span>·</span>
-                    {convertTime.dateToYYYYmmDDhhMM(new Date(val.time))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
+          <DynamicList 
+            data={this.props.dynamicList} 
+            dynamicClick={dynamicItem => jumpToGroupEdit(dynamicItem)}
+          />
         </div>
       )
     }
   }
 
-
   /**
    * 分组 - 分页
-   * 数据来源于 redux
+   * 数据来源于 redux dynamic
    */
   renderGroup() {
     const _this = this;
-    const jumpToGroupList = id => { // 跳转到 分组列表
-      _this.props.dispatch(routerRedux.push('/mobile/dynamic/group-list'))
+
+    // 跳转到 分组列表
+    const jumpToGroupList = dynamicGroupItem => { 
+      _this.props.dispatch({ // 设置 选中的分组 id
+        'type': 'dynamic/setSelectGroupId',
+        'selectGroupId': dynamicGroupItem.id
+      });
+
+      if (this.initSelectGroup(dynamicGroupItem.id)) { // 如果成功过滤则跳转
+        _this.props.dispatch(routerRedux.push('/mobile/dynamic/group'));
+        _this.props.dispatch(routerRedux.push('/mobile/dynamic/group-list'));
+      } else { // 如果过滤失败则跳转分组页面
+        _this.props.dispatch(routerRedux.push('/mobile/dynamic/group'));
+      }
     }
-    const renderChildren = children => { // 渲染 详情
+
+    // 渲染 详情
+    const renderChildren = children => {
       let childrenCount = children.length;
 
       if (childrenCount > 0) {
@@ -188,7 +217,7 @@ class mobile extends Component {
             {this.props.dynamicGroup.map((val, key) => (
               <div key={key}
                 className="group-item"
-                onClick={() => jumpToGroupList(key)}
+                onClick={() => jumpToGroupList(val)}
                 style={{width: `${(clientWidth - (15 * 3) - 4) / 2}px`}}
               >
                 <div className="item-content">
@@ -275,9 +304,7 @@ class mobile extends Component {
             <img alt="add-svg" src={svg_add} />
           </div>
 
-          <div className="mobile-bottom">
-            <div className="bottom-describe">粤ICP备17119404号 Copyright © Rejiejay曾杰杰</div>
-          </div>
+          <Copyright />
         </Drawer>
       </div>
     )
@@ -285,6 +312,7 @@ class mobile extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  dynamicTotal: state.dynamic.total,
   dynamicList: state.dynamic.list,
   dynamicGroup: state.dynamic.group,
 })

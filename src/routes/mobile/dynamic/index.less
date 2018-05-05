@@ -3,7 +3,88 @@
   background-color: #f8f8f8;
 }
 
+.dynamic-group-list .am-navbar,
+.dynamic-group .am-navbar {
+  background-color: #F56C6C;
+}
+
 .dynamic-group {
+  .group-main {
+    padding-top: 15px;
+    padding-right: 15px;
+    overflow: hidden;
+
+    .group-item {
+      margin-left: 15px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+
+      .item-content {
+        padding: 10px;
+        background: #fff;
+      }
+
+      .group-title {
+        font-weight: bold;
+        font-size: 16px;
+        color: #303133;
+        padding-bottom: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .group-children {
+        font-size: 14px;
+        line-height: 22px;
+        color: #303133;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+// 动态分组列表
+.dynamic-group-list {
   position: relative;
+
+  .group-main-header {
+    position: relative;
+    padding: 15px;
+
+    > div {
+      font-size: 14px;
+    }
+
+    .header-name {
+      color: #909399;
+    }
+
+    .header-label {
+      position: absolute;
+      top: 12.5px;
+      right: 15px;
+      color: #909399;
+
+      span {
+        position: relative;
+        top: -6.5px;
+        left: -2px;
+      }
+    }
+  }
+
+  .mobile-bottom {
+    padding-top: 35px;
+    padding-bottom: 5px;
+  
+    .bottom-describe {
+      color: #C0C4CC;
+      text-align: center;
+      font-size: 14px;
+    }
+  }
   
 }
