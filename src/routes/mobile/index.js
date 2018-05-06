@@ -9,11 +9,11 @@ import {
 
 import './index.less';
 import MobileHome from './home.js';
-import svg_add from './../../assets/add.svg';
 
 import otherPages from './../../models/ajax/otherPages.js';
 import DynamicList from './../../components/moblie/dynamic-list.js';
 import Copyright from './../../components/moblie/copyright.js';
+import AddDynamic from './../../components/moblie/dynamic-add-icon.js';
 
 const clientWidth = document.documentElement.clientWidth || window.innerWidth || window.screen.width;
 
@@ -34,7 +34,22 @@ class mobile extends Component {
   }
 
   /**
-   * 首页 - 分页
+   * 判断 '设置选中的分组id' 是否成功过滤
+   */
+  initSelectGroup(setSelectGroupId) {
+    let groupfliter = false;
+    this.props.dynamicGroup.map(item => {
+      if (item.id === setSelectGroupId) {
+        groupfliter = item;
+      }
+      return item;
+    });
+
+    return groupfliter;
+  }
+
+  /**
+   * 渲染 首页 - 分页
    * 抽象到 home.js 文件夹里
    */
   renderHome() {
@@ -69,22 +84,7 @@ class mobile extends Component {
   }
 
   /**
-   * 判断 '设置选中的分组id' 是否成功过滤
-   */
-  initSelectGroup(setSelectGroupId) {
-    let groupfliter = false;
-    this.props.dynamicGroup.map(item => {
-      if (item.id === setSelectGroupId) {
-        groupfliter = item;
-      }
-      return item;
-    });
-
-    return groupfliter;
-  }
-
-  /**
-   * 动态 - 分页
+   * 渲染 动态 - 分页
    * 数据来源于 redux dynamic
    */
   renderDynamic() {
@@ -97,7 +97,7 @@ class mobile extends Component {
       shuffle: '乱序',
     };
 
-    let sortordHandle = (sortord) => {
+    let sortordHandle = sortord => {
       _this.setState({
         sortMode: sortList[sortord]
       });
@@ -117,18 +117,22 @@ class mobile extends Component {
     }
 
     const jumpToGroupEdit = dynamic => { // 跳转到编辑页面
-      _this.props.dispatch({ // 设置 选中的分组 id
-        'type': 'dynamic/setEdit',
-        'selectGroupId': dynamic.whichGroup.id,
-        'edit': dynamic
+      _this.props.dispatch({             // 设置 选中的分组 id 以及编辑页面 和 预览页面
+        type: 'dynamic/initEditPage',
+        selectGroupId: dynamic.whichGroup.id,
+        edit: dynamic,
+        preview: {        // 预览页面
+          title: dynamic.title,
+          content: dynamic.content,
+        },
       });
 
       if (_this.initSelectGroup(dynamic.whichGroup.id)) { // 如果成功过滤则 逐步跳转
         _this.props.dispatch(routerRedux.push('/mobile/dynamic/group'));
         _this.props.dispatch(routerRedux.push('/mobile/dynamic/group-list'));
-        _this.props.dispatch(routerRedux.push('/mobile/dynamic/edit'));
+        _this.props.dispatch(routerRedux.push('/mobile/dynamic/preview'));
       } else { // 如果过滤失败则 直接跳转
-        _this.props.dispatch(routerRedux.push('/mobile/dynamic/edit'));
+        _this.props.dispatch(routerRedux.push('/mobile/dynamic/preview'));
       }
     }
 
@@ -156,7 +160,7 @@ class mobile extends Component {
   }
 
   /**
-   * 分组 - 分页
+   * 渲染 分组 - 分页
    * 数据来源于 redux dynamic
    */
   renderGroup() {
@@ -273,10 +277,30 @@ class mobile extends Component {
       ))}</List>
     );
 
-    const addDynamic = () => {
-      if (selectedTabs === 'group') {
+    const addDynamicFun = () => {
+      if (selectedTabs === 'group') { // 如果是新增分组 则跳到分组页面
+        sessionStorage.setItem('isAddGroup', 'true');
         _this.props.dispatch(routerRedux.push('/mobile/dynamic/group'));
-      } else {
+      } else {// 如果是新增动态 则跳到新增动态页面
+        _this.props.dispatch({ // 设置 选中的分组 id
+          type: 'dynamic/initEditPage',
+          selectGroupId: 0,  // 默认 第0组 未分类组 
+					edit: {            // 编辑的相关数据
+            whichGroup: {    // 所属分组的信息
+              id: 0,         // 默认 第0组 未分类组 
+              name: '未分类'
+            },
+            title: '未命名动态记录',
+            content: '',
+            approved: 0,
+            read: 0,
+            time: Date.parse(new Date()),
+          },
+					preview: {        // 预览页面
+            title: '未命名动态记录',
+            content: '',
+          },
+        });
         _this.props.dispatch(routerRedux.push('/mobile/dynamic/edit'));
       }
     }
@@ -297,12 +321,9 @@ class mobile extends Component {
           {this.renderDynamic()}
           {this.renderGroup()}
 
-          <div 
-            className="mobile-addDynamic"
-            onClick={addDynamic}
-          >
-            <img alt="add-svg" src={svg_add} />
-          </div>
+          <AddDynamic 
+            clickCallBack={addDynamicFun}
+          />
 
           <Copyright />
         </Drawer>

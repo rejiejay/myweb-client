@@ -118,9 +118,13 @@ const dynamic = {
 			list: dynamicList, // 所有动态的数据
 
 			group: dynamicGroup, // 所有分组的数据
-			selectGroupId: 0, // 选中的分组 默认第0 组
+			selectGroupId: 0,    // 选中的分组 默认第0 组
 
-			edit: { // 编辑的相关数据
+			preview: {        // 预览页面
+				title: '',
+				content: '',
+			},
+			edit: {           // 编辑的相关数据
 				whichGroup: { // 所属分组的信息
 					id: 0,
 					name: ''
@@ -141,13 +145,36 @@ const dynamic = {
 				}
 			},
 
-			setEdit(state, data) { // 设置 编辑的相关数据
+			setEditTitle(state, data) { // 设置编辑页面的标题
+				let newEdit = JSON.parse(JSON.stringify(state.edit));
+
+				newEdit.title = data.title
 				return {
+					...state,
+					edit: newEdit
+				}
+			},
+
+			setEditContent(state, data) { // 设置编辑页面的内容
+				let newEdit = JSON.parse(JSON.stringify(state.edit));
+
+				newEdit.content = data.content
+				return {
+					...state,
+					edit: newEdit
+				}
+
+			},
+
+			initEditPage(state, data) { // 设置 编辑页面的相关数据
+				return { //  初始化 selectGroupId 以及 edit preview
 					...state,
 					selectGroupId: data.selectGroupId,
 					edit: data.edit,
+					preview: data.preview,
 				}
-			}
+
+			},
 		}
 	},
 

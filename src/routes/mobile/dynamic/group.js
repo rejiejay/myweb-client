@@ -9,6 +9,7 @@ import {
 import './index.less';
 
 import Copyright from './../../../components/moblie/copyright.js';
+import AddDynamic from './../../../components/moblie/dynamic-add-icon.js';
 
 class DynamicGroup extends Component {
   constructor(props) {
@@ -16,6 +17,13 @@ class DynamicGroup extends Component {
 
     this.state = {
     };
+  }
+
+  componentDidMount() {
+    if (sessionStorage.isAddGroup === 'true') { // 如果有添加分组的操作 则弹出添加分组的模态框
+      this.showGroupPrompt();
+      sessionStorage.removeItem('isAddGroup');
+    }
   }
 
   // 渲染顶部的导航栏
@@ -45,7 +53,31 @@ class DynamicGroup extends Component {
             type="ellipsis" 
           />,
         ]}
-      >动态分组</NavBar>
+      >所有分组</NavBar>
+    )
+  }
+
+  // 添加分组
+  showGroupPrompt() {
+    const submitAddGroup = groupName => {
+
+    }
+
+    Modal.prompt(
+      '添加分组', 
+      '请输入添加分组的名称',
+      [
+        {
+          text: '关闭'
+        },
+        {
+          text: '提交',
+          onPress: value => submitAddGroup(value),
+        },
+      ], 
+      'default', 
+      null, 
+      ['请输入添加分组的名称']
     )
   }
 
@@ -120,6 +152,9 @@ class DynamicGroup extends Component {
 
         {this.renderGroup()}
 
+        <AddDynamic 
+          clickCallBack={this.showGroupPrompt}
+        />
         <Copyright />
       </div>
     )

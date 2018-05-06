@@ -14,7 +14,7 @@ function RouterConfig({ history, app }) {
   const Computer = dynamic({ app, component: () => import('./computer/index') });
 
   const Mobile = dynamic({ app, component: () => import('./mobile/index') });
-  const Dynamic = dynamic({ app, component: () => import('./mobile/dynamic/index') });
+  const DynamicPreview = dynamic({ app, component: () => import('./mobile/dynamic/preview') });
   const DynamicGroup = dynamic({ app, component: () => import('./mobile/dynamic/group') });
   const DynamicGroupList = dynamic({ app, component: () => import('./mobile/dynamic/group-list') });
   const DynamicEdit = dynamic({ app, component: () => import('./mobile/dynamic/edit') });
@@ -25,7 +25,7 @@ function RouterConfig({ history, app }) {
         {browserRedirect(app)}
         <Route path="/pc/index" component={Computer} />
         <Route path="/mobile/index" component={Mobile} />
-        <Route path="/mobile/dynamic/index" component={Dynamic} />
+        <Route path="/mobile/dynamic/preview" component={DynamicPreview} />
         <Route path="/mobile/dynamic/group" component={DynamicGroup} />
         <Route path="/mobile/dynamic/group-list" component={DynamicGroupList} />
         <Route path="/mobile/dynamic/edit" component={DynamicEdit} />

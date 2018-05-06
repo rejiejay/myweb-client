@@ -9,6 +9,7 @@ import {
 import './index.less';
 import DynamicList from './../../../components/moblie/dynamic-list.js';
 import Copyright from './../../../components/moblie/copyright.js';
+import AddDynamic from './../../../components/moblie/dynamic-add-icon.js';
 
 class DynamicGroup extends Component {
   constructor(props) {
@@ -49,6 +50,43 @@ class DynamicGroup extends Component {
       });
     } else { // 过滤失败. 这是不科可能的, 因为在上一步已经判断过了!
 
+    }
+  }
+
+  jumpToGroupEdit(dynamic) { // 跳转到编辑页面
+    if (dynamic) { // 如果是编辑
+      this.props.dispatch({ // 设置 选中的分组id 并且设置分组信息
+        type: 'dynamic/initEditPage',
+        selectGroupId: dynamic.whichGroup.id,
+        edit: dynamic,
+        preview: {        // 预览页面
+          title: dynamic.title,
+          content: dynamic.content,
+        },
+      });
+
+      this.props.dispatch(routerRedux.push('/mobile/dynamic/preview'));
+    } else { // 表示新增
+      this.props.dispatch({ // 设置 选中的分组 id
+        type: 'dynamic/initEditPage',
+        selectGroupId: this.props.selectGroupId,
+        edit: {            // 编辑的相关数据
+          whichGroup: {    // 所属分组的信息
+            id: this.props.selectGroupId,
+            name: this.state.selectGroupItem.name
+          },
+          title: '未命名动态记录',
+          content: '',
+          approved: 0,
+          read: 0,
+          time: Date.parse(new Date()),
+        },
+        preview: {        // 预览页面
+          title: '未命名动态记录',
+          content: '',
+        },
+      });
+      this.props.dispatch(routerRedux.push('/mobile/dynamic/edit'));
     }
   }
 
@@ -95,16 +133,6 @@ class DynamicGroup extends Component {
       ]);
     }
 
-    const jumpToGroupEdit = dynamic => { // 跳转到编辑页面
-      _this.props.dispatch({ // 设置 选中的分组id 并且设置分组信息
-        'type': 'dynamic/setEdit',
-        'selectGroupId': dynamic.whichGroup.id,
-        'edit': dynamic
-      });
-
-      _this.props.dispatch(routerRedux.push('/mobile/dynamic/edit'));
-    }
-
     return (
       <div className="group-main">
 
@@ -121,7 +149,7 @@ class DynamicGroup extends Component {
 
         <DynamicList 
           data={this.state.selectGroupItem.children} 
-          dynamicClick={dynamicItem => jumpToGroupEdit(dynamicItem)}
+          dynamicClick={dynamicItem => this.jumpToGroupEdit(dynamicItem)}
         />
       </div>
     )
@@ -133,6 +161,10 @@ class DynamicGroup extends Component {
         {this.renderNavBar()}
 
         {this.renderGroup()}
+
+        <AddDynamic 
+          clickCallBack={() => this.jumpToGroupEdit(false)}
+        />
 
         <Copyright />
       </div>
