@@ -5,7 +5,7 @@ module.exports = function () {
         if (window.navigator.userAgent.indexOf(val) > 0) {
             isPC = false;
         }
-        return val
+        return val;
     })
 
     if (isPC) {

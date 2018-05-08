@@ -1,3 +1,5 @@
+import ajaxs from './ajaxs';
+
 const dynamicList = [
 	{
 		whichGroup: { // 所属分组的信息
@@ -6,7 +8,13 @@ const dynamicList = [
 		},
 
 		title: '玻璃球测临界点问题《动态规划》按照最久远时间↑按照最久远时间↑按照最久远时间↑',
-		content: '有一栋100层高的大楼，给你两个完全相同的玻璃球完全相同的玻璃球。假设从某一层开始，丢下玻璃球会摔碎。请用最少步数测出小球破裂高度的最小次数。 层高的大楼，给你两个完全相同的玻璃球。假设从某一层开始，丢下玻璃球会摔碎。请用最少步数测出小球破裂高度的最小次数。 ',
+		content: `
+有一栋100层高的大楼，给你两个完全相同的玻璃球完全相同的玻璃球。假设从某一层开始，丢下玻璃球会摔碎。请用最少步数测出小球破裂高度的最小次数。 层高的大楼，给你两个完全相同的玻璃球。假设从某一层开始，丢下玻璃球会摔碎。请用最少步数测出小球破裂高度的最小次数。 
+
+- asdasd
+	- 12323
+		- 啊实打实大
+`,
 		approved: 0,
 		read: 0,
 		time: 1523467674000,
@@ -48,7 +56,13 @@ const dynamicGroup = [
 				},
 
 				title: '玻璃球测临界点问题《动态规划》按照最久远时间↑按照最久远时间↑按照最久远时间↑',
-				content: '有一栋100层高的大楼，给你两个完全相同的玻璃球完全相同的玻璃球。假设从某一层开始，丢下玻璃球会摔碎。请用最少步数测出小球破裂高度的最小次数。 层高的大楼，给你两个完全相同的玻璃球。假设从某一层开始，丢下玻璃球会摔碎。请用最少步数测出小球破裂高度的最小次数。 ',
+				content: `
+有一栋100层高的大楼，给你两个完全相同的玻璃球完全相同的玻璃球。假设从某一层开始，丢下玻璃球会摔碎。请用最少步数测出小球破裂高度的最小次数。 层高的大楼，给你两个完全相同的玻璃球。假设从某一层开始，丢下玻璃球会摔碎。请用最少步数测出小球破裂高度的最小次数。 
+
+- asdasd
+    - 12323
+        - 啊实打实大
+`,
 				approved: 0,
 				read: 0,
 				time: 1523467674000,
@@ -138,14 +152,28 @@ const dynamic = {
 		},
 
 		reducers: {	
-			setSelectGroupId(state, data) { // 设置 选中的分组id
+			// 初始化 list 所有动态的数据
+			initList(state, data) {
+				console.log({
+					...state,
+					list: data.list
+				})
+				return {
+					...state,
+					list: data.list
+				}
+			},
+
+			// 设置 选中分组的 id
+			setSelectGroupId(state, data) { 
 				return {
 					...state,
 					selectGroupId: data.selectGroupId
 				}
 			},
 
-			setEditTitle(state, data) { // 设置编辑页面的标题
+			// 设置 编辑页面的 标题
+			setEditTitle(state, data) { 
 				let newEdit = JSON.parse(JSON.stringify(state.edit));
 
 				newEdit.title = data.title
@@ -155,7 +183,8 @@ const dynamic = {
 				}
 			},
 
-			setEditContent(state, data) { // 设置编辑页面的内容
+			// 设置 编辑页面的 内容
+			setEditContent(state, data) {
 				let newEdit = JSON.parse(JSON.stringify(state.edit));
 
 				newEdit.content = data.content
@@ -166,7 +195,8 @@ const dynamic = {
 
 			},
 
-			initEditPage(state, data) { // 设置 编辑页面的相关数据
+			// 设置 编辑页面的 相关数据
+			initEditPage(state, data) { 
 				return { //  初始化 selectGroupId 以及 edit preview
 					...state,
 					selectGroupId: data.selectGroupId,
@@ -179,10 +209,11 @@ const dynamic = {
 	},
 
 	init: function (app) {
-		// app._store.dispatch({
-		// 	type: 'dynamic/reducers',
-		// 	data: ''
-		// });
+		ajaxs.getDynamicByList()
+		.then(val => app._store.dispatch({
+			type: 'dynamic/initList',
+			list: val.dynamics
+		}));
 	}
 }
 
