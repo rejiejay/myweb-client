@@ -10,7 +10,7 @@ import {
 import './index.less';
 import MobileHome from './home.js';
 
-import otherPages from './../../models/ajax/otherPages.js';
+import ajaxs from './ajaxs.js';
 import DynamicList from './../../components/moblie/dynamic-list.js';
 import Copyright from './../../components/moblie/copyright.js';
 import AddDynamic from './../../components/moblie/dynamic-add-icon.js';
@@ -70,7 +70,7 @@ class mobile extends Component {
  
           <div className="home-redirect">
             <div className="redirect-content">
-              {otherPages.map((val, key) => (
+              {ajaxs.homePageTabs.map((val, key) => (
                 <div key={key}
                   onClick={() => window.location.href=val.url}
                 >{val.name}</div>
@@ -269,7 +269,7 @@ class mobile extends Component {
     const selectedTabs = this.state.selectedTabs;
 
     const sidebar = (
-      <List>{otherPages.map((val, index) => (
+      <List>{ajaxs.homePageTabs.map((val, index) => (
         <List.Item 
           key={index}
           onClick={() => window.location.href=val.url}
