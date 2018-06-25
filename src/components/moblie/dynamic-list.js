@@ -31,7 +31,7 @@ class DynamicList extends Component {
                     <span>·</span>
                     {val.read} 赞同
                     <span>·</span>
-                    {convertTime.dateToYYYYmmDDhhMM(new Date(val.time))}
+                    {convertTime.dateToYYYYmmDDhhMM(new Date(val.timestamp))}
                   </div>
                 </div>
               </div>

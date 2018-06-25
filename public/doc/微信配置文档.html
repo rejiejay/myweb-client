@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Rejiejay网站文档</title>
+    <link rel="stylesheet" href="./dist/index.css"/>
+    <script src="https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/js/jquery.min.js"></script>
+    <script src="https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/js/markdown-it.min.js"></script>
+</head>
+<body>
+<div id="main" class="main"></div>
+
+<script>
+$(document).ready(function(){
+    Main.init()
+});
+
+var Main = {
+    md: null,
+    init: function () {
+        this.md = new markdownit();
+        $('#main').html(this.md.render(mainContent));
+    }
+}
+
+var mainContent = 
+`
+# 微信相关信息
+
+### 订阅号
+gh_298e335a0498
+
+### 登录密码
+
+DF********
+
+### AppID
+
+wx06f92cb00a7f9670
+
+### AppSecret
+
+01dcd0b3250d904eb1ea509f1cc9fcad
+
+
+### 测试号信息
+
+微信号：   gh_3d82bdac4c22  
+
+appID:     wx34ce4f0ce6eadb39
+
+appsecret: 317b46c976749223abf57213fce07b0f
+
+`;
+
+
+</script>
+    
+</body>
+</html>

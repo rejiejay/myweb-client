@@ -1,10 +1,9 @@
 import basrFetch from './../utils/basrFetch';
 
 const ajaxs = {
-    getDynamicByList: function() {
-        return basrFetch.get('/dynamic/getbylist', '动态信息列表');
+    getByListAndGroup: function() {
+        return basrFetch.get('/dynamic/get/listandgroup', '动态信息列表以及分组');
     }
 }
-
 
 export default ajaxs;
