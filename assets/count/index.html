@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>英语计数分组辅助 by Rejiejay</title>
+  <link rel="stylesheet" type="text/css" href='./index.css'></head>
+<body>
+  <div id="main" class="main">
+    <select class="count-select" v-model="countSelect">
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+    </select>
+    
+    <div v-for="btn in btnList">
+      <div
+        class="btn" 
+        v-bind:class="{ 'btn-active': btn.isSelect}"
+        v-on:click="select(btn.id)"
+      >{{btn.name}}</div>
+    </div>
+  </div>
+  
+  <script type="text/javascript" src='https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/js/vue.min.js'></script>
+  <script type="text/javascript" src='./index.js'></script>
+</body>
+</html>

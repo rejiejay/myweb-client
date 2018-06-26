@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Rejiejay网站文档</title>
+    <link rel="stylesheet" href="./dist/index.css"/>
+    <script src="https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/js/jquery.min.js"></script>
+    <script src="https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/js/markdown-it.min.js"></script>
+</head>
+<body>
+<div id="main" class="main"></div>
+
+<script>
+$(document).ready(function(){
+    Main.init()
+});
+
+var Main = {
+    md: null,
+    init: function () {
+        this.md = new markdownit();
+        $('#main').html(this.md.render(mainContent));
+    }
+}
+
+var mainContent = 
+`
+### Nginx 安装目录在哪? 配置文件在哪?
+—— /etc/nginx/nginx.conf
+
+### 如何查看 Nginx 是否启动?
+—— systemctl status nginx  
+—— 80端口 lsof -i:80  
+—— 主进程号 ps -ef | grep nginx  
+
+### 如何停止 Nginx ?
+有 master 的那个
+
+从容停止Nginx：
+kill -QUIT 主进程号
+
+快速停止Nginx：
+kill -TERM 主进程号
+
+强制停止Nginx：
+pkill -9 nginx
+
+> 哪个是主进程号?
+—— 第一个
+
+### 如何启动 Nginx ? 
+> 更多: http://www.nginx.cn/nginxchscommandline  
+
+    sudo /usr/sbin/nginx
+
+### Nginx 如何开启压缩?
+gzip on;
+gzip_min_length 1k;
+gzip_buffers 4 16k;
+gzip_comp_level 6;
+gzip_types text/plain application/x-javascript text/css text/javascript;
+
+`;
+
+
+</script>
+    
+</body>
+</html>

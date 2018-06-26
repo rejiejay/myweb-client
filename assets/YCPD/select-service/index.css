@@ -1,0 +1,108 @@
+body,
+ol,
+ul,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+th,
+td,
+dl,
+dd,
+form,
+fieldset,
+legend,
+input,
+textarea,
+select {
+  margin: 0;
+  padding: 0;
+}
+body {
+  width: 100%;
+  min-height: 100%;
+  background: #fff;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
+}
+html,
+body {
+  background: #efefef;
+}
+a {
+  color: #606266;
+  text-decoration: none;
+}
+a:hover,
+a:active,
+a:focus {
+  text-decoration: underline;
+}
+ol,
+ul {
+  list-style: none;
+}
+li {
+  list-style: none;
+}
+.header {
+  position: relative;
+  height: 50px;
+  line-height: 50px;
+  background: #dc0000;
+  color: #fff;
+  text-align: center;
+}
+.redirect {
+  padding-bottom: 15px;
+}
+.redirect .redirect-title {
+  padding-top: 5px;
+  padding-left: 15px;
+  line-height: 40px;
+  font-size: 16px;
+  color: #303133;
+}
+.redirect .redirect-list {
+  background: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  padding-top: 15px;
+}
+.redirect .redirect-content {
+  overflow: hidden;
+}
+.redirect .redirect-content .redirect-item {
+  padding-bottom: 15px;
+  width: 25%;
+  float: left;
+  text-align: center;
+}
+.redirect .redirect-content .redirect-item .item-content {
+  display: -webkit-box;
+  /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+  display: -moz-box;
+  /* 老版本语法: Firefox (buggy) */
+  display: -ms-flexbox;
+  /* 混合版本语法: IE 10 */
+  display: -webkit-flex;
+  /* 新版本语法: Chrome 21+ */
+  display: flex;
+  /* 新版本语法: Opera 12.1, Firefox 22+ */
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+.redirect .redirect-content .redirect-item .item-content img {
+  width: 44px;
+  height: 44px;
+}
+.redirect .redirect-content .redirect-item .item-name {
+  padding-top: 10px;
+  font-size: 14px;
+  line-height: 22px;
+  color: #606266;
+}

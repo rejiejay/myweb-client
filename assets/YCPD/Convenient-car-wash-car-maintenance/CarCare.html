@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>汽车养护</title>
+    <link href="./index.css" rel="stylesheet">
+    <script type="text/javascript" src="https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/js/jquery.min.js"></script>
+</head>
+<body>
+    <!-- 过滤列表 -->
+    <div class="list filter">
+        <div class="list-title">
+            汽车养护分类
+        </div>
+
+        <div class="list-content" id="filter">
+            <!-- <div class="list-item">
+                <div class="item-content flex-center">
+                    <img src=""/>
+                </div>
+                <div class="item-name flex-center">item.title</div>
+            </div> -->
+        </div>
+    </div>
+
+    <!-- 导航列表 -->
+    <div class="list redirect" id="redirect">
+        <!-- <div class="list-title">group.title</div>
+
+        <div class="list-content">
+            <div class="list-item">
+                <div class="item-content flex-center">
+                    <img src=""/>
+                </div>
+                <div class="item-name flex-center">item.title</div>
+            </div>
+        </div> -->
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            main.init();
+        }); 
+
+        var main = { // 主函数
+            init: function init() {
+                Redirect.init(); // 初始化列表
+            },
+        }
+
+    
+        var Redirect = {
+            filterNum: false,
+
+            group: [
+                {
+                    title: '外观美容',
+                    icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                    list: [
+                        {
+                            name: '安全监测',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '臭氧杀菌',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '燃油宝',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '精致内饰清洗',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '轮毂修复',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        },
+                        {
+                            name: '打蜡',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '玻璃镀膜',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '车身镀晶',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '标准洗车',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '精致洗车',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        },
+                        {
+                            name: '空调清洗',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '发动机舱清洗',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, 
+                    ]
+                }, {
+                    title: '内饰美容',
+                    icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                    list: [
+                        {
+                            name: '补胎-贴片式',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '动平衡服务',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '四轮定位',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '划痕喷漆',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '钣金喷漆',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        },
+                        {
+                            name: '更换刹车油',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '更换冷媒',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '清洗进气道',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '清洗节气门',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '清洗喷油嘴',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        },
+                        {
+                            name: '清洗三元催化',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '清洗润滑系统',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '更换刹车片',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '更换刹车盘',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '更换减震器',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, 
+                        {
+                            name: '更换空调滤',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '更换汽油滤芯(外置)',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '更换汽油滤芯(内置)',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '更换变速箱油(手动)',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '更换变速箱油(自动)',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        },
+                        {
+                            name: '更换正时皮带',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '刹车保养',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        },
+                    ]
+                }, {
+                    title: '刹车养护',
+                    icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                    list: [
+                        {
+                            name: '货车基础保养(柴油)',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '机油保养(矿物等级)',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '机油保养(半合成等级)',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        }, {
+                            name: '机油保养(全合成等级)',
+                            href: '/???.html',
+                            icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                        },
+                    ]
+                }, {
+                    title: '发动机养护',
+                    icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                    list: []
+                }, 
+                {
+                    title: '轮胎养护',
+                    icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                    list: []
+                }, {
+                    title: '空调养护',
+                    icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                    list: []
+                },  {
+                    title: '进气及油路系统养护',
+                    icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                    list: []
+                },  {
+                    title: '雨刮及电池',
+                    icon: "%E7%A9%BA%E8%B0%83%E6%B8%85%E6%B4%97%403x.png",
+                    list: []
+                }, 
+            ],
+
+            renderImg: function renderImg(imgName) {
+                return 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/car_care/' + imgName + '?x-oss-process=image/resize,m_fill,w_56,h_56,limit_0/auto-orient,0/quality,q_100'
+            },
+
+            /**
+            * 渲染过滤列表
+            */
+            renderFilter: function renderFilter() {
+                var _this = this;
+                
+                /**
+                * 点击过滤
+                */
+                var bindEvent = function () {
+                    $('#filter .list-item').each(function (key) {
+                        $(this).click(function () {
+                            _this.filterNum = key === _this.filterNum ? false : key;
+                            _this.init();
+                        })
+                    });
+                }
+
+                var groupDOM = this.group.map(function (item) {
+                    return [
+                        '<div class="list-item">',
+                            '<div class="item-content flex-center">',
+                                '<img src="' + _this.renderImg(item.icon) + '"/>',
+                            '</div>',
+                            '<div class="item-name flex-center">' + item.title + '</div>',
+                        '</div>'
+                    ].join('')
+                }).join('');
+
+                $('#filter').html(groupDOM);
+                bindEvent();
+            },
+
+            /**
+            * 渲染导航列表
+            */
+            renderRedirect: function renderRedirect() {
+                var _this = this;
+
+                /**
+                * 渲染导航列表详情
+                */
+                var renderList = function (list) {
+                    return list.map(function (item) {
+                        return [
+                            '<a class="list-item" href="' + item.href + '">',
+                                '<div class="item-content flex-center">',
+                                    '<img src="' + _this.renderImg(item.icon) + '"/>',
+                                '</div>',
+                                '<div class="item-name flex-center">' + item.name + '</div>',
+                            '</a>'
+                        ].join('');
+                    }).join('');
+                }
+
+                var groupDOM = this.group.map(function (group, key) {
+
+                    /**
+                    * 渲染导航列表详情
+                    */
+                    var renderGroup = function () {
+                        
+                        if (_this.filterNum === false) { // 无过滤(显示所有)
+
+                            return [
+                                '<div class="list-title">',
+                                    '<span>' + group.title + '</span>',
+                                '</div>',
+
+                                '<div class="list-content">',
+                                    renderList(group.list),
+                                '</div>',
+                            ].join('');
+                        } else { // 存在过滤
+
+                            if (_this.filterNum === key) { // 成功过滤
+
+                                return [
+                                    '<div class="list-title">',
+                                        '<span>' + group.title + '</span>',
+                                    '</div>',
+
+                                    '<div class="list-content">',
+                                        renderList(group.list),
+                                    '</div>',
+                                ].join('');
+                            } else {
+                                return ''
+                            }
+                        }
+                    }
+
+                    if (group.list.length > 0) { // 列表不为空
+                        return renderGroup();
+                    } else { // 列表无数据
+                        return ''
+                    }
+                }).join('');
+
+                $('#redirect').html(groupDOM);
+            },
+
+            init: function init() {
+                this.renderFilter();
+                this.renderRedirect();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Rejiejay网站文档</title>
+    <link rel="stylesheet" href="./dist/index.css"/>
+    <script src="https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/js/jquery.min.js"></script>
+    <script src="https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/js/markdown-it.min.js"></script>
+</head>
+<body>
+<div id="main" class="main"></div>
+
+<script>
+$(document).ready(function(){
+    Main.init()
+});
+
+var Main = {
+    md: null,
+    init: function () {
+        this.md = new markdownit();
+        $('#main').html(this.md.render(mainContent));
+    }
+}
+
+var mainContent = 
+`
+### 如何查看我的 mongodb 是否开启?
+
+ps -ef | grep mongo  
+lsof -i:19381  19382 19383
+
+### 如何开启mongodb?
+
+mongod -f /root/MongoDB/conf/19381.conf &  
+mongod -f /root/MongoDB/conf/19382.conf &  
+mongod -f /root/MongoDB/conf/19383.conf &  
+
+Ctrl+Z 切换到后台
+
+### 如何关闭mongodb?
+
+kill -2 [pid]
+
+强制 kill -9 [pid]
+
+### 如何用远程工具登录mongodb?
+19381  
+admin  
+SuperRejiejay  
+~!Qq1938167@#0o  
+
+
+### 如何创建一个新的数据库? (database)
+
+1. 登录 Shell mongo --host 119.29.140.46 --port 19381 -u SuperRejiejay -p '~!Qq1938167@#0o' --authenticationDatabase admin
+
+2. use 新的数据库(new database) 
+
+3. 新增限权 db.createUser({user:"UserRejiejay",pwd:"lsPTpHyoLrUR4eWf",roles:[{role:"readWrite",db:"User"}]})
+
+
+### MongoDB安装位置
+
+/usr/bin/
+
+
+`;
+
+
+</script>
+    
+</body>
+</html>
