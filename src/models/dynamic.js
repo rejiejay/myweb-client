@@ -118,7 +118,7 @@ const dynamic = {
 				list: val.list,
 				group: val.group
 			}), 
-			error => alert(error)// 获取失败则弹出失败信息
+			error => console.error(error)// 获取失败则弹出失败信息
 		);
 	}
 }

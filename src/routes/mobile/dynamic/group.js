@@ -104,7 +104,7 @@ class DynamicGroup extends Component {
       if (groupfliter) { // 按理说是成功的
         _this.props.dispatch(routerRedux.push('/mobile/dynamic/group-list'));
       } else {
-        alert('未找到分组id, 请检查分组的数据: ' + JSON.stringify(dynamicGroupItem))
+        console.error('未找到分组id, 请检查分组的数据: ' + JSON.stringify(dynamicGroupItem))
       }
     }
     const renderChildren = children => { // 渲染 详情
