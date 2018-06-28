@@ -14,6 +14,7 @@ import ajaxs from './ajaxs.js';
 import DynamicList from './../../components/moblie/dynamic-list.js';
 import Copyright from './../../components/moblie/copyright.js';
 import AddDynamic from './../../components/moblie/dynamic-add-icon.js';
+import CreateRandomImages from './../../components/CreateRandomImages.js';
 
 const clientWidth = document.documentElement.clientWidth || window.innerWidth || window.screen.width;
 
@@ -154,12 +155,21 @@ class mobile extends Component {
         </path>
       </svg>
     );
+    let renderBannerImg = () => {
+      let randomImage = CreateRandomImages(false, clientWidth * 2, 250);
+      let showImg = () => {
+        window.location.href = CreateRandomImages(randomImage.id).url;
+      }
+      return (
+        <div className="mobile-banner-img" onClick={showImg}>
+          <img src={randomImage.url} />
+        </div>
+      )
+    }
 
     return (
       <div className="mobile-banner">
-        <div className="mobile-banner-img">
-          <img src={`http://p6ygud9kn.bkt.clouddn.com/myweb/banner.jpg?imageView2/1/w/${clientWidth * 2}/h/${250}/q/100|imageslim`} />
-        </div>
+        {renderBannerImg()}
         <div className="banner-head-portrait">
           <img src='http://p6ygud9kn.bkt.clouddn.com/myweb/portrait.png?imageView2/1/w/200/h/200/q/99|imageslim' />
         </div>
