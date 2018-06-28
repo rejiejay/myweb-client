@@ -105,7 +105,6 @@ const dynamic = {
 					edit: data.edit,
 					preview: data.preview,
 				}
-
 			},
 		}
 	},

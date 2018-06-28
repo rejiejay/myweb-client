@@ -27,6 +27,8 @@ class mobile extends Component {
       selectedTabs: localStorage.recordTabs ? localStorage.recordTabs : 'home', // home dynamic group
       sortMode: '时间↓'
     };
+
+    this.randomImage = CreateRandomImages(false, clientWidth * 2, 250);
   }
 
   // 侧边栏
@@ -53,6 +55,7 @@ class mobile extends Component {
    * 渲染 首页Banner
    */
   renderBanner() {
+    const _this = this;
     let GitHub = (
       <svg t="1530086884294" className="GitHub" viewBox="0 0 1049 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2539" 
         width="28" height="28">
@@ -156,13 +159,12 @@ class mobile extends Component {
       </svg>
     );
     let renderBannerImg = () => {
-      let randomImage = CreateRandomImages(false, clientWidth * 2, 250);
       let showImg = () => {
-        window.location.href = CreateRandomImages(randomImage.id).url;
+        window.location.href = CreateRandomImages(_this.randomImage.id).url;
       }
       return (
-        <div className="mobile-banner-img" onClick={showImg}>
-          <img src={randomImage.url} />
+        <div key='1' className="mobile-banner-img" onClick={showImg}>
+          <img alt="randomImage" src={_this.randomImage.url} />
         </div>
       )
     }
@@ -171,7 +173,7 @@ class mobile extends Component {
       <div className="mobile-banner">
         {renderBannerImg()}
         <div className="banner-head-portrait">
-          <img src='http://p6ygud9kn.bkt.clouddn.com/myweb/portrait.png?imageView2/1/w/200/h/200/q/99|imageslim' />
+          <img alt="portrait" src='http://p6ygud9kn.bkt.clouddn.com/myweb/portrait.png?imageView2/1/w/200/h/200/q/99|imageslim' />
         </div>
         <div className="mobile-banner-content">
           <div className="banner-content-row1">

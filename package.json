@@ -12,7 +12,6 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-markdown": "^3.3.0",
-    "vconsole": "^3.1.0",
     "shelljs": "^0.8.2"
   },
   "devDependencies": {
