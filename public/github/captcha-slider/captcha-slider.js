@@ -308,9 +308,14 @@ var CaptchaSlider = {
 
     var handleMouseMove = function (event) {
       // 位移量
-      var mouseOffset = event.x - originX;
+      var mouseOffset = 0;
+      if (isMobiler) { // 兼容移动端
+        mouseOffset = event.changedTouches[0].clientX - originX;
+      } else {
+        mouseOffset = event.x - originX
+      }
 
-      // 移动范围
+      // 移动到目标 范围
       if (
         mouseOffset > 0 &&  // 不能负数
         mouseOffset < (_this.param.width -  62) // 不能超过
@@ -349,7 +354,7 @@ var CaptchaSlider = {
         }, 1000);
       }
 
-      if (isMobiler) {
+      if (isMobiler) { // 兼容移动端
         window.removeEventListener('touchmove', handleMouseMove);
         window.removeEventListener('touchend', handleMouseEnd);
       } else {
@@ -358,11 +363,11 @@ var CaptchaSlider = {
       }
     };
 
-    if (isMobiler) {
+    if (isMobiler) { // 兼容移动端
       this.element.dragHandle.addEventListener('touchstart', function (event) {
         // 原始坐标
-        originX = event.x;
-        originY = event.y;
+        originX = event.changedTouches[0].clientX;
+        originY = event.changedTouches[0].clientY;
   
         window.addEventListener('touchmove', handleMouseMove);
         window.addEventListener('touchend', handleMouseEnd);
