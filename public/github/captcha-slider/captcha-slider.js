@@ -243,6 +243,27 @@ var CaptchaSlider = {
    */
   initSliderDrag: function initSliderDrag() {
     var _this = this;
+    /**
+     * 判断是否移动设备
+     */
+    var isMobiler = (function () {
+      var isMobile = false;
+  
+      var myWidth = document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth;
+  
+      if (myWidth <= 768) { // 保底策略
+        isMobile = true;
+      }
+  
+      ['Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPod'].map(function (terminal) {
+        if (window.navigator.userAgent.indexOf(terminal) > 0) {
+          isMobile = true;
+        }
+        return terminal;
+      })
+  
+      return isMobile
+    })();
     var succeedIcon = [
       '<svg t="1530238678016" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3369" xmlns:xlink="http://www.w3.org/1999/xlink" ',
         'width="24" height="24">',
@@ -328,17 +349,33 @@ var CaptchaSlider = {
         }, 1000);
       }
 
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseEnd);
+      if (isMobiler) {
+        window.removeEventListener('touchmove', handleMouseMove);
+        window.removeEventListener('touchend', handleMouseEnd);
+      } else {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseEnd);
+      }
     };
 
-    this.element.dragHandle.addEventListener('mousedown', function (event) {
-      // 原始坐标
-      originX = event.x;
-      originY = event.y;
-
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseEnd);
-    });
+    if (isMobiler) {
+      this.element.dragHandle.addEventListener('touchstart', function (event) {
+        // 原始坐标
+        originX = event.x;
+        originY = event.y;
+  
+        window.addEventListener('touchmove', handleMouseMove);
+        window.addEventListener('touchend', handleMouseEnd);
+      }); 
+    } else {
+      this.element.dragHandle.addEventListener('mousedown', function (event) {
+        // 原始坐标
+        originX = event.x;
+        originY = event.y;
+  
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseup', handleMouseEnd);
+      }); 
+    }
   }
 }
