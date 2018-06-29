@@ -6,7 +6,7 @@
  * @return {string} 失败封装的结果
  */
 const CreateRandomImages = (id, width, height) => {
-    let random = id ? id : Math.floor(Math.random() * 70); // 目前有70张
+    let random = id ? id : (Math.floor(Math.random() * 70) + 1); // 目前有70张
 
     if (width && height) {
         return {

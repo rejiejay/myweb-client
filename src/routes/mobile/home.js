@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'dva';
 
-import EVA from './../../assets/EVA.jpg';
 import ajaxs from './ajaxs.js';
 
 // 主页 分页 内容
@@ -21,7 +20,7 @@ class MobileHome extends Component {
         {data.map((val, key) => (
           <div key={key} className="home-item">
             <div className="item-img">
-              <img alt="item" src={EVA} />
+              <img alt="item" src="http://p6ygud9kn.bkt.clouddn.com/myweb/temporary/mobile_index_home_display.jpg" />
             </div>
             <div className="item-main">
               <div className="main-title">

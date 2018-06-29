@@ -1,8 +1,9 @@
 import React from 'react';
 import { Router, Route } from 'dva/router';
+import { routerRedux } from 'dva/router';
 import dynamic from 'dva/dynamic';
 
-import isPC from './../utils/isPC';
+import isMobile from './../utils/isMobile';
 import indexModel from './../models/index';
 import dynamicModel from './../models/dynamic';
 import userModel from './../models/user';
@@ -46,13 +47,17 @@ function RouterConfig({ history, app }) {
 }   
 
 function browserRedirect(app) {
-  const MobilePreview = dynamic({ app, component: () => import('./mobile/preview') });
+  const Mobile = dynamic({ app, component: () => import('./mobile/index') });
   const Computer = dynamic({ app, component: () => import('./computer/index') });
 
-  if (isPC()) {
-
+  if (isMobile()) { // 手机端
+    
+    // 无参数自动跳转到预览页面
+    if (window.location.href.indexOf('?') === -1 && window.location.hash !== '#/mobile/preview/index') {
+      app._store.dispatch(routerRedux.push('/mobile/preview/index'));
+    }
     return (
-      <Route exact path="/" component={MobilePreview} />
+      <Route exact path="/" component={Mobile} />
     )
   } else {
 
