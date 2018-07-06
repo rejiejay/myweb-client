@@ -6,7 +6,7 @@
  * docCookies.keys()
  */
 
-let docCookies = {
+let cookies = {
   getItem: function (sKey) {
     return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
   },
@@ -14,16 +14,14 @@ let docCookies = {
     if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) { return false; }
     let sExpires = "";
     if (vEnd) {
-      switch (vEnd.constructor) {
-        case Number:
-          sExpires = vEnd === Infinity ? "; expires=Fri, 31 Dec 9999 23:59:59 GMT" : "; max-age=" + vEnd;
-          break;
-        case String:
-          sExpires = "; expires=" + vEnd;
-          break;
-        case Date:
-          sExpires = "; expires=" + vEnd.toUTCString();
-          break;
+      if (typeof(vEnd.constructor) === 'number') {
+        return sExpires = vEnd === Infinity ? "; expires=Fri, 31 Dec 9999 23:59:59 GMT" : "; max-age=" + vEnd;
+      }
+      if (typeof(vEnd.constructor) === 'string') {
+        return sExpires = "; expires=" + vEnd;
+      }
+      if (typeof(vEnd.constructor) === 'object') {
+        return sExpires = "; expires=" + vEnd.toUTCString();
       }
     }
     document.cookie = encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + sExpires + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "");
@@ -44,4 +42,4 @@ let docCookies = {
   }
 };
 
-export default docCookies
+export default cookies

@@ -62,6 +62,7 @@ class mobile extends Component {
     // 渲染
     renderOperation() {
         let junpToAdd = () => {
+            sessionStorage.setItem('mobile-preview-isadd', 'true');
             this.props.dispatch(routerRedux.push('/mobile/preview/edit'))
         }
 

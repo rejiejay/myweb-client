@@ -1,5 +1,10 @@
+import config from './../../config';
+import cookies from './../../utils/cookies';
+import axios from 'axios';
+
 const ajaxs = {
-    homePageArticles: [ // 主页的 文章数据 暂时只写在本地, 不上传数据库
+    // 主页的 文章数据 暂时只写在本地, 不上传数据库
+    homePageArticles: [ 
         {
             picURL: '',
             title: 'Hi, 我是曾杰杰。',
@@ -7,7 +12,8 @@ const ajaxs = {
         }
     ],
 
-    homePageTabs: [ // 主页的 Tab数据 以及查看更多的导航
+    // 主页的 Tab数据 以及查看更多的导航
+    homePageTabs: [
         {
             name: '斗鱼',
             url: 'https://www.douyu.com/'
@@ -15,7 +21,35 @@ const ajaxs = {
             name: '百度',
             url: 'https://www.baidu.com/'
         }
-    ]
+    ],
+
+    /**
+     * 保存记录
+     * @param {title} title 必填 标题
+     * @param {content} content 必填 内容
+     * @return {Promise} resolve(true) reject(error)
+     */
+    saveRecord(title, content) {
+        return new Promise((resolve, reject) => {
+            axios({
+                url: `${config.url}/record/save`, 
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8',
+                },
+                data: {
+                    title: title,
+                    content: content,
+                }
+            })
+            .then(response => {
+                resolve(response);
+            })
+            .catch(error => {
+                reject(error);
+            })
+        });
+    }
 }
 
 export default ajaxs;
