@@ -1,6 +1,6 @@
 import config from './../../config';
-import cookies from './../../utils/cookies';
 import axios from 'axios';
+import createSignature from './../../utils/createSignature';
 
 const ajaxs = {
     // 主页的 文章数据 暂时只写在本地, 不上传数据库
@@ -30,17 +30,21 @@ const ajaxs = {
      * @return {Promise} resolve(true) reject(error)
      */
     saveRecord(title, content) {
+        
+        let payloads = {
+            title: title,
+            content: content,
+        }
+
         return new Promise((resolve, reject) => {
             axios({
                 url: `${config.url}/record/save`, 
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json;charset=UTF-8',
+                    'x-hub-signature': createSignature(payloads),
                 },
-                data: {
-                    title: title,
-                    content: content,
-                }
+                data: payloads
             })
             .then(response => {
                 resolve(response);
