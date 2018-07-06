@@ -42,7 +42,7 @@ const ajaxs = {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json;charset=UTF-8',
-                    'x-hub-signature': createSignature(payloads),
+                    'x-rejiejay-signature': createSignature(payloads),
                 },
                 data: payloads
             })
