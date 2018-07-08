@@ -110,15 +110,15 @@ const dynamic = {
 	},
 
 	init: function (app) {
-		ajaxs.getByListAndGroup() // 从远程服务器获取记录的列表与分组
-		.then(
-			val => app._store.dispatch({ // 获取成功则初始化数据
-				type: 'dynamic/initListAndGroup',
-				list: val.list,
-				group: val.group
-			}), 
-			error => console.error(error)// 获取失败则弹出失败信息
-		);
+		// ajaxs.getByListAndGroup() // 从远程服务器获取记录的列表与分组
+		// .then(
+		// 	val => app._store.dispatch({ // 获取成功则初始化数据
+		// 		type: 'dynamic/initListAndGroup',
+		// 		list: val.list,
+		// 		group: val.group
+		// 	}), 
+		// 	error => console.error(error)// 获取失败则弹出失败信息
+		// );
 	}
 }
 
