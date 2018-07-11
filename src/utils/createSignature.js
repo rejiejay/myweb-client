@@ -335,7 +335,8 @@ const mysha1 = createMethod();
  * @return {string} 加密后的结果
  */
 let createSignature = data => {
-    mysha1('ThisRejiejayEncryptPayloads');
+    const token = (window.localStorage && window.localStorage.rejiejay_token) ? window.localStorage.rejiejay_token : '';
+    mysha1(token);
     let hash = mysha1.create();
     hash.update(JSON.stringify(data));
 

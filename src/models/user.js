@@ -15,9 +15,8 @@ const user = {
     
     whetherLogin() { // 判断 登录
         
-        if (localStorage.rejiejay) {
-            let rejiejay = JSON.parse(localStorage.rejiejay);
-            if (rejiejay.password && rejiejay.password === 'qq1938167') {
+        if (localStorage.rejiejay_token) {
+            if (localStorage.rejiejay_token) {
                 return true
             } else {
                 return false

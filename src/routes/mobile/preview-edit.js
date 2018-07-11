@@ -53,6 +53,7 @@ class mobile extends Component {
 
     renderHeader() {
         const _this = this;
+        const isLogin = this.props.user_islogin;
 
         /**
          * 返回上一页
@@ -78,17 +79,25 @@ class mobile extends Component {
                 title = `记录${convertTime.dateToYYYYmmDDhhMM(new Date())}`
             }
 
+            ajaxs.saveRecord(title, content)
+            .then(
+                succeed => {
+                    console.log(succeed);
+                }, error => {
+                    console.log(error);
+                }
+            );
             // 新增状态
-            if (this.state.isAdd) {
-                ajaxs.saveRecord(title, content)
-                .then(
-                    succeed => {
-                        console.log(succeed);
-                    }, error => {
-                        console.log(error);
-                    }
-                );
-            }
+            // if (this.state.isAdd) {
+            //     ajaxs.saveRecord(title, content)
+            //     .then(
+            //         succeed => {
+            //             console.log(succeed);
+            //         }, error => {
+            //             console.log(error);
+            //         }
+            //     );
+            // }
         }
 
         const renderInputFocus = () => { // 渲染自动选中
@@ -96,7 +105,7 @@ class mobile extends Component {
                 return (
                     <input 
                         className="title-input" 
-                        style={{width: clientWidth - 42 - 60}}
+                        style={{width: clientWidth - 42 - 60, background: isLogin ? '#1890ff' : '#F56C6C'}}
                         value={_this.state.title}
                         onChange={event => this.setState({title: event.target.value})}
                         placeholder="请输入动态记录标题"
@@ -107,7 +116,7 @@ class mobile extends Component {
                 return (
                     <input 
                         className="title-input" 
-                        style={{width: clientWidth - 42 - 60}}
+                        style={{width: clientWidth - 42 - 60, background: isLogin ? '#1890ff' : '#F56C6C'}}
                         value={_this.state.title}
                         onChange={event => this.setState({title: event.target.value})}
                         placeholder="请输入动态记录标题"
@@ -116,11 +125,13 @@ class mobile extends Component {
             }
         }
 
+
         return (
-            <div className="edit-header">
+            <div className="edit-header" style={{background: isLogin ? '#1890ff' : '#F56C6C'}}>
                 <div 
                     className="title-icon"
                     onClick={turnBack}
+                    style={{background: isLogin ? '#1890ff' : '#F56C6C'}}
                 >
                     <Icon type="left" />
                 </div>
@@ -128,6 +139,7 @@ class mobile extends Component {
                 {renderInputFocus()}
 
                 <div className="title-complete"
+                    style={{background: isLogin ? '#1890ff' : '#F56C6C'}}
                     onClick={submit}
                 >完成</div>
             </div>
@@ -232,4 +244,8 @@ class mobile extends Component {
     }
 }
 
-export default connect()(mobile);
+const mapStateToProps = state => ({
+  user_islogin: state.user.isLogin,
+})
+
+export default connect(mapStateToProps)(mobile);

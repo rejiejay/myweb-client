@@ -41,13 +41,17 @@ const ajaxs = {
                 url: `${config.url}/record/save`, 
                 method: 'post',
                 headers: {
-                    'Content-Type': 'application/json;charset=UTF-8',
+                    'Content-Type': 'application/json',
                     'x-rejiejay-signature': createSignature(payloads),
                 },
                 data: payloads
             })
             .then(response => {
-                resolve(response);
+                if (response.status === 200) {
+                    resolve(response.data);
+                } else {
+                    reject(response.statusText);
+                }
             })
             .catch(error => {
                 reject(error);

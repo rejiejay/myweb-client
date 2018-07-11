@@ -2,17 +2,12 @@ import React, {Component} from 'react';
 import { connect } from 'dva';
 
 import './index.less';
-import convertTime from './../../../utils/convertTime';
 
 class IndexRecord extends Component {
     constructor(props) {
         super(props);
 
         let newDate = new Date();
-
-        console.log(convertTime);
-        console.log(newDate.getDate());
-        console.log(newDate.getDay());
 
         this.state = {
             year: newDate.getFullYear(),

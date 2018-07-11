@@ -21,6 +21,7 @@ class mobile extends Component {
 
     renderHeader() {
         const _this = this;
+        const isLogin = this.props.user_islogin;
 
         let toHome = () => { // 跳转到主页
             _this.props.dispatch(routerRedux.push('/mobile/index'));
@@ -28,10 +29,10 @@ class mobile extends Component {
 
         return (
             <div className="preview-header flex-start">    
-                <div className="title-icon" onClick={toHome}>
+                <div className="title-icon" onClick={toHome} style={{background: isLogin ? '#1890ff' : '#F56C6C'}}>
                     <Icon type="left" />
                 </div>
-                <div className="title-input flex-rest" onClick={() => this.junpToEdit('title')}>
+                <div className="title-input flex-rest" onClick={() => this.junpToEdit('title')} style={{background: isLogin ? '#1890ff' : '#F56C6C'}}>
                     {this.state.title}
                 </div>
             </div>
@@ -61,6 +62,8 @@ class mobile extends Component {
 
     // 渲染
     renderOperation() {
+        const isLogin = this.props.user_islogin;
+
         let junpToAdd = () => {
             sessionStorage.setItem('mobile-preview-isadd', 'true');
             this.props.dispatch(routerRedux.push('/mobile/preview/edit'))
@@ -69,9 +72,10 @@ class mobile extends Component {
         return (
             <div className="mobile-operation">
                 <div className="mobile-operation-item"
+                    style={{background: isLogin ? '#1890ff' : '#F56C6C'}}
                     onClick={junpToAdd}
                 >新增</div>
-                <div className="mobile-operation-item">下一篇</div>
+                <div className="mobile-operation-item" style={{background: isLogin ? '#1890ff' : '#F56C6C'}}>下一篇</div>
             </div>
         );
 
@@ -90,4 +94,8 @@ class mobile extends Component {
     }
 }
 
-export default connect()(mobile);
+const mapStateToProps = state => ({
+  user_islogin: state.user.isLogin,
+})
+
+export default connect(mapStateToProps)(mobile);

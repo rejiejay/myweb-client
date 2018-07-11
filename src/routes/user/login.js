@@ -71,7 +71,7 @@ class login extends Component {
                     if (response.result === 1) {
                         alert('登录成功!');
                         localStorage.setItem('rejiejay_password', _this.state.password);
-                        localStorage.setItem('rejiejay_token', _this.state.password);
+                        localStorage.setItem('rejiejay_token', response.data.token);
                         _this.props.dispatch(routerRedux.push('/'));
                     } else if (response.result === 6666) {
                         _this.setState({modal: {
