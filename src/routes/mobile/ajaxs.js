@@ -25,8 +25,8 @@ const ajaxs = {
 
     /**
      * 保存记录
-     * @param {title} title 必填 标题
-     * @param {content} content 必填 内容
+     * @param {string} title 必填 标题
+     * @param {string} content 必填 内容
      * @return {Promise} resolve(true) reject(error)
      */
     saveRecord(title, content) {
