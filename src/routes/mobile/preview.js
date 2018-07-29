@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 
-import { Icon } from 'antd-mobile';
+import { Icon, Modal, Toast } from 'antd-mobile';
 import ReactMarkdown from 'react-markdown';
 
 import './preview.less';
+
+import ajaxs from './ajaxs';
 
 const clientHeight = document.documentElement.clientHeight || window.innerHeight || window.screen.height;
 
@@ -14,9 +16,38 @@ class mobile extends Component {
         super(props);
 
         this.state = {
-            title: '标题',
-            content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget.`,
+            title: '正在加载...',
+            content: '正在加载...',
         }
+        this.id = 0;
+    }
+
+    // 组件第一次渲染完成，此时dom节点已经生成，可以在这里调用ajax请求
+    componentDidMount() {
+        this.getOneByRandom();
+    }
+
+    getOneByRandom() {
+        const _this = this;
+
+        Toast.loading('正在加载', 5);
+
+        ajaxs.getOneByRandom().then(
+            value => {
+                Toast.hide();
+                _this.id = value.id;
+                _this.setState({
+                    title: value.title,
+                    content: value.content,
+                })
+            }, error => {
+                Toast.hide();
+                Modal.alert('获取记录出错', `原因: ${error}`, [
+                    { text: '取消' },
+                    { text: '重新获取', onPress: () => _this.getOneByRandom() },
+                ])
+            }
+        )
     }
 
     renderHeader() {
@@ -75,7 +106,11 @@ class mobile extends Component {
                     style={{background: isLogin ? '#1890ff' : '#F56C6C'}}
                     onClick={junpToAdd}
                 >新增</div>
-                <div className="mobile-operation-item" style={{background: isLogin ? '#1890ff' : '#F56C6C'}}>下一篇</div>
+                <div 
+                    className="mobile-operation-item" 
+                    style={{background: isLogin ? '#1890ff' : '#F56C6C'}}
+                    onClick={this.getOneByRandom.bind(this)}
+                >下一篇</div>
             </div>
         );
 

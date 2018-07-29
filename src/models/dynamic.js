@@ -1,4 +1,4 @@
-import ajaxs from './ajaxs';
+// import ajaxs from './ajaxs';
 
 const dynamic = {
 	data: {

@@ -24,6 +24,36 @@ const ajaxs = {
     ],
 
     /**
+     * 获取一条记录
+     * @return {Promise} resolve(true) reject(error)
+     */
+    getOneByRandom() {
+        return new Promise((resolve, reject) => {
+            axios({
+                url: `${config.url}/record/get/one`, 
+                method: 'get',
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    if (
+                        response.data && // 存在返回数据
+                        response.data.result === 1 // 并且结果正确
+                    ) {
+                        resolve(response.data.data);
+                    } else {
+                        resolve(response.data.message);
+                    }
+                } else {
+                    reject(response.statusText);
+                }
+            })
+            .catch(error => {
+                reject(error);
+            })
+        });
+    },
+
+    /**
      * 保存记录
      * @param {string} title 必填 标题
      * @param {string} content 必填 内容
