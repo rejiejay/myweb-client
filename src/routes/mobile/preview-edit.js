@@ -28,24 +28,10 @@ class mobile extends Component {
             
             return autofocus
         }
-        /**
-         * 判断页面 新增/编辑
-         * @return {boolean}
-         */
-        const initPageisAdd = () => {
-            let isAdd = false;
-            if (sessionStorage['mobile-preview-isadd'] === 'true') {
-                isAdd = true
-            }
-            sessionStorage.removeItem('mobile-preview-isadd');
-            
-            return isAdd
-        }
 
         this.state = {
-            isAdd: initPageisAdd(), // 整个页面是否是新增
-            title: '',
-            content: '',
+            title: props.previewTitle,
+            content: props.previewContent,
         }
       
         this.autofocus = initAutoFocus();
@@ -79,50 +65,54 @@ class mobile extends Component {
                 title = `记录${convertTime.dateToYYYYmmDDhhMM(new Date())}`
             }
 
-            ajaxs.saveRecord(title, content)
-            .then(
-                succeed => {
-                    console.log(succeed);
-                }, error => {
-                    console.log(error);
-                }
-            );
-            // 新增状态
-            // if (this.state.isAdd) {
-            //     ajaxs.saveRecord(title, content)
-            //     .then(
-            //         succeed => {
-            //             console.log(succeed);
-            //         }, error => {
-            //             console.log(error);
-            //         }
-            //     );
-            // }
+            // 判断是否编辑
+            if (_this.props.previewId) { // 表示编辑状态
+                sessionStorage.setItem('isPreviewSave', 'true'); // 表示已经提交了
+                
+            } else {
+                ajaxs.saveRecord(title, content)
+                .then(
+                    value => {
+                        // 成功 保存状态 并且返回上一页
+                            sessionStorage.setItem('isPreviewSave', 'true'); // 表示已经提交了
+                            _this.props.dispatch({
+                            type: 'index/setPreviewId',
+                            id: value.id,
+                            title: value.title,
+                            content: value.content,
+                        });
+                        _this.props.dispatch(routerRedux.goBack());
+                    }, error => {
+                        Modal.alert('保存记录出错', `原因: ${error}`, [
+                            { text: '确定' },
+                        ]);
+                    }
+                );
+            }
         }
 
-        const renderInputFocus = () => { // 渲染自动选中
-            if (_this.autofocus && _this.autofocus === 'title') {
-                return (
-                    <input 
-                        className="title-input" 
-                        style={{width: clientWidth - 42 - 60, background: isLogin ? '#1890ff' : '#F56C6C'}}
-                        value={_this.state.title}
-                        onChange={event => this.setState({title: event.target.value})}
-                        placeholder="请输入动态记录标题"
-                        autoFocus
-                    />
-                )
-            } else {
-                return (
-                    <input 
-                        className="title-input" 
-                        style={{width: clientWidth - 42 - 60, background: isLogin ? '#1890ff' : '#F56C6C'}}
-                        value={_this.state.title}
-                        onChange={event => this.setState({title: event.target.value})}
-                        placeholder="请输入动态记录标题"
-                    />
-                )
+        /**
+         * 渲染输入框
+         */
+        const renderInputFocus = () => { 
+            const InputTitleHandle = event => {
+                _this.props.dispatch({
+                    type: 'index/setPreviewTitle',
+                    title: event.target.value
+                });
+                _this.setState({title: event.target.value})
             }
+
+            return (
+                <input 
+                    className="title-input" 
+                    style={{width: clientWidth - 42 - 60, background: isLogin ? '#1890ff' : '#F56C6C'}}
+                    value={_this.state.title}
+                    onChange={InputTitleHandle}
+                    placeholder="请输入动态记录标题"
+                    autoFocus={(_this.autofocus && _this.autofocus === 'title') ? true : false }
+                />
+            )
         }
 
 
@@ -150,47 +140,46 @@ class mobile extends Component {
     renderMDEditor() {
         const _this = this;
   
-        const renderInputFocus = () => { // 渲染自动选中
-            if (_this.autofocus && _this.autofocus === 'content') {
-                return (
-                    <TextareaItem
-                        value={_this.state.content}
-                        placeholder="请输入动态与记录"
-                        autoHeight
-                        onChange={event => this.setState({content: event})}
-                        autoFocus
-                    />
-                )
+        let minHeight = () => {
+            if (_this.props.previewId) { // 编辑状态下
+                return clientHeight - 40
             } else {
-                return (
-                    <TextareaItem
-                        value={_this.state.content}
-                        placeholder="请输入动态与记录"
-                        onChange={event => this.setState({content: event})}
-                        autoHeight
-                    />
-                )
+                return clientHeight - 80
             }
+        }
+
+        /**
+         * 渲染输入框
+         */
+        const renderInputFocus = () => {
+            const InputContentHandle = value => {
+                _this.props.dispatch({
+                    type: 'index/setPreviewContent',
+                    content: value
+                });
+                _this.setState({content: value});
+            }
+
+            return (
+                <TextareaItem
+                    value={_this.state.content}
+                    placeholder="请输入动态与记录"
+                    autoHeight
+                    onChange={InputContentHandle}
+                    style={{minHeight: minHeight() - 30}}
+                    autoFocus={(_this.autofocus && _this.autofocus === 'content') ? true : false}
+                />
+            )
         }
   
         return (
             <div className="edit-input"
-                style={{minHeight: clientHeight - (40 * 2)}}
+                style={{minHeight: minHeight()}}
             >
                 {renderInputFocus()}
             </div>
         );
     }
-
-    junpToEdit(autofocuItem) {
-        if (autofocuItem === 'title') { // 自动选中标题
-            sessionStorage.setItem('autofocus', 'title');
-        } else if (autofocuItem === 'content') { // 自动选中标题
-            sessionStorage.setItem('autofocus', 'content');
-        }
-        this.props.dispatch(routerRedux.push('/mobile/edit'))
-    }
-
 
     /**
      * 渲染 删除按钮
@@ -215,7 +204,8 @@ class mobile extends Component {
             ]);
         }
 
-        if (!this.state.isAdd) {
+        // 判断页面是否编辑
+        if (this.props.previewId) {
             return (
                 <div className="preview-edit-delete"
                     onClick={deleteHandle}
@@ -246,6 +236,9 @@ class mobile extends Component {
 
 const mapStateToProps = state => ({
   user_islogin: state.user.isLogin,
+  previewId: state.index.previewId,
+  previewTitle: state.index.previewTitle,
+  previewContent: state.index.previewContent,
 })
 
 export default connect(mapStateToProps)(mobile);

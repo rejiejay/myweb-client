@@ -78,7 +78,14 @@ const ajaxs = {
             })
             .then(response => {
                 if (response.status === 200) {
-                    resolve(response.data);
+                    if (
+                        response.data && // 存在返回数据
+                        response.data.result === 1 // 并且结果正确
+                    ) {
+                        resolve(response.data.data);
+                    } else {
+                        resolve(response.data.message);
+                    }
                 } else {
                     reject(response.statusText);
                 }

@@ -19,19 +19,62 @@ class mobile extends Component {
             title: '正在加载...',
             content: '正在加载...',
         }
-        this.id = 0;
+        this.id = props.previewId;
+
+        if ( // 如果数据未被清空, 说明编辑状态下未提交啥的
+            props.previewTitle &&
+            props.previewContent
+        ) {
+            this.state = {
+                title: props.previewTitle,
+                content: props.previewContent,
+            }
+        }
     }
 
     // 组件第一次渲染完成，此时dom节点已经生成，可以在这里调用ajax请求
     componentDidMount() {
-        this.getOneByRandom();
+        const _this = this;
+        // 判断是否提交
+        if (sessionStorage.isPreviewSave === 'true') { // 表示已经提交过了
+            sessionStorage.removeItem('isPreviewSave'); // 仅一次
+        } else { // 表示未提交
+            // 判断是否从编辑页面返回
+            if ( // 从编辑页面返回的情况
+                this.props.previewTitle &&
+                this.props.previewContent
+            ) {
+                // 判断从编辑页面返回的是 新增状态 还是 编辑状态
+                if (this.props.previewId) { // 编辑状态
+
+                } else { // 新增状态
+                    ajaxs.saveRecord(this.props.previewTitle, this.props.previewContent)
+                    .then(
+                        value => {
+                            // 成功 保存状态
+                            _this.props.dispatch({
+                                type: 'index/setPreviewId',
+                                id: value.id,
+                                title: value.title,
+                                content: value.content,
+                            });
+                        }, error => {
+                            Modal.alert('自动保存记录出错', `原因: ${error}`, [
+                                { text: '确定' },
+                            ]);
+                        }
+                    );
+                }
+            } else { // 不是从编辑页面返回
+                this.getOneByRandom(); // 随机获取一条数据
+            }
+        }
     }
 
     getOneByRandom() {
         const _this = this;
 
-        Toast.loading('正在加载', 5);
-
+        Toast.loading('正在加载', 5); // 显示 正在加载
         ajaxs.getOneByRandom().then(
             value => {
                 Toast.hide();
@@ -39,7 +82,13 @@ class mobile extends Component {
                 _this.setState({
                     title: value.title,
                     content: value.content,
-                })
+                });
+                _this.props.dispatch({ // 存储一下状态
+                    type: 'index/setPreviewId',
+                    id: value.id,
+                    title: value.title,
+                    content: value.content,
+                });
             }, error => {
                 Toast.hide();
                 Modal.alert('获取记录出错', `原因: ${error}`, [
@@ -95,8 +144,8 @@ class mobile extends Component {
     renderOperation() {
         const isLogin = this.props.user_islogin;
 
-        let junpToAdd = () => {
-            sessionStorage.setItem('mobile-preview-isadd', 'true');
+        let junpToAdd = () => { // 只要不设置 previewId 就是新增
+            this.props.dispatch({type: 'index/clearPreview'}); // 清空一下状态
             this.props.dispatch(routerRedux.push('/mobile/preview/edit'))
         }
 
@@ -131,6 +180,9 @@ class mobile extends Component {
 
 const mapStateToProps = state => ({
   user_islogin: state.user.isLogin,
+  previewId: state.index.previewId,
+  previewTitle: state.index.previewTitle,
+  previewContent: state.index.previewContent,
 })
 
 export default connect(mapStateToProps)(mobile);
