@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 
-import { Icon, Modal, TextareaItem } from 'antd-mobile';
+import { 
+    Icon, Modal, TextareaItem,
+    Toast
+} from 'antd-mobile';
 
 import './preview.less';
 import ajaxs from './ajaxs.js';
@@ -70,11 +73,13 @@ class mobile extends Component {
                 sessionStorage.setItem('isPreviewSave', 'true'); // 表示已经提交了
                 
             } else {
+                Toast.loading('正在保存', 5); // 显示 正在保存
                 ajaxs.saveRecord(title, content)
                 .then(
                     value => {
+                        Toast.hide();
                         // 成功 保存状态 并且返回上一页
-                            sessionStorage.setItem('isPreviewSave', 'true'); // 表示已经提交了
+                        sessionStorage.setItem('isPreviewSave', 'true'); // 表示已经提交了
                             _this.props.dispatch({
                             type: 'index/setPreviewId',
                             id: value.id,
@@ -83,6 +88,7 @@ class mobile extends Component {
                         });
                         _this.props.dispatch(routerRedux.goBack());
                     }, error => {
+                        Toast.hide();
                         Modal.alert('保存记录出错', `原因: ${error}`, [
                             { text: '确定' },
                         ]);

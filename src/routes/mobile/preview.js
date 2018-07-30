@@ -48,17 +48,21 @@ class mobile extends Component {
                 if (this.props.previewId) { // 编辑状态
 
                 } else { // 新增状态
+                    Toast.loading('正在保存', 5); // 显示 正在保存
                     ajaxs.saveRecord(this.props.previewTitle, this.props.previewContent)
                     .then(
                         value => {
+                            Toast.hide();
                             // 成功 保存状态
                             _this.props.dispatch({
                                 type: 'index/setPreviewId',
                                 id: value.id,
+                                year: new Date().getFullYear(),
                                 title: value.title,
                                 content: value.content,
                             });
                         }, error => {
+                            Toast.hide();
                             Modal.alert('自动保存记录出错', `原因: ${error}`, [
                                 { text: '确定' },
                             ]);
@@ -86,6 +90,7 @@ class mobile extends Component {
                 _this.props.dispatch({ // 存储一下状态
                     type: 'index/setPreviewId',
                     id: value.id,
+                    year: value.year,
                     title: value.title,
                     content: value.content,
                 });

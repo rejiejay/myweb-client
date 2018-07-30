@@ -5,6 +5,7 @@ const index = {
 		state: {
 			previewIsAdd: false, // 预览页面是否新增
 			previewId: null, // 预览页面的 Id 并且用来判断 预览页面是否新增
+			previewYear: null, // 预览页面的 年份
 			previewTitle: '', // 预览页面的标题
 			previewContent: '', // 预览页面的内容
 		},
@@ -17,6 +18,7 @@ const index = {
 				return {
 					...state,
 					previewId: null,
+					previewYear: null,
 					previewTitle: '',
 					previewContent: '',
 				}
@@ -28,6 +30,7 @@ const index = {
 				return {
 					...state,
 					previewId: data.id,
+					previewYear: data.year,
 					previewTitle: data.title,
 					previewContent: data.content,
 				}
