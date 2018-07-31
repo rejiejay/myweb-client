@@ -70,7 +70,39 @@ class mobile extends Component {
 
             // 判断是否编辑
             if (_this.props.previewId) { // 表示编辑状态
-                sessionStorage.setItem('isPreviewSave', 'true'); // 表示已经提交了
+                if (_this.props.previewYear) {
+                    Toast.loading('正在保存', 5); // 显示 正在保存
+                    ajaxs.editRecord(
+                        _this.props.previewId, 
+                        _this.props.previewYear,
+                        title, 
+                        content
+                    ).then(
+                        value => {
+                            Toast.hide();
+                            // 成功 保存状态 并且返回上一页
+                            sessionStorage.setItem('isPreviewSave', 'true'); // 表示已经提交了
+                            _this.props.dispatch({
+                                type: 'index/setPreviewId',
+                                id: value.id,
+                                year: value.year,
+                                title: value.title,
+                                content: value.content,
+                            });
+                            _this.props.dispatch(routerRedux.goBack());
+                        }, error => {
+                            Toast.hide();
+                            Modal.alert('修改记录出错', `原因: ${error}`, [
+                                { text: '确定' },
+                            ]);
+                        }
+                    );
+                } else {
+                    Toast.hide();
+                    Modal.alert('修改记录出错', '原因: 年份不存在', [
+                        { text: '确定' },
+                    ]);
+                }
                 
             } else {
                 Toast.loading('正在保存', 5); // 显示 正在保存
@@ -83,6 +115,7 @@ class mobile extends Component {
                             _this.props.dispatch({
                             type: 'index/setPreviewId',
                             id: value.id,
+                            year: new Date().getFullYear(), // 新增使用的是现在的年份
                             title: value.title,
                             content: value.content,
                         });
@@ -148,9 +181,9 @@ class mobile extends Component {
   
         let minHeight = () => {
             if (_this.props.previewId) { // 编辑状态下
-                return clientHeight - 40
-            } else {
                 return clientHeight - 80
+            } else {
+                return clientHeight - 40
             }
         }
 
@@ -243,6 +276,7 @@ class mobile extends Component {
 const mapStateToProps = state => ({
   user_islogin: state.user.isLogin,
   previewId: state.index.previewId,
+  previewYear: state.index.previewYear,
   previewTitle: state.index.previewTitle,
   previewContent: state.index.previewContent,
 })

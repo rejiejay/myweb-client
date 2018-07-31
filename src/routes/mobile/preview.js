@@ -47,6 +47,39 @@ class mobile extends Component {
                 // 判断从编辑页面返回的是 新增状态 还是 编辑状态
                 if (this.props.previewId) { // 编辑状态
 
+                    // 对比数据是否有改变
+                    if (
+                        sessionStorage.previewTitle === this.props.previewTitle && 
+                        sessionStorage.previewContent === this.props.previewContent 
+                    ) {
+                        // 表示数据并没有改变
+                    } else {
+                        Toast.loading('正在保存', 5); // 显示 正在保存
+                        ajaxs.editRecord(
+                            _this.props.previewId, 
+                            _this.props.previewYear,
+                            _this.props.previewTitle, 
+                            _this.props.previewContent
+                        ).then(
+                            value => {
+                                Toast.hide();
+                                // 成功 保存状态 并且返回上一页
+                                _this.props.dispatch({
+                                    type: 'index/setPreviewId',
+                                    id: value.id,
+                                    year: value.year,
+                                    title: value.title,
+                                    content: value.content,
+                                });
+                            }, error => {
+                                Toast.hide();
+                                Modal.alert('修改记录出错', `原因: ${error}`, [
+                                    { text: '确定' },
+                                ]);
+                            }
+                        );
+                    }
+
                 } else { // 新增状态
                     Toast.loading('正在保存', 5); // 显示 正在保存
                     ajaxs.saveRecord(this.props.previewTitle, this.props.previewContent)
@@ -125,11 +158,16 @@ class mobile extends Component {
     }
 
     junpToEdit(autofocuItem) {
+        // 存储自动选中
         if (autofocuItem === 'title') { // 自动选中标题
             sessionStorage.setItem('autofocus', 'title');
         } else if (autofocuItem === 'content') { // 自动选中标题
             sessionStorage.setItem('autofocus', 'content');
         }
+        
+        // 存储信息 目的是为了进行对比
+        sessionStorage.setItem('previewTitle', this.props.previewTitle);
+        sessionStorage.setItem('previewContent', this.props.previewContent);
         this.props.dispatch(routerRedux.push('/mobile/preview/edit'))
     }
 
@@ -186,6 +224,7 @@ class mobile extends Component {
 const mapStateToProps = state => ({
   user_islogin: state.user.isLogin,
   previewId: state.index.previewId,
+  previewYear: state.index.previewYear,
   previewTitle: state.index.previewTitle,
   previewContent: state.index.previewContent,
 })

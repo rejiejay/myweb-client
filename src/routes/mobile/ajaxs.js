@@ -84,7 +84,54 @@ const ajaxs = {
                     ) {
                         resolve(response.data.data);
                     } else {
-                        resolve(response.data.message);
+                        reject(response.data.message);
+                    }
+                } else {
+                    reject(response.statusText);
+                }
+            })
+            .catch(error => {
+                reject(error);
+            })
+        });
+    },
+
+    /**
+     * 编辑记录
+     * @param {number} id 必填 唯一标识
+     * @param {number} year 必填 所属年份
+     * @param {string} title 必填 标题
+     * @param {string} content 必填 内容
+     * @return {Promise} resolve(true) reject(error)
+     */
+    editRecord(id, year, title, content) {
+        
+        let payloads = {
+            id: parseInt(id, 10),    // 保证是number
+            year: parseInt(year, 10),// 保证是number
+            title: title,
+            content: content,
+        }
+
+        return new Promise((resolve, reject) => {
+            axios({
+                url: `${config.url}/record/edit`, 
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-rejiejay-signature': createSignature(payloads),
+                },
+                data: payloads
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    if (
+                        response.data && // 存在返回数据
+                        response.data.result === 1 // 并且结果正确
+                    ) {
+                        resolve(response.data.data);
+                    } else {
+                        reject(response.data.message);
                     }
                 } else {
                     reject(response.statusText);
