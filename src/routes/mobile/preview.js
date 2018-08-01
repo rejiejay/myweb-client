@@ -56,6 +56,7 @@ class mobile extends Component {
                     } else {
                         Toast.loading('正在保存', 5); // 显示 正在保存
                         ajaxs.editRecord(
+                            _this,
                             _this.props.previewId, 
                             _this.props.previewYear,
                             _this.props.previewTitle, 
@@ -82,7 +83,7 @@ class mobile extends Component {
 
                 } else { // 新增状态
                     Toast.loading('正在保存', 5); // 显示 正在保存
-                    ajaxs.saveRecord(this.props.previewTitle, this.props.previewContent)
+                    ajaxs.saveRecord(this, this.props.previewTitle, this.props.previewContent)
                     .then(
                         value => {
                             Toast.hide();

@@ -73,6 +73,7 @@ class mobile extends Component {
                 if (_this.props.previewYear) {
                     Toast.loading('正在保存', 5); // 显示 正在保存
                     ajaxs.editRecord(
+                        _this,
                         _this.props.previewId, 
                         _this.props.previewYear,
                         title, 
@@ -106,7 +107,7 @@ class mobile extends Component {
                 
             } else {
                 Toast.loading('正在保存', 5); // 显示 正在保存
-                ajaxs.saveRecord(title, content)
+                ajaxs.saveRecord(this, title, content)
                 .then(
                     value => {
                         Toast.hide();
@@ -224,12 +225,33 @@ class mobile extends Component {
      * 渲染 删除按钮
      */
     renderDelBtn() {
+        const _this = this;
         const deleteHandle = () => {
             Modal.alert('删除', '你确定删除吗???', [
                 { 
                     text: '确定', 
                     onPress: () => {
-                        console.log('ok')
+                        Toast.loading('正在删除', 5); // 显示 正在保存
+                        ajaxs.deleteRecord(
+                            _this,
+                            _this.props.previewId, 
+                            _this.props.previewYear,
+                        ).then(
+                            () => {
+                                Toast.hide();
+                                // 成功 保存状态 并且返回上一页
+                                sessionStorage.setItem('isPreviewSave', 'true'); // 表示已经提交了
+                                _this.props.dispatch({type: 'index/clearPreview'});
+                                _this.props.dispatch(routerRedux.goBack());
+                            }, error => {
+                                Toast.hide();
+                                sessionStorage.setItem('isPreviewSave', 'true'); // 表示已经提交了
+                                _this.props.dispatch({type: 'index/clearPreview'});
+                                Modal.alert('删除记录出错', `原因: ${error}`, [
+                                    { text: '确定' },
+                                ]);
+                            }
+                        );
                     }, 
                     style: {
                         color: '#108ee9'
