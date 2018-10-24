@@ -6,9 +6,9 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 // 组件类
-import './home.less';
+import './list.less';
 
-class homepcmobile extends Component {
+class english extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,12 +17,7 @@ class homepcmobile extends Component {
 
     render() {
         return (
-            <div className="homepcmobile">
-            <div className="homepcmobile-title flex-center">你好，你<span>{this.props.user_islogin ? '已登录' : '未登录'}</span></div>
-
-                <div className="homepcmobile-link" onClick={() => this.jumpToRouter('/english/list')}>跳转到 英语记录页</div>
-                <div className="homepcmobile-link" onClick={() => this.jumpToRouter('/mobile/home')}>跳转到手机端首页</div>
-                <div className="homepcmobile-link" onClick={() => this.jumpToRouter('/user/login')}>跳转到登录页面</div>
+            <div className="english">
             </div>
         );
     }
@@ -46,4 +41,4 @@ const mapStateToProps = (state) => ({
     user_islogin: state.user.isLogin,
 });
 
-export default connect(mapStateToProps)(homepcmobile);
+export default connect(mapStateToProps)(english);

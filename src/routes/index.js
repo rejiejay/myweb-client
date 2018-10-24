@@ -23,6 +23,9 @@ function RouterConfig({ history, app }) {
     return (
         <Router history={history}>
             <div className="router-content">
+                {/* 登录页面 */}
+                <Route path="/user/login" component={dynamic({ app, component: () => import('./../views/user/login') })} />
+
 
                 {/* 重定向的页面, 用于判断是否PC端还是手机端 */}
                 {isMobile() ? <Route exact path="/" component={mobileHome} /> : <Route exact path="/" component={dynamic({ app, component: () => import('./../views/computer/index') })} />}
@@ -52,8 +55,8 @@ function RouterConfig({ history, app }) {
                 <Route path="/mobile/dynamic/edit" component={dynamic({ app, component: () => import('./../views/mobile/dynamic/edit') })} />
 
 
-                {/* 登录页面 */}
-                <Route path="/user/login" component={dynamic({ app, component: () => import('./../views/user/login') })} />
+                {/* 英语句子记录 */}
+                <Route path="/english/list" component={dynamic({ app, component: () => import('./../views/english/list') })} />
             </div>
         </Router>
     );
