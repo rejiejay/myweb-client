@@ -36,6 +36,8 @@ function RouterConfig({ history, app }) {
                 <Route path="/mobile/index" component={mobileHome} />
 
                 
+                {/* 手机端 - 静态页 */}
+                <Route path="/mobile/home" component={dynamic({ app, component: () => import('./../views/mobile/index') })} />
                 {/* 手机端 - 预览页 */}
                 <Route path="/mobile/preview/index" component={dynamic({ app, component: () => import('./../views/mobile/preview') })} />
                 {/* 手机端 - 预览 - 编辑页 */}
