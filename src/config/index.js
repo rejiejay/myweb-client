@@ -8,7 +8,7 @@ const config = {
             }
         } else {
             return {
-                url: 'https://www.rejiejay.cn/server',
+                url: `${window.location.origin}/server`,
             }
         }
     }

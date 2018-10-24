@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "start": "set PORT=8888&&roadhog server",
+    "start": "set PORT=80&&roadhog server",
     "build": "node builder"
   },
   "dependencies": {

@@ -31,6 +31,11 @@ class mobile extends Component {
     this.randomImage = CreateRandomImages(false, clientWidth * 2, 250);
   }
 
+  componentDidMount() {
+    sessionStorage.removeItem('isPreviewSave');
+    this.props.dispatch({type: 'index/clearPreview'});
+  }
+
   // 侧边栏
   SidebarHandle() {
     this.setState({ isSidebarOpen: !this.state.isSidebarOpen });

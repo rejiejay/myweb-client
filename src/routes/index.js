@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router, Route } from 'dva/router';
-import { routerRedux } from 'dva/router';
+// import { routerRedux } from 'dva/router';
 import dynamic from 'dva/dynamic';
 
 import isMobile from './../utils/isMobile';
@@ -10,61 +10,64 @@ import userModel from './../models/user';
 
 function RouterConfig({ history, app }) {
 
-  indexModel.init(app);
-  dynamicModel.init(app);
-  userModel.init(app);
+    indexModel.init(app);
+    dynamicModel.init(app);
+    userModel.init(app);
 
-  const Computer = dynamic({ app, component: () => import('./computer/index') });
+    return (
+        <Router history={history}>
+            <div className="router-content">
 
-  const Mobile = dynamic({ app, component: () => import('./mobile/index') });
-  const MobilePreview = dynamic({ app, component: () => import('./mobile/preview') });
-  const MobilePreviewEdit = dynamic({ app, component: () => import('./mobile/preview-edit') });
-  const DynamicPreview = dynamic({ app, component: () => import('./mobile/dynamic/preview') });
-  const DynamicGroup = dynamic({ app, component: () => import('./mobile/dynamic/group') });
-  const DynamicGroupList = dynamic({ app, component: () => import('./mobile/dynamic/group-list') });
-  const DynamicEdit = dynamic({ app, component: () => import('./mobile/dynamic/edit') });
+                {/* 重定向的页面 */}
+                {browserRedirect(app)}
 
-  const UserLogin = dynamic({ app, component: () => import('./user/login') });
 
-  return (
-    <Router history={history}>
-      <div className="router-content">
-        {browserRedirect(app)}
-        <Route path="/pc/index" component={Computer} />
+                {/* PC端口页面 */}
+                <Route path="/pc/index" component={dynamic({ app, component: () => import('./../views/computer/index') })} />
 
-        <Route path="/mobile/index" component={Mobile} />
-        <Route path="/mobile/preview/index" component={MobilePreview} />
-        <Route path="/mobile/preview/edit" component={MobilePreviewEdit} />
-        <Route path="/mobile/dynamic/preview" component={DynamicPreview} />
-        <Route path="/mobile/dynamic/group" component={DynamicGroup} />
-        <Route path="/mobile/dynamic/group-list" component={DynamicGroupList} />
-        <Route path="/mobile/dynamic/edit" component={DynamicEdit} />
-        
-        <Route path="/user/login" component={UserLogin} />
-      </div>
-    </Router>
-  );
-}   
 
+                {/* 手机端首页 */}
+                <Route path="/mobile/index" component={dynamic({ app, component: () => import('./../views/mobile/index') })} />
+                {/* 手机端预览页 */}
+                <Route path="/mobile/preview/index" component={dynamic({ app, component: () => import('./../views/mobile/preview') })} />
+                <Route path="/mobile/preview/edit" component={dynamic({ app, component: () => import('./../views/mobile/preview-edit') })} />
+                <Route path="/mobile/dynamic/preview" component={dynamic({ app, component: () => import('./../views/mobile/dynamic/preview') })} />
+                <Route path="/mobile/dynamic/group" component={dynamic({ app, component: () => import('./../views/mobile/dynamic/group') })} />
+                <Route path="/mobile/dynamic/group-list" component={dynamic({ app, component: () => import('./../views/mobile/dynamic/group-list') })} />
+                <Route path="/mobile/dynamic/edit" component={dynamic({ app, component: () => import('./../views/mobile/dynamic/edit') })} />
+
+                {/* 登录页面 */}
+                <Route path="/user/login" component={dynamic({ app, component: () => import('./../views/user/login') })} />
+            </div>
+        </Router>
+    );
+}
+
+/**
+ * 用于判断是否PC端还是手机端的方法
+ */
 function browserRedirect(app) {
-  const Mobile = dynamic({ app, component: () => import('./mobile/index') });
-  const Computer = dynamic({ app, component: () => import('./computer/index') });
+    /**
+     * 判断一下是否手机端
+     */
+    if (isMobile()) {
+        /**
+         * 判断是否有参数, 
+         * 有参数说明一定是进行操作的，所以跳到在预览页面
+         * 因为预览页面就是根据ID进行查询
+         */
+        // if (window.location.href.indexOf('?') === -1 && window.location.hash !== '#/mobile/preview/index') {
+        //     app._store.dispatch(routerRedux.push('/mobile/preview/index'));
+        // }
+        return (
+            <Route exact path="/" component={dynamic({ app, component: () => import('./../views/mobile/index') })} />
+        )
+    } else {
 
-  if (isMobile()) { // 手机端
-    
-    // 无参数自动跳转到预览页面
-    if (window.location.href.indexOf('?') === -1 && window.location.hash !== '#/mobile/preview/index') {
-      app._store.dispatch(routerRedux.push('/mobile/preview/index'));
+        return (
+            <Route exact path="/" component={dynamic({ app, component: () => import('./../views/computer/index') })} />
+        )
     }
-    return (
-      <Route exact path="/" component={Mobile} />
-    )
-  } else {
-
-    return (
-      <Route exact path="/" component={Computer} />
-    )
-  }
 }
 
 export default RouterConfig;
