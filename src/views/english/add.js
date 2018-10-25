@@ -40,11 +40,18 @@ class englishAdd extends Component {
          * 新增提交
          */
         let submit = () => {
-
+            ajaxs.add(this.state.en_text, this.state.zh_text, this)
+            .then(
+                res => {
+                    _this.props.dispatch(routerRedux.goBack());
+                }, error => {
+                    alert(error);
+                }
+            )
         }
 
         return (
-            <div className="english-add">
+            <div className="rejiejay-english-add">
                 
                 <div className="english-add-title flex-center">请注意，你<span>{this.props.user_islogin ? '已登录' : '未登录'}</span></div>
 

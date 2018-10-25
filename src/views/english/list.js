@@ -45,6 +45,7 @@ class english extends Component {
         ajaxs.getList(this.state.pagenum)
         .then(
             res => {
+
                 if (res.list && res.count) {
                     _this.setState({
                         isZh: false, // 是否中文

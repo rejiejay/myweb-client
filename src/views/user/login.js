@@ -16,7 +16,7 @@ let ajaxs = {
      */
     login(password) {
         return new Promise((resolve, reject) => {
-            axios.get(`${config.url}/user/login?password=${password}`)
+            axios.get(`${config.url.origin}/user/login?password=${password}`)
             .then(response => {
                 if (response.status === 200) {
                     resolve(response.data);
@@ -72,7 +72,7 @@ class login extends Component {
                         alert('登录成功!');
                         localStorage.setItem('rejiejay_password', _this.state.password);
                         localStorage.setItem('rejiejay_token', response.data.token);
-                        _this.props.dispatch(routerRedux.push('/'));
+                        _this.props.dispatch(routerRedux.goBack());
                     } else if (response.result === 6666) {
                         _this.setState({modal: {
                             visible: true,
