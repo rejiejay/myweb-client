@@ -57,6 +57,8 @@ function RouterConfig({ history, app }) {
 
                 {/* 英语句子记录 */}
                 <Route path="/english/list" component={dynamic({ app, component: () => import('./../views/english/list') })} />
+                {/* 英语句子记录 - 新增部分 */}
+                <Route path="/english/add" component={dynamic({ app, component: () => import('./../views/english/add') })} />
             </div>
         </Router>
     );
