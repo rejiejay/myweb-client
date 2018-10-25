@@ -6,9 +6,11 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 // 组件类
+import { Pagination, Icon } from 'antd-mobile';
 import './list.less';
 // 请求类
 import ajaxs from './../../api/english/list';
+// 初始化
 
 class english extends Component {
     constructor(props) {
@@ -49,6 +51,24 @@ class english extends Component {
         )
     }
 
+    /**
+     * 分页器
+     */
+    renderPagination() {
+        return (
+            <div className="pagination-container flex-start-center">
+                <Pagination total={5}
+                    className="custom-pagination-with-icon"
+                    current={1}
+                    locale={{
+                        prevText: (<span className="arrow-align flex-start-center"><Icon type="left" />上一步</span>),
+                        nextText: (<span className="arrow-align flex-start-center">下一步<Icon type="right" /></span>),
+                    }}
+                />
+            </div>
+        )
+    }
+
     render() {
         const _this = this;
 
@@ -68,12 +88,18 @@ class english extends Component {
 
         return (
             <div className="english">
-                {this.state.list.map((val, key) => (
-                    <div key={key} className="english-item flex-start-center">
-                        <div className="english-item-left flex-rest" onClick={() => switcherZHEN(key)}>{ val.isZh ? val.zh_text : val.en_text }</div>
-                        <div className="english-item-right">删除</div>
-                    </div>
-                ))}
+                {/* 列表 */}
+                <div className="english-list">
+                    {this.state.list.map((val, key) => (
+                        <div key={key} className="english-item flex-start-center">
+                            <div className="english-item-left flex-rest" onClick={() => switcherZHEN(key)}>{ val.isZh ? val.zh_text : val.en_text }</div>
+                            <div className="english-item-right">删除</div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* 分页器 */}
+                {this.renderPagination()}
             </div>
         );
     }
