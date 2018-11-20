@@ -1,0 +1,89 @@
+// MD 语法部分
+.ReactMarkdown {
+    padding: 15px;
+    word-wrap: break-word;
+    word-break: normal;
+
+    ul, ol, li, p {
+        font-size: 14px;
+        line-height: 22px;
+        color: #606266;
+    }
+
+    h1,h2,h3,h4,h5,h6 {
+        color: #303133;
+    }
+
+    h3,h4,h5,h6 {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: normal;
+    }
+
+    h2 {
+        font-size: 20px;
+        line-height: 28px;
+        font-weight: normal;
+    }
+
+    h1 {
+        font-size: 24px;
+        line-height: 32px;
+        font-weight: normal;
+    }
+
+    a {
+        color: #409EFF;
+        text-decoration: underline;
+    }
+
+    ul {
+        padding-left: 10px;
+        li {
+            list-style: square inside url('http://p6ygud9kn.bkt.clouddn.com/icon/label_fill.png');
+            li {
+                list-style: square inside url('http://p6ygud9kn.bkt.clouddn.com/icon/marketing_fill.png');
+                li {
+                    list-style: square inside url('http://p6ygud9kn.bkt.clouddn.com/icon/flashlight_fill.png');
+                }
+            }
+        }
+    }
+
+    ol {
+        padding-left: 10px;
+        li {
+            list-style: decimal inside;
+            li {
+                list-style: lower-roman inside;
+                li {
+                    list-style: upper-roman inside;
+                }
+            }
+        }
+    }
+
+    pre, code {
+        display: block;
+        overflow: auto;
+        padding: 5px 10px;
+        word-wrap: break-word; /* Internet Explorer 5.5+ */ 
+    }
+
+    code {
+        border: 1px solid #ddd;
+        background: #f4f4f4;
+    }
+    
+
+    blockquote {
+        display: block;
+        -webkit-margin-before: 0em;
+        -webkit-margin-after: 0em;
+        -webkit-margin-start: 0px;
+        -webkit-margin-end: 0px;
+        padding: 5px 10px;
+        border-left: 5px solid #eee;
+        font-style: italic;
+    }
+}

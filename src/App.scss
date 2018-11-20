@@ -1,3 +1,15 @@
+@import 'components/css/index';
+
+#root {
+  height: 100%;
+  width: 100%;
+
+  .router-content {
+    height: 100%;
+    width: 100%;
+  }
+}
+
 .App {
   text-align: center;
 }
