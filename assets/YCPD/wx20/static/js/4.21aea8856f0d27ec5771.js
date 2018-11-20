@@ -1,2 +1,0 @@
-webpackJsonp([4],{jAKf:function(t,e){},nYYt:function(t,e,r){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var s={render:function(){var t=this.$createElement,e=this._self._c||t;return e("div",{staticClass:"user-order"},[e("mt-header",{attrs:{title:"订单信息"}},[e("router-link",{attrs:{slot:"left",to:"/user"},slot:"left"},[e("mt-button",{attrs:{icon:"back"}})],1)],1)],1)},staticRenderFns:[]};var n=r("Z0/y")({name:"userOrder",methods:{}},s,!1,function(t){r("jAKf")},"data-v-4b9a89a4",null);e.default=n.exports}});
-//# sourceMappingURL=4.21aea8856f0d27ec5771.js.map
