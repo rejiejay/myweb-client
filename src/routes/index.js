@@ -67,18 +67,43 @@
 
 // 框架类
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 // 自定义组件类
 import asyncComponent from './../components/asyncComponent';
+import rootReducer from './../models';
+import isMobile from './../utils/isMobile';
+
+// 将 redux 初始化进去
+const store = createStore(rootReducer);
 
 class RouterConfig extends Component {
     render() {
+        // 手机端 首页
+        let mobileHome = asyncComponent(() => import('./../views/mobile/index'));
+        // // 电脑端 首页
+        let pcHome = asyncComponent(() => import('./../views/computer/index'));
+
         return (
-            <Router>
-                <Switch>
-                    <Route path="/" exact component={asyncComponent(() => import('./../views/Home'))} />
-                </Switch>
-            </Router>
+            <Provider store={store}>
+                <Router>
+                    <Switch>
+                        <Route path="/" exact component={isMobile() ? mobileHome : pcHome} />
+                        
+                        {/* 登录页面 */}
+                        <Route path="/user/login" component={asyncComponent(() => import('./../views/user/login'))} />
+                        
+                        {/* 简历页面 */}
+                        <Route path="/reuseme" component={asyncComponent(() => import('./../views/reuseme/index'))} />
+
+                        {/* 英语 */}
+                        <Route path="/english/list" component={asyncComponent(() => import('./../views/english/list'))} />
+                        <Route path="/english/add" component={asyncComponent(() => import('./../views/english/add'))} />
+
+                    </Switch>
+                </Router>
+            </Provider>
         );
     }
 }

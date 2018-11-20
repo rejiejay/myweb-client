@@ -1,7 +1,5 @@
 // 框架类
 import React, { Component } from 'react';
-// 组件类
-import HomePcMobile from './../common/home';
 // 样式类
 import './index.scss';
 
@@ -14,9 +12,7 @@ class computer extends Component {
 
     render() {
         return (
-            <div className="computer">
-                <HomePcMobile />
-            </div>
+            <div>这个页面暂时还未迁移过来</div>
         )
     }
 }

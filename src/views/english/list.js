@@ -7,7 +7,7 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 // 组件类
 import { Pagination, Icon, Toast } from 'antd-mobile';
-import './list.less';
+import './list.scss';
 // 请求类
 import ajaxs from './../../api/english/list';
 // 初始化

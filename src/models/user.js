@@ -1,35 +1,29 @@
-const user = {
-	data: {
-		namespace: 'user',
-
-		state: {
-            isLogin: false,
-		},
-
-		reducers: {
-            setLogin: state => { // 登录
-				return { ...state, isLogin: true }
-			},
-        }
-    },
-    
-    whetherLogin() { // 判断 登录
-        
-        if (localStorage.rejiejay_token) {
-            if (localStorage.rejiejay_token) {
-                return true
-            } else {
-                return false
-            }
-        }
-        return false
-    },
-
-	init: function (app) {
-        if (this.whetherLogin()) { // 判断 登录
-            app._store.dispatch({ type: 'user/setLogin' });
-        }
-	}
+/**
+ * 单一状态树 唯一数据源 (SSOT)
+ */
+let myState = {
+    /**
+     * 登录凭证 用于判断是否登录
+     */
+    rejiejay_token: window.localStorage.rejiejay_token ? window.localStorage.rejiejay_token : false,
 }
 
-export default user;
+/**
+ * user 用户的 redux 函数
+ * @param {object} state 单一状态树 唯一数据源 (SSOT) 如果不传入值
+ * @param {object} action 请求操作数据库的动作
+ */
+const user = (state = myState, action) => {
+    /**
+     * 用于拦截 action 的操作
+     * 拦截成功返回 state
+     */
+    switch (action.type) {
+        case 'ADD_TODO':
+            return state
+        default:
+            return state
+    }
+}
+
+export default user

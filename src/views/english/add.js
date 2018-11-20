@@ -1,16 +1,14 @@
 /**
- * 首页 PC端口 与 手机端 相同的部分
+ * 新增英语页面
  */
 // 框架类
 import React, { Component } from 'react';
-import { connect } from 'dva';
-import { routerRedux } from 'dva/router';
+import { connect } from 'react-redux';
 // 组件类
 import { TextareaItem } from 'antd-mobile';
-import './add.less';
+import './add.scss';
 // 请求类
 import ajaxs from './../../api/english/add';
-// 初始化
 
 class englishAdd extends Component {
     constructor(props) {
@@ -42,8 +40,8 @@ class englishAdd extends Component {
         let submit = () => {
             ajaxs.add(this.state.en_text, this.state.zh_text, this)
             .then(
-                res => {
-                    _this.props.dispatch(routerRedux.goBack());
+                () => {
+                    window.history.back(-1);
                 }, error => {
                     alert(error);
                 }
@@ -53,7 +51,7 @@ class englishAdd extends Component {
         return (
             <div className="rejiejay-english-add">
                 
-                <div className="english-add-title flex-center">请注意，你<span>{this.props.user_islogin ? '已登录' : '未登录'}</span></div>
+                <div className="english-add-title flex-center">请注意，你<span>{this.props.rejiejay_token ? '已登录' : '未登录'}</span></div>
 
                 <div className="english-add-input">
                     <TextareaItem
@@ -82,21 +80,16 @@ class englishAdd extends Component {
 
     /**
      * 跳转到路由
-     * @param {object} query 携带的参数 非必填
      */
-    jumpToRouter(url, query) {
-        let routerConfig = {
-            pathname: url,
-        }
-
-        query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
-
-        this.props.dispatch(routerRedux.push(routerConfig));
+    jumpToRouter(url) {
+        window.location.href = `./#${url}`
     }
 }
 
-const mapStateToProps = (state) => ({
-    user_islogin: state.user.isLogin,
-});
+const mapStateToProps = state => {
+    return {
+        rejiejay_token: state.user.rejiejay_token,
+    }
+};
 
 export default connect(mapStateToProps)(englishAdd);
