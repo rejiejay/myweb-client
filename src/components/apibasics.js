@@ -63,6 +63,11 @@ export default {
 
             if (val.result === 1) {
                 resolve(val.data);
+
+            } else if (val.result === 110) {
+                window.location.href = './#/user/login';
+                reject(`您未登录噢~`);
+                
             } else {
                 console.error(val.message); // 打印报错信息
                 reject(`向服务器发起请求查找${reason}成功, 但是数据有误! 原因: ${val.message}`);
@@ -123,6 +128,11 @@ export default {
             error => ({'result': '1', 'message': error})
         ).then(val => {
             Toast.destroy(); // 关闭加载框
+
+            if (val.result === 110) {
+                window.location.href = './#/user/login';
+                return reject(`您未登录噢~`);
+            } 
 
             resolve(val);
 

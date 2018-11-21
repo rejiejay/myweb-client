@@ -47,7 +47,9 @@ let Toast = {
      * 销毁toast
      */
     destroy: function destroy() {
-        document.body.removeChild(document.getElementById('rejiejay-toast'));
+        if (document.getElementById('rejiejay-toast')) {
+            document.body.removeChild(document.getElementById('rejiejay-toast'));
+        }
     }
 }
 

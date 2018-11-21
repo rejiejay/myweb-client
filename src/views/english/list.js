@@ -125,9 +125,10 @@ class english extends Component {
              * 调用百度 api 的方法
              * 这个方法在哪调用的？
              * 是在 models index 那个页面初始化的
+             * 整个项目启动的时候都会初始化一次 在 index.js models/init.js 下初始化
              */
             let vid = document.getElementById('myVideo');
-            vid.innerHTML = `<audio type="audio/mp3" src="http://tsn.baidu.com/text2audio?tex=${item.en_text}&lan=zh&cuid=15976713287&ctp=1&tok=${window.localStorage.getItem('baidu_text2audio_access_token')}" controls="controls" autoplay="autoplay"></audio>`;
+            vid.innerHTML = `<audio type="audio/mp3" src="http://tsn.baidu.com/text2audio?tex=${item.en_text}&lan=zh&cuid=15976713287&ctp=1&tok=${window.localStorage.baidu_text2audio_access_token}" controls="controls" autoplay="autoplay"></audio>`;
         }
 
         /**
