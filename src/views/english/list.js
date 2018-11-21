@@ -1,12 +1,13 @@
 /**
- * 首页 PC端口 与 手机端 相同的部分
+ * 英语列表页
  */
 // 框架类
 import React, { Component } from 'react';
-import { connect } from 'dva';
-import { routerRedux } from 'dva/router';
-// 组件类
-import { Pagination, Icon, Toast } from 'antd-mobile';
+import { connect } from 'react-redux';
+import { Pagination, Icon } from 'antd-mobile';
+// 样式类
+import 'antd-mobile/lib/icon/style/css';
+import 'antd-mobile/lib/pagination/style/css';
 import './list.scss';
 // 请求类
 import ajaxs from './../../api/english/list';
@@ -157,7 +158,8 @@ class english extends Component {
                 ajaxs.del(request.id, this)
                 .then(
                     () => {
-                        Toast.info('删除成功!', 1.5, _this.getListBy.bind(_this));
+                        alert('删除成功!');
+                        _this.getListBy.bind(_this);
                     }, error => {
                         alert(error);
                     }
@@ -295,13 +297,7 @@ class english extends Component {
      * @param {object} query 携带的参数 非必填
      */
     jumpToRouter(url, query) {
-        let routerConfig = {
-            pathname: url,
-        }
-
-        query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
-
-        this.props.dispatch(routerRedux.push(routerConfig));
+        window.location.href = `./#${url}`;
     }
 }
 

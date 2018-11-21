@@ -6,6 +6,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // 组件类
 import { TextareaItem } from 'antd-mobile';
+// 样式类
+import 'antd-mobile/lib/textarea-item/style/css';
 import './add.scss';
 // 请求类
 import ajaxs from './../../api/english/add';
@@ -82,7 +84,7 @@ class englishAdd extends Component {
      * 跳转到路由
      */
     jumpToRouter(url) {
-        window.location.href = `./#${url}`
+        window.location.href = `./#${url}`;
     }
 }
 

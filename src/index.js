@@ -9,5 +9,5 @@ import './index.scss';
 // 渲染 react 组件
 ReactDOM.render(<RouterConfig />, document.getElementById('root'));
 
-// 清空加载样式
+// 清空 '预加载' 样式
 document.getElementById('loading').innerHTML = '';
