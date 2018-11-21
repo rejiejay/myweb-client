@@ -101,6 +101,11 @@ class RouterConfig extends Component {
                         <Route path="/english/list" component={asyncComponent(() => import('./../views/english/list'))} />
                         <Route path="/english/add" component={asyncComponent(() => import('./../views/english/add'))} />
 
+                        {/* 记录页 */}
+                        <Route path="/record/random" component={asyncComponent(() => import('./../views/record/random'))} />
+                        <Route path="/record/edit" component={asyncComponent(() => import('./../views/record/edit'))} />
+                        <Route path="/record/list" component={asyncComponent(() => import('./../views/record/list'))} />
+
                     </Switch>
                 </Router>
             </Provider>
