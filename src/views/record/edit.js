@@ -2,7 +2,9 @@
  * 编辑页面
  */
 import React, {Component} from 'react';
-import { Icon, Modal, TextareaItem} from 'antd-mobile';
+import Icon from 'antd-mobile/lib/icon/index';
+import Modal from 'antd-mobile/lib/modal/index';
+import TextareaItem from 'antd-mobile/lib/textarea-item/index';
 // 样式类
 import 'antd-mobile/lib/icon/style/css';
 import 'antd-mobile/lib/modal/style/css';
@@ -177,7 +179,7 @@ class recordedit extends Component {
         const _this = this;
   
         let minHeight = () => {
-            if (_this.props.previewId) { // 编辑状态下
+            if (window.sessionStorage.rejiejay_record_id) { // 编辑状态下
                 return clientHeight - 80
             } else {
                 return clientHeight - 40
@@ -229,23 +231,16 @@ class recordedit extends Component {
                     onPress: () => {
                         ajaxs.deleteRecord(
                             _this,
-                            _this.props.previewId, 
-                            _this.props.previewYear,
-                        ).then(
-                            () => {
-                                // 成功 保存状态 并且返回上一页
-                                sessionStorage.setItem('isPreviewSave', 'true'); // 表示已经提交了
-                                //_this.props.dispatch({type: 'index/clearPreview'});
+                            window.sessionStorage.rejiejay_record_id, 
+                            '2018', // 这个以后删掉，这个需求是伪需求
+                        ).then(() => {
                                 window.history.back(-1);
 
-                            }, error => {
-                                sessionStorage.setItem('isPreviewSave', 'true'); // 表示已经提交了
-                                // _this.props.dispatch({type: 'index/clearPreview'});
+                        }, error => {
                                 Modal.alert('删除记录出错', `原因: ${error}`, [
                                     { text: '确定' },
                                 ]);
-                            }
-                        );
+                        });
                     }, 
                     style: {
                         color: '#108ee9'
@@ -260,7 +255,7 @@ class recordedit extends Component {
         }
 
         // 判断页面是否编辑
-        if (this.props.previewId) {
+        if (window.sessionStorage.rejiejay_record_id) {
             return (
                 <div className="preview-edit-delete"
                     onClick={deleteHandle}

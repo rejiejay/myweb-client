@@ -4,7 +4,8 @@
 // 框架类
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Pagination, Icon } from 'antd-mobile';
+import Icon from 'antd-mobile/lib/icon/index';
+import Pagination from 'antd-mobile/lib/pagination/index';
 // 样式类
 import 'antd-mobile/lib/icon/style/css';
 import 'antd-mobile/lib/pagination/style/css';
@@ -128,7 +129,7 @@ class english extends Component {
              * 整个项目启动的时候都会初始化一次 在 index.js models/init.js 下初始化
              */
             let vid = document.getElementById('myVideo');
-            vid.innerHTML = `<audio type="audio/mp3" src="http://tsn.baidu.com/text2audio?tex=${item.en_text}&lan=zh&cuid=15976713287&ctp=1&tok=${window.localStorage.baidu_text2audio_access_token}" controls="controls" autoplay="autoplay"></audio>`;
+            vid.innerHTML = `<audio type="audio/mp3" src="https://tsn.baidu.com/text2audio?tex=${item.en_text}&lan=zh&cuid=15976713287&ctp=1&tok=${window.localStorage.baidu_text2audio_access_token}" controls="controls" autoplay="autoplay"></audio>`;
         }
 
         /**
@@ -159,8 +160,7 @@ class english extends Component {
                 ajaxs.del(request.id, this)
                 .then(
                     () => {
-                        alert('删除成功!');
-                        _this.getListBy.bind(_this);
+                        _this.getListBy();
                     }, error => {
                         alert(error);
                     }

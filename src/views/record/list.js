@@ -5,7 +5,8 @@
 import React, { Component } from 'react';
 import ReactMarkdown from 'react-markdown';
 // 组件类
-import { Pagination, Icon } from 'antd-mobile';
+import Icon from 'antd-mobile/lib/icon/index';
+import Pagination from 'antd-mobile/lib/pagination/index';
 // 样式类
 import 'antd-mobile/lib/icon/style/css';
 import 'antd-mobile/lib/pagination/style/css';

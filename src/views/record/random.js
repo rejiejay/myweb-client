@@ -3,7 +3,8 @@
  */
 // 框架类
 import React, { Component } from 'react';
-import { Icon, Modal } from 'antd-mobile';
+import Icon from 'antd-mobile/lib/icon/index';
+import Modal from 'antd-mobile/lib/modal/index';
 import ReactMarkdown from 'react-markdown';
 // 样式类
 import 'antd-mobile/lib/icon/style/css';

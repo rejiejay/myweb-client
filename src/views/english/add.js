@@ -5,9 +5,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // 组件类
-import { TextareaItem } from 'antd-mobile';
+import TextareaItem from 'antd-mobile/lib/textarea-item/index';
 // 样式类
-import 'antd-mobile/lib/textarea-item/style/css';
+import 'antd-mobile/lib/textarea-item/style/index.css';
 import './add.scss';
 // 请求类
 import ajaxs from './../../api/english/add';
