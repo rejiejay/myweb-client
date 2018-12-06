@@ -166,6 +166,16 @@ $black4: #C0C4CC;
     padding: 0px 15px;
     min-height: 120px;
 
+    .list-record-title {
+        padding-top: 15px;
+        font-size: 12px;
+
+        .record-title-add {
+            font-weight: bold;
+            color: #F56C6C;
+        }
+    }
+
     .list-record-operate {
         padding-top: 15px;
 
