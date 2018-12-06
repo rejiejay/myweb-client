@@ -166,6 +166,19 @@ $black4: #C0C4CC;
     padding: 0px 15px;
     min-height: 120px;
 
+    .list-record-operate {
+        padding-top: 15px;
+
+        .record-operate-container {
+            line-height: 45px;
+            text-align: center;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            color: $black1;
+            background: #fff;
+        }
+    }
+
     .mobile-list-item {
         padding-top: 15px;
 
@@ -191,6 +204,19 @@ $black4: #C0C4CC;
 .mobile-list-english {
     padding: 0px 15px;
     min-height: 120px;
+
+    .list-record-operate {
+        padding-top: 15px;
+
+        .record-operate-container {
+            line-height: 45px;
+            text-align: center;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            color: $black1;
+            background: #fff;
+        }
+    }
 
     .mobile-list-item {
         padding-top: 15px;

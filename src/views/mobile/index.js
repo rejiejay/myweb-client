@@ -286,6 +286,16 @@ class computer extends Component {
         return this.state.navBarStatus === 'record' ? (
             <div className="mobile-list-record">
 
+                {/* 查看所有 按钮 */}
+                <div className="list-record-operate">
+                    <div className="record-operate-container">所有记录</div>
+                </div>
+
+                {/* 新增记录 按钮 */}
+                <div className="list-record-operate">
+                    <div className="record-operate-container">新增记录</div>
+                </div>
+
                 {this.state.recordList.map((val, key) => (
                     <div className="mobile-list-item" key={key}>
                         <div className="list-item-container ReactMarkdown">
@@ -305,6 +315,16 @@ class computer extends Component {
     renderEnglishList() {
         return this.state.navBarStatus === 'english' ? (
             <div className="mobile-list-english">
+
+                {/* 查看所有 按钮 */}
+                <div className="list-record-operate">
+                    <div className="record-operate-container">所有句子</div>
+                </div>
+
+                {/* 新增句子 按钮 */}
+                <div className="list-record-operate">
+                    <div className="record-operate-container">新增句子</div>
+                </div>
 
                 {this.state.englishList.map((val, key) => (
                     <div className="mobile-list-item" key={key}>
