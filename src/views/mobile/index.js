@@ -161,7 +161,7 @@ class computer extends Component {
     /**
      * 渲染 导航栏
      */
-    rendernavBar() {
+    renderNavBar() {
         const _this = this;
         const navBarStatus = this.state.navBarStatus;
         /**
@@ -191,6 +191,46 @@ class computer extends Component {
     }
 
     /**
+     * 渲染 主页
+     */
+    renderMainList() {
+        // 主页的数据
+        let articlesList = [
+            {
+                imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/mobile-list/articles-1.png',
+                title: 'Hi, 我是曾杰杰。',
+                content: '欢迎来到我的个人网站, 没有关系你也不用, 没有关系你也不用, 没有关系你也不用给我机会反正我还有一生可以浪费。我就是这么一点点倔。',
+            }
+        ]
+
+        return this.state.navBarStatus === 'all' ? (
+            <div className="mobile-list-all">
+                
+                {articlesList.map((val, key) => (
+                    <div className="mobile-list-item" key={key}>
+                        <div className="list-item-container">
+                            <div className="list-item-img" 
+                                style={{
+                                    /* 长和高的比例为 345:150 计算， 实际高清图为 690:300 */
+                                    width: `${clientWidth - 30}px`, 
+                                    height: `${Math.floor( (clientWidth - 30) * 150 / 345 ) }px`
+                                }}>
+                                <img alt="item" src={val.imgsrc} />
+                            </div>
+    
+                            <div className="list-item-describe">
+                                <div className="item-describe-title">{val.title}</div>
+                                <div className="item-describe-content">{val.content}</div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+
+            </div>
+        ) : null;
+    }
+
+    /**
      * 渲染 备案号
      */
     renderCopyright() {
@@ -206,7 +246,8 @@ class computer extends Component {
             <React.Fragment>
                 {this.renderHeadlineBanner() /* 渲染 顶部横幅轮播图 */}
                 {this.renderDescribeBanner() /* 渲染 描述横幅 */}
-                {this.rendernavBar() /* 渲染 导航栏 */}
+                {this.renderNavBar() /* 渲染 导航栏 */}
+                {this.renderMainList() /* 渲染 主页 */}
                 {this.renderCopyright() /* 渲染 底部的 备案号 */}
             </React.Fragment>
         )
