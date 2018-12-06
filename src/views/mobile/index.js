@@ -10,6 +10,14 @@ class computer extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            /**
+             * 导航栏
+             * @param {string} all 主页
+             * @param {string} resume 作品
+             * @param {string} record 记录
+             * @param {string} english 英语
+             */
+            navBarStatus: 'all',
         };
     }
 
@@ -151,7 +159,39 @@ class computer extends Component {
     }
 
     /**
-     * 渲染 著作权
+     * 渲染 导航栏
+     */
+    rendernavBar() {
+        const _this = this;
+        const navBarStatus = this.state.navBarStatus;
+        /**
+         * 切换导航栏的函数
+         * @param {string} item 
+         */
+        const navBarSwitcher = item => _this.setState({navBarStatus: item});
+
+        return (
+            <div className="mobile-navigation-bar">
+                <div className="navigation-bar-container flex-start">
+                    <div onClick={() => navBarSwitcher('all')} className={`navigation-bar-item ${navBarStatus === 'all' ? 'bar-item-active' : ''}`}>
+                        <span>主页</span>
+                    </div>
+                    <div onClick={() => navBarSwitcher('resume')} className={`navigation-bar-item ${navBarStatus === 'resume' ? 'bar-item-active' : ''}`}>
+                        <span>作品</span>
+                    </div>
+                    <div onClick={() => navBarSwitcher('record')} className={`navigation-bar-item ${navBarStatus === 'record' ? 'bar-item-active' : ''}`}>
+                        <span>记录</span>
+                    </div>
+                    <div onClick={() => navBarSwitcher('english')} className={`navigation-bar-item ${navBarStatus === 'english' ? 'bar-item-active' : ''}`}>
+                        <span>英语</span>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    /**
+     * 渲染 备案号
      */
     renderCopyright() {
         return (
@@ -166,7 +206,8 @@ class computer extends Component {
             <React.Fragment>
                 {this.renderHeadlineBanner() /* 渲染 顶部横幅轮播图 */}
                 {this.renderDescribeBanner() /* 渲染 描述横幅 */}
-                {this.renderCopyright() /* 渲染 著作权 */}
+                {this.rendernavBar() /* 渲染 导航栏 */}
+                {this.renderCopyright() /* 渲染 底部的 备案号 */}
             </React.Fragment>
         )
     }

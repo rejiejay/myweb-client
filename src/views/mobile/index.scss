@@ -96,7 +96,32 @@ $black4: #C0C4CC;
 
 }
 
-// 著作权
+// 导航栏
+.mobile-navigation-bar {
+    height: 45px;
+    line-height: 45px;
+    padding: 0px 15px;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+
+    .navigation-bar-item {
+        width: 25%;
+        text-align: center;
+
+        span {
+            height: 45px;
+            display: block;
+        }
+    }
+
+    .bar-item-active span {
+        color: #F56C6C;
+        border-bottom: 2px solid #F56C6C;
+    }
+}
+
+// 备案号
 .copyright-component {
     padding-top: 35px;
     padding-bottom: 5px;
