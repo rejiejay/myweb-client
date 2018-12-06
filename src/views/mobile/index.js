@@ -1,7 +1,10 @@
 // 框架类
 import React, { Component } from 'react';
+import ReactMarkdown from 'react-markdown';
 // 样式类
 import './index.scss';
+// 请求类
+import recordAjaxs from './../../api/record/list';
 
 let clientWidth = document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth;
 let clientHeight = document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight;
@@ -17,8 +20,31 @@ class computer extends Component {
              * @param {string} record 记录
              * @param {string} english 英语
              */
-            navBarStatus: 'all',
+            navBarStatus: window.localStorage.navBarStatus ? window.localStorage.navBarStatus : 'all',
+
+            recordList: [], // 记录 列表数据
         };
+    }
+
+    /**
+     * 组件加载完毕之后立即执行
+     */
+    componentDidMount() {
+        this.getRecordList(); // 获取记录列表
+    }
+
+    /**
+     * 获取记录列表
+     */
+    getRecordList() {
+
+        recordAjaxs.getList( 1 /* 首页只获取一页数据即可 */)
+        .then(
+            res => {
+                this.setState({recordList: res.list});
+
+            }, error => alert(error)
+        );
     }
 
     /**
@@ -168,7 +194,10 @@ class computer extends Component {
          * 切换导航栏的函数
          * @param {string} item 
          */
-        const navBarSwitcher = item => _this.setState({navBarStatus: item});
+        const navBarSwitcher = item => {
+            window.localStorage.setItem('navBarStatus', item); // 导航栏的状态缓存下来
+            _this.setState({navBarStatus: item})
+        };
 
         return (
             <div className="mobile-navigation-bar">
@@ -209,6 +238,8 @@ class computer extends Component {
                 {articlesList.map((val, key) => (
                     <div className="mobile-list-item" key={key}>
                         <div className="list-item-container">
+
+                            {/* 图片 */}
                             <div className="list-item-img" 
                                 style={{
                                     /* 长和高的比例为 345:150 计算， 实际高清图为 690:300 */
@@ -218,6 +249,7 @@ class computer extends Component {
                                 <img alt="item" src={val.imgsrc} />
                             </div>
     
+                            {/* 描述 */}
                             <div className="list-item-describe">
                                 <div className="item-describe-title">{val.title}</div>
                                 <div className="item-describe-content">{val.content}</div>
@@ -226,6 +258,26 @@ class computer extends Component {
                     </div>
                 ))}
 
+            </div>
+        ) : null;
+    }
+
+    /**
+     * 渲染 记录
+     */
+    renderRecordList() {
+        return this.state.navBarStatus === 'record' ? (
+            <div className="mobile-list-record">
+
+                {this.state.recordList.map((val, key) => (
+                    <div className="mobile-list-item" key={key}>
+                        <div className="list-item-container ReactMarkdown">
+                            <div className="item-describe-title">{val.title}</div>
+                            <div className="item-describe-content"><ReactMarkdown source={val.content} /></div>
+                        </div>
+                    </div>
+                ))}
+            
             </div>
         ) : null;
     }
@@ -248,6 +300,7 @@ class computer extends Component {
                 {this.renderDescribeBanner() /* 渲染 描述横幅 */}
                 {this.renderNavBar() /* 渲染 导航栏 */}
                 {this.renderMainList() /* 渲染 主页 */}
+                {this.renderRecordList() /* 渲染 记录 */}
                 {this.renderCopyright() /* 渲染 底部的 备案号 */}
             </React.Fragment>
         )

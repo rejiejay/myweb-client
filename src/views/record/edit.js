@@ -11,7 +11,7 @@ import 'antd-mobile/lib/modal/style/css';
 import 'antd-mobile/lib/textarea-item/style/css';
 import './edit.scss';
 // 请求
-import ajaxs from './../../api/newrecord/edit';
+import ajaxs from './../../api/record/edit';
 // 组件类
 import convertTime from './../../utils/convertTime.js';
 // 初始化类

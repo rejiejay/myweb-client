@@ -10,8 +10,8 @@ import ReactMarkdown from 'react-markdown';
 import 'antd-mobile/lib/icon/style/css';
 import 'antd-mobile/lib/modal/style/css';
 import './random.scss';
-// 轻轻类
-import ajaxs from './../../api/newrecord/random';
+// 请求类
+import ajaxs from './../../api/record/random';
 // 初始化类
 const clientHeight = document.documentElement.clientHeight || window.innerHeight || window.screen.height;
 

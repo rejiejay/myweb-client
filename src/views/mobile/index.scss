@@ -161,6 +161,35 @@ $black4: #C0C4CC;
     }
 }
 
+// 记录列表
+.mobile-list-record {
+    padding: 0px 15px;
+    min-height: 120px;
+
+    .mobile-list-item {
+        padding-top: 15px;
+
+        .list-item-container {
+            border-radius: 5px;
+            background: #fff;
+            overflow: hidden;
+            padding: 15px;
+        }
+
+        .item-describe-title {
+            padding-bottom: 5px;
+            font-weight: bold;
+            position: relative;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            color: $black1;
+        }
+
+        .item-describe-content {
+        }
+    }
+}
+
 // 备案号
 .copyright-component {
     padding-top: 35px;

@@ -12,7 +12,7 @@ import 'antd-mobile/lib/icon/style/css';
 import 'antd-mobile/lib/pagination/style/css';
 import './list.scss';
 // 请求类
-import ajaxs from './../../api/newrecord/list';
+import ajaxs from './../../api/record/list';
 // 初始化
 
 class recordlist extends Component {
