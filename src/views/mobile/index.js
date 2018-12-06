@@ -125,14 +125,17 @@ class computer extends Component {
 
                     {/* 内容区域 */}
                     <div className="describe-banner-describe">
+
                         <div className="banner-describe-row flex-start-center">
                             <div className="describe-row-icon">{work}</div>
                             <div className="describe-row-label">web前端开发 · 人机互联网络（深圳）有限公司</div>
                         </div>
+                        
                         <div className="banner-describe-row flex-start-center">
                             <div className="describe-row-icon">{people}</div>
-                            <div className="describe-row-label">男 {new Date().getFullYear() - 1994}岁 本科 {new Date().getFullYear() - 2016}年工作经验 深圳</div>
+                            <div className="describe-row-label">男 · {new Date().getFullYear() - 1994}岁 · 本科 · {new Date().getFullYear() - 2016}年工作经验 · 深圳</div>
                         </div>
+                        
                         <div className="banner-describe-row flex-start-center">
                             <div className="describe-row-icon">{pohone}</div>
                             <div className="describe-row-label" style={{paddingRight: '10px'}}>15976713287</div>
@@ -147,11 +150,23 @@ class computer extends Component {
         );
     }
 
+    /**
+     * 渲染 著作权
+     */
+    renderCopyright() {
+        return (
+            <div className="copyright-component">
+                <div className="copyright-describe">粤ICP备17119404号 Copyright © Rejiejay曾杰杰</div>
+            </div>
+        );
+    }
+
     render() {
         return (
             <React.Fragment>
                 {this.renderHeadlineBanner() /* 渲染 顶部横幅轮播图 */}
                 {this.renderDescribeBanner() /* 渲染 描述横幅 */}
+                {this.renderCopyright() /* 渲染 著作权 */}
             </React.Fragment>
         )
     }
