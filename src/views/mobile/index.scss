@@ -28,6 +28,7 @@ $black4: #C0C4CC;
 .mobile-describe-banner {
     position: relative;
 
+    // 头像
     .describe-banner-portrait {
         position: absolute;
         top: -50px;
@@ -42,6 +43,55 @@ $black4: #C0C4CC;
             width: 100%;
             height: 100%;
         }
+    }
+
+    // 描述横幅 内容
+    .describe-banner-container {
+        padding: 15px;
+        background: #fff;
+    }
+
+    // 个人简历按钮
+    .describe-banner-operate {
+        padding-bottom: 15px;
+
+        .banner-operate-resume {
+            padding: 5px 10px;
+            border: 1px solid #F56C6C;
+            color: #F56C6C;
+        }
+    }
+
+    // 标题
+    .describe-banner-title {
+        padding-bottom: 5px;
+
+        .banner-title-name {
+            font-size: 22px;
+            color: $black1;
+            width: 100px;
+            text-align: center;
+        }
+
+        .banner-title-icon {
+            a {
+                padding: 0px 5px;
+            }
+        }
+    }
+
+    // 内容区域
+    .describe-banner-describe {
+        font-size: 12px;
+
+        .banner-describe-row {
+            padding-top: 10px;
+        }
+
+        .describe-row-icon {
+            padding-right: 5px;
+        }
+
     }
 
 }
