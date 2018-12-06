@@ -89,7 +89,7 @@ class RouterConfig extends Component {
             <Provider store={store}>
                 <Router>
                     <Switch>
-                        <Route path="/" exact component={isMobile() ? mobileHome : pcHome} />
+                        <Route path="/" exact component={isMobile ? mobileHome : pcHome} />
                         
                         {/* 登录页面 */}
                         <Route path="/user/login" component={asyncComponent(() => import('./../views/user/login'))} />

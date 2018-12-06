@@ -1,4 +1,4 @@
-module.exports = function () {
+module.exports = (function () {
     let isMobile = false;
 
     let myWidth = document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth;
@@ -15,4 +15,4 @@ module.exports = function () {
     })
 
     return isMobile
-}
+})();
