@@ -184,8 +184,27 @@ $black4: #C0C4CC;
             overflow: hidden;
             color: $black1;
         }
+    }
+}
 
-        .item-describe-content {
+// 英语列表
+.mobile-list-english {
+    padding: 0px 15px;
+    min-height: 120px;
+
+    .mobile-list-item {
+        padding-top: 15px;
+
+        .list-item-container {
+            border-radius: 5px;
+            background: #fff;
+            overflow: hidden;
+            padding: 15px;
+        }
+
+        .item-describe-entext {
+            color: $black1;
+            font-weight: bold;
         }
     }
 }

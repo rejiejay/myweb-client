@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import './index.scss';
 // 请求类
 import recordAjaxs from './../../api/record/list';
+import englishAjaxs from './../../api/english/list';
 
 let clientWidth = document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth;
 let clientHeight = document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight;
@@ -23,6 +24,7 @@ class computer extends Component {
             navBarStatus: window.localStorage.navBarStatus ? window.localStorage.navBarStatus : 'all',
 
             recordList: [], // 记录 列表数据
+            englishList: [], // 英语 列表数据
         };
     }
 
@@ -30,11 +32,12 @@ class computer extends Component {
      * 组件加载完毕之后立即执行
      */
     componentDidMount() {
-        this.getRecordList(); // 获取记录列表
+        this.getRecordList(); // 获取 记录列表
+        this.getEnglishList(); // 获取 英语列表
     }
 
     /**
-     * 获取记录列表
+     * 获取 记录列表
      */
     getRecordList() {
 
@@ -42,6 +45,20 @@ class computer extends Component {
         .then(
             res => {
                 this.setState({recordList: res.list});
+
+            }, error => alert(error)
+        );
+    }
+
+    /**
+     * 获取 英语列表
+     */
+    getEnglishList() {
+
+        englishAjaxs.getList( 1 /* 首页只获取一页数据即可 */)
+        .then(
+            res => {
+                this.setState({englishList: res.list});
 
             }, error => alert(error)
         );
@@ -283,6 +300,25 @@ class computer extends Component {
     }
 
     /**
+     * 渲染 英语
+     */
+    renderEnglishList() {
+        return this.state.navBarStatus === 'english' ? (
+            <div className="mobile-list-english">
+
+                {this.state.englishList.map((val, key) => (
+                    <div className="mobile-list-item" key={key}>
+                        <div className="list-item-container">
+                            <div className="item-describe-entext">{val.en_text}</div>
+                        </div>
+                    </div>
+                ))}
+            
+            </div>
+        ) : null;
+    }
+
+    /**
      * 渲染 备案号
      */
     renderCopyright() {
@@ -301,6 +337,7 @@ class computer extends Component {
                 {this.renderNavBar() /* 渲染 导航栏 */}
                 {this.renderMainList() /* 渲染 主页 */}
                 {this.renderRecordList() /* 渲染 记录 */}
+                {this.renderEnglishList() /* 渲染 英语 */}
                 {this.renderCopyright() /* 渲染 底部的 备案号 */}
             </React.Fragment>
         )
