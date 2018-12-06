@@ -1,5 +1,6 @@
 // 框架类
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 // 样式类
 import './index.scss';
@@ -79,6 +80,31 @@ class computer extends Component {
      * 渲染 描述横幅
      */
     renderDescribeBanner() {
+        const _this = this;
+
+        /**
+         * 跳转到 登录 的方法
+         */
+        const jumpToLogin = () => {
+            window.location.href = './#/user/login';
+        }
+
+        /**
+         * 渲染昵称 同时判断是否登录
+         */
+        const renderNameByLogin= (() => {
+
+            // 用 token 判断是否登录, token 错误的也没关系， 因为 就算 token 错误的也会进行跳转
+            if (_this.props.rejiejay_token) {
+                return (
+                    <div className="banner-title-name">曾杰杰</div>
+                );
+            } else {
+                return (
+                    <div className="banner-title-name" onClick={() => jumpToLogin()}>请登录</div>
+                );
+            }
+        })();
 
         let GitHub = (
             <svg width="28" height="28" t="1530086884294" className="GitHub" viewBox="0 0 1049 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2539" >
@@ -163,7 +189,7 @@ class computer extends Component {
 
                     {/* 标题 */}
                     <div className="describe-banner-title flex-start-center">
-                        <div className="banner-title-name">曾杰杰</div>
+                        {renderNameByLogin}
                         <div className="flex-rest"></div>
                         <div className="banner-title-icon flex-start-center">
                             <a href="https://github.com/rejiejay">{GitHub}</a>
@@ -364,4 +390,10 @@ class computer extends Component {
     }
 }
 
-export default computer;
+const mapStateToProps = state => {
+    return {
+        rejiejay_token: state.user.rejiejay_token, // 用于判断是否登录的 token
+    }
+};
+
+export default connect(mapStateToProps)(computer);
