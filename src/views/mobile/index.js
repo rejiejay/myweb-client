@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown';
 // 样式类
 import './index.scss';
 // 请求类
-import recordAjaxs from './../../api/record/list';
+import recordAjaxs from './../../api/record';
 import englishAjaxs from './../../api/english/list';
 
 let clientWidth = document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth;
@@ -24,6 +24,15 @@ class computer extends Component {
              */
             navBarStatus: window.localStorage.navBarStatus ? window.localStorage.navBarStatus : 'all',
 
+            /**
+             * 用于渲染 横幅描述 随机记录的 id
+             * 如果不存在 表示 显示 web前端开发 · 人机互联网络（深圳）有限公司 的那一行 默认的 横幅描述
+             * 为什么有这个？ 因为我 首屏 需要显示 一些自己的想法 这是我的需求 
+             */
+            bannerRandomDescribeId: window.localStorage.BanRandomDesId ? window.localStorage.BanRandomDesId : false,
+            bannerRecordTitle: '', // 横幅描述 的 随机记录 标题
+            bannerRecordContent: '', // 横幅描述 的 随机记录 内容
+
             recordList: [], // 记录 列表数据
             englishList: [], // 英语 列表数据
         };
@@ -33,8 +42,29 @@ class computer extends Component {
      * 组件加载完毕之后立即执行
      */
     componentDidMount() {
+        this.initBannerRecord(); // 初始化 横幅描述 随机记录
         this.getRecordList(); // 获取 记录列表
         this.getEnglishList(); // 获取 英语列表
+    }
+
+    /**
+     * 初始化 横幅描述 随机记录
+     */
+    initBannerRecord() {
+        const _this = this;
+
+        // 判断本地是否存在 id
+        if (window.localStorage.BanRandomDesId) {
+            // 如果存在, 则根据id查询 记录
+            recordAjaxs.getOneById(parseInt(window.localStorage.BanRandomDesId, 10))
+            .then(
+                value => _this.setState({
+                    bannerRecordTitle: value.title,
+                    bannerRecordContent: value.content,
+                }), 
+                error => alert(error)
+            );
+        }
     }
 
     /**
@@ -90,9 +120,37 @@ class computer extends Component {
         }
 
         /**
+         * 随机获取 一条记录
+         */
+        const getOneRecordByRandom = () => {
+            recordAjaxs.getOneByRandom()
+            .then(
+                value => {
+                    // 缓存id 持久化
+                    window.localStorage.setItem('BanRandomDesId', value.id);
+
+                    _this.setState({
+                        bannerRandomDescribeId: value.id,
+                        bannerRecordTitle: value.title,
+                        bannerRecordContent: value.content,
+                    });
+                }, error => alert(error)
+            );
+        }
+
+        /**
+         * 恢复 描述横幅 默认状态 的方法
+         */
+        const bannerRecover = () => {
+            window.localStorage.removeItem('BanRandomDesId');
+
+            _this.setState({ bannerRandomDescribeId: false });
+        }
+
+        /**
          * 渲染昵称 同时判断是否登录
          */
-        const renderNameByLogin= (() => {
+        const renderNameByLogin = (() => {
 
             // 用 token 判断是否登录, token 错误的也没关系， 因为 就算 token 错误的也会进行跳转
             if (_this.props.rejiejay_token) {
@@ -102,6 +160,56 @@ class computer extends Component {
             } else {
                 return (
                     <div className="banner-title-name" onClick={() => jumpToLogin()}>请登录</div>
+                );
+            }
+        })();
+
+        /**
+         * 渲染 横幅的描述
+         */
+        const renderBannerDescribe = (() => {
+            // 判断 是否存在 随机记录的 id 
+            if (_this.state.bannerRandomDescribeId) {
+                // 渲染随机的一条记录
+                return (
+                    <div className="describe-banner-record ReactMarkdown">
+                        <div className="banner-main-title" onClick={getOneRecordByRandom}>{_this.state.bannerRecordTitle}</div>
+                        <div className="banner-main-content" onClick={getOneRecordByRandom}><ReactMarkdown source={_this.state.bannerRecordContent} /></div>
+                        <div className="banner-main-operate flex-start">
+                            <div className="main-operate-left flex-rest"></div>
+                            <div className="main-operate-edit" style={{paddingRight: '15px', color: '#F56C6C'}}>编辑</div>
+                            <div className="main-operate-more" 
+                                onClick={bannerRecover /** 因为没有过多的状态, 所以点击更多的时候 返回默认状态 【这个是诱导按钮】 */} 
+                                style={{color: '#F56C6C'}}
+                            >更多</div>
+                        </div>
+                    </div>
+                );
+
+            } else {
+                // 如果不存在 随机记录的 id，则渲染 默认的 横幅描述
+                return (
+                    <div className="describe-banner-main" onClick={getOneRecordByRandom /** 不管点击哪里 都随机查询一条记录 */}>
+
+                        <div className="banner-describe-row flex-start-center">
+                            <div className="describe-row-icon">{work}</div>
+                            <div className="describe-row-label">web前端开发 · 人机互联网络（深圳）有限公司</div>
+                        </div>
+                        
+                        <div className="banner-describe-row flex-start-center">
+                            <div className="describe-row-icon">{people}</div>
+                            <div className="describe-row-label">男 · {new Date().getFullYear() - 1994}岁 · 本科 · {new Date().getFullYear() - 2016}年工作经验 · 深圳</div>
+                        </div>
+                        
+                        <div className="banner-describe-row flex-start-center">
+                            <div className="describe-row-icon">{pohone}</div>
+                            <div className="describe-row-label" style={{paddingRight: '10px'}}>15976713287</div>
+                            <div className="describe-row-icon">{EmailSmall}</div>
+                            <div className="describe-row-label flex-rest"><a href="mailto:454766952@qq.com">454766952@qq.com</a></div>
+                            <div className="describe-row-more" style={{color: '#F56C6C'}}>更多</div>
+                        </div>
+
+                    </div>
                 );
             }
         })();
@@ -201,27 +309,7 @@ class computer extends Component {
                     </div>
 
                     {/* 内容区域 */}
-                    <div className="describe-banner-describe">
-
-                        <div className="banner-describe-row flex-start-center">
-                            <div className="describe-row-icon">{work}</div>
-                            <div className="describe-row-label">web前端开发 · 人机互联网络（深圳）有限公司</div>
-                        </div>
-                        
-                        <div className="banner-describe-row flex-start-center">
-                            <div className="describe-row-icon">{people}</div>
-                            <div className="describe-row-label">男 · {new Date().getFullYear() - 1994}岁 · 本科 · {new Date().getFullYear() - 2016}年工作经验 · 深圳</div>
-                        </div>
-                        
-                        <div className="banner-describe-row flex-start-center">
-                            <div className="describe-row-icon">{pohone}</div>
-                            <div className="describe-row-label" style={{paddingRight: '10px'}}>15976713287</div>
-                            <div className="describe-row-icon">{EmailSmall}</div>
-                            <div className="describe-row-label"><a href="mailto:454766952@qq.com">454766952@qq.com</a></div>
-                        </div>
-
-                    </div>
-
+                    {renderBannerDescribe}
                 </div>
             </div>
         );

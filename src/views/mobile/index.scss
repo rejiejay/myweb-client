@@ -81,7 +81,7 @@ $black4: #C0C4CC;
     }
 
     // 内容区域
-    .describe-banner-describe {
+    .describe-banner-main {
         font-size: 12px;
 
         .banner-describe-row {
@@ -91,7 +91,20 @@ $black4: #C0C4CC;
         .describe-row-icon {
             padding-right: 5px;
         }
+    }
 
+    // 横幅描述 随机记录
+    .describe-banner-record  {
+        font-size: 14px;
+
+        .banner-main-title {
+            font-weight: bold;
+            padding-bottom: 5px;
+        }
+
+        .banner-main-content {
+            padding-bottom: 2.5px;
+        }
     }
 
 }
