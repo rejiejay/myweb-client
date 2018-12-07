@@ -71,3 +71,13 @@ input:-moz-placeholder,  /* Mozilla Firefox 4 to 18 */
 input:-ms-input-placeholder { /* Internet Explorer 10-11 */ 
     color: $black1;
 }
+
+textarea {
+    border: none;
+}
+
+textarea:focus {
+    outline: none;
+}
+
+

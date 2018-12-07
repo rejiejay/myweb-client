@@ -26,18 +26,21 @@ class RouterConfig extends Component {
                         
                         {/* 登录页面 */}
                         <Route path="/user/login" component={asyncComponent(() => import('./../views/user/login'))} />
-                        
-                        {/* 简历页面 */}
-                        <Route path="/reuseme" component={asyncComponent(() => import('./../views/reuseme/index'))} />
 
-                        {/* 英语 */}
-                        <Route path="/english/list" component={asyncComponent(() => import('./../views/english/list'))} />
-                        <Route path="/english/add" component={asyncComponent(() => import('./../views/english/add'))} />
-
-                        {/* 记录页 */}
-                        <Route path="/record/random" component={asyncComponent(() => import('./../views/record/random'))} />
-                        <Route path="/record/edit" component={asyncComponent(() => import('./../views/record/edit'))} />
+                        {/* 记录列表 */}
                         <Route path="/record/list" component={asyncComponent(() => import('./../views/record/list'))} />
+                        
+                        {/* 简历页面 这几个页面新版都会改掉 */}
+                        {/* <Route path="/reuseme" component={asyncComponent(() => import('./../views/reuseme/index'))} /> */}
+
+                        {/* 英语 这几个页面新版都会改掉 */}
+                        {/* <Route path="/english/list" component={asyncComponent(() => import('./../views/english/list'))} />
+                        <Route path="/english/add" component={asyncComponent(() => import('./../views/english/add'))} /> */}
+
+                        {/* 记录页 这几个页面新版都会改掉 */}
+                        {/* <Route path="/record/random" component={asyncComponent(() => import('./../views/record/random'))} />
+                        <Route path="/record/edit" component={asyncComponent(() => import('./../views/record/edit'))} />
+                        <Route path="/record/list" component={asyncComponent(() => import('./../views/record/list'))} /> */}
 
                     </Switch>
                 </Router>

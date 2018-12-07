@@ -22,41 +22,43 @@ export default {
     /**
      * 保存记录
      */
-    saveRecord: (self, title, content) => {
+    saveRecord: (title, content) => {
         // 请求参数
         let payloads = {
             title: title,
             content: content,
         }
 
-        return apibasics.post('/record/save', payloads, self, '保存记录');
+        return apibasics.post('/record/save', payloads, '保存记录');
     },
 
     /**
      * 编辑记录
+     * 这个 year 2018 的, 记得后台一起优化
      */
-    editRecord: (self, id, year, title, content) => {
+    editRecord: (id, year, title, content) => {
         // 请求参数
         let payloads = {
             id: parseInt(id, 10),    // 后面的参数是 10进制的意思 保证是number
-            year: parseInt(year, 10),// 后面的参数是 10进制的意思 保证是number
+            year: 2018,// 后面的参数是 10进制的意思 保证是number
             title: title,
             content: content,
         }
 
-        return apibasics.post('/record/edit', payloads, self, '编辑记录');
+        return apibasics.post('/record/edit', payloads, '编辑记录');
     },
 
     /**
      * 删除记录
+     * 这个 year 2018 的, 记得后台一起优化
      */
-    deleteRecord: (self, id, year) => {
+    deleteRecord: (id, year) => {
         // 请求参数
         let payloads = {
             id: parseInt(id, 10),    // 保证是number
-            year: parseInt(year, 10) // 保证是number
+            year: 2018 // 保证是number
         }
 
-        return apibasics.post('/record/delete', payloads, self, '删除记录');
+        return apibasics.post('/record/delete', payloads, '删除记录');
     },
 }

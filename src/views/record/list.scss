@@ -3,53 +3,60 @@ $black2: #606266;
 $black3: #909399;
 $black4: #C0C4CC;
 
-$pagination-container-z-index: 2;
-
-.rejiejay-record-list {
-
-.record-list-render {
+.record-list {
     padding-bottom: 75px;
-    .render-item {
+
+    .list-item {
         padding: 15px;
         border-bottom: 1px solid #ddd;
     }
-    .render-item-title {
+
+    .list-item-title {
         font-size: 18px;
         color: $black1;
         padding-bottom: 5px;
     }
 
-    .render-item-content {
+    .list-item-content {
         color: $black2;
     }
-    .render-item:active {
-        background: red;
-        .render-item-title {
-            color: #fff;
+}
+
+// 新增模态框
+.add-modal {
+    // 标题部分
+    .add-modal-title {
+        padding-left: 15px;
+        height: 50px;
+        border-bottom: 1px solid #ddd;
+
+        input {
+            font-size: 16px;
+            color: $black1;
+            font-weight: bold;
         }
-    
-        .render-item-content {
+
+        .modal-title-close {
+            padding: 0px 15px;
+            height: 50px;
+            line-height: 50px;
+        }
+    }
+
+    .add-modal-content textarea {
+        width: 100%;
+    }
+
+    .add-modal-operate {
+        padding: 10px 15px;
+        height: 30px;
+        border-top: 1px solid #ddd;
+
+        .modal-operate-container {
+            line-height: 30px;
+            text-align: center;
             color: #fff;
+            background: #409EFF;
         }
     }
 }
-
-// 底部分页
-.pagination-container {
-    position: fixed;
-    left: 0px;
-    bottom: 0px;
-    width: 100%;
-    height: 55px;
-    border-top: 1px solid #ddd;
-    background: #fff;
-    z-index: $pagination-container-z-index;
-
-    .am-pagination {
-        width: 320px;
-    }
-}
-
-}
-
-
