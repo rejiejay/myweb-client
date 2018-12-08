@@ -41,6 +41,7 @@ $black4: #C0C4CC;
 
 // 新增模态框
 .add-modal {
+
     // 标题部分
     .add-modal-title {
         padding-left: 15px;
@@ -60,6 +61,7 @@ $black4: #C0C4CC;
         }
     }
 
+    // 内容部分
     .add-modal-content textarea {
         width: 100%;
     }
@@ -74,6 +76,50 @@ $black4: #C0C4CC;
             text-align: center;
             color: #fff;
             background: #409EFF;
+        }
+    }
+}
+
+// 新增模态框
+.editor-modal {
+
+    // 标题部分
+    .editor-modal-title {
+        padding-left: 15px;
+        height: 50px;
+        border-bottom: 1px solid #ddd;
+
+        input {
+            font-size: 16px;
+            color: $black1;
+            font-weight: bold;
+        }
+
+        .modal-title-close {
+            padding: 0px 15px;
+            height: 50px;
+            line-height: 50px;
+        }
+    }
+
+    // 内容部分
+    .editor-modal-content textarea {
+        width: 100%;
+    }
+
+    // 底部操作按钮部分
+    .editor-modal-operate {
+        border-top: 1px solid #ddd;
+        line-height: 50px;
+        font-size: 14px;
+
+        .modal-operate-item {
+            width: 25%;
+
+            span {
+                display: block;
+                text-align: center;
+            }
         }
     }
 }

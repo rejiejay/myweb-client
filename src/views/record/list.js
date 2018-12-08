@@ -37,11 +37,11 @@ class recordlist extends Component {
             ],
 
             /**
-             * 排序方式
+             * 排序方式 这个有持久化的需求
              * @param {string} time 时间排序 就是 默认排序 
              * @param {string} random 随机排序 
              */
-            sortType: 'time',
+            sortType: window.localStorage.recordSortType ? window.localStorage.recordSortType : 'time',
 
             /**
              * 新增模态框
@@ -49,6 +49,14 @@ class recordlist extends Component {
             isAddModalShow: false, // 是否显示新增模态框
             addTitle: '', // 新增的 标题
             addContent: '', // 新增的 内容
+
+            /**
+             * 编辑模态框
+             */
+            isEditorModalShow: true, // 是否显示 编辑模态框
+            editorId: null, // 编辑记录的 唯一标识
+            editorTitle: '', // 编辑记录的 标题
+            editorContent: '', // 编辑记录的 内容
         };
 
         /**
@@ -61,7 +69,6 @@ class recordlist extends Component {
 
     componentDidMount() {
         this.getListBy(); // 获取页面数据
-        
 
 		window.addEventListener('scroll', this.scrollHandle.bind(this)); // 添加滚动事件，检测滚动到页面底部
     }
@@ -184,12 +191,20 @@ class recordlist extends Component {
          * 切换排序方式的方法
          */
         let sortTypeSwitcher = () => {
+            // 重置分页数据
             _this.pagenum = 1; // 页码
             _this.pageTotal = 1; // 一共有多少数据
             _this.isScrollLoding = false; // 是否正在加载分页..
+
+            // 要切换的新排序方式
+            let newSortType = sortType === 'time' ? 'random' : 'time';
+
+            // 持久化 排序方式
+            window.localStorage.setItem('recordSortType', newSortType);
             
+            // 修改页面状态, 并且获取数据
             _this.setState({
-                sortType: sortType === 'time' ? 'random' : 'time'
+                sortType: newSortType
             }, _this.getListBy);
         };
 
@@ -321,13 +336,161 @@ class recordlist extends Component {
         );
     }
 
+    /**
+     * 渲染 编辑模态框
+     */
+    renderEditorModal() {
+        const _this = this;
+        let editorTitle = this.state.editorTitle; // 编辑的 标题
+        let editorContent = this.state.editorContent; // 编辑的 内容
+
+        /**
+         * 数据提交 的处理函数
+         */
+        let submitHandle = () => {
+            // 必须要判断 编辑的 内容 是否为空
+            if (!editorContent) {
+                return alert('内容不能为空');
+            }
+
+            // 初始化标题, 当标题为空的时候 
+            let mytitle = editorTitle ? editorTitle : `记录 ${convertTime.dateToYYYYmmDDhhMM(new Date())}`;
+
+            ajaxs.editRecord(this.state.editorId, mytitle, editorContent)
+            .then(
+                () => { // 修改成功
+                    // 修改页面状态
+                    _this.setState({
+                        isEditorModalShow: false, // 关闭修改成功的模态框
+                        editorId: '', // 清空 id
+                        editorTitle: '', // 清空 标题
+                        editorContent: '', // 清空 内容
+                    });
+                    
+                }, error => alert(error)
+            );
+        }
+
+        /**
+         * 模态框关闭 的处理函数
+         */
+        let colseHandle = () => {
+            // 因为 100% 是有数据的, 所以每次关闭的时候 校验一次是否数据（未）修改的情况
+            if (editorTitle === window.sessionStorage.recordEditorTitle && editorContent === window.sessionStorage.recordEditorContent) {
+                // 既然数据未修改 那直接关闭模态框即可
+                return _this.setState({isEditorModalShow: false});
+            }
+
+            // 检测到数据发生改变, 弹出提示框 询问是否需要保存
+            if (window.confirm('你的数据尚未保存, 你是否需要保存?')) {
+                // 如果需要保存， 提交一次即可， 提交成功会关闭模态框的
+                submitHandle();
+
+            } else {
+
+                // 如果确认不需要保存, 那么直接关闭模态框即可
+                return _this.setState({isEditorModalShow: false});
+            }
+        }
+
+        /**
+         * 数据删除 的处理函数
+         */
+        let deleteHandle = () => {
+            // 询问是否确认删除
+            if (window.confirm('是否删除此条数据?') === false) {
+                // 不删除的情况, 阻止往下执行即可
+                return false
+            }
+
+            ajaxs.deleteRecord()
+            .then(() => { // 记录删除成功
+
+                // 删除缓存
+                window.sessionStorage.removeItem('recordEditorId');
+                window.sessionStorage.removeItem('recordEditorTitle');
+                window.sessionStorage.removeItem('recordEditorContent');
+
+                // 更新页面状态
+                _this.setState({
+                    isEditorModalShow: false, // 关闭模态框
+                    editorId: null, // 清空id
+                    editorTitle: '', // 清空 标题
+                    editorContent: '', // 清空 内容
+                });
+
+            }, error => alert(error));
+        }
+
+        /**
+         * 标题 输入框 处理函数
+         */
+        const inputTitleHandle = event => _this.setState({editorTitle: event.target.value});
+        
+        /**
+         * 内容 输入框 处理函数
+         */
+        const contentTitleHandle = event => _this.setState({editorContent: event.target.value});
+
+        return (
+            <MobileListModal isShow={this.state.isEditorModalShow} colseHandle={colseHandle}>
+                <div className="editor-modal">
+                    
+                    {/* 标题部分 */}
+                    <div className="editor-modal-title flex-start-center">
+                        <input className="flex-rest" 
+                            value={editorTitle}
+                            onChange={inputTitleHandle}
+                            placeholder="请输入标题" 
+                        />
+                        <div className="modal-title-close" onClick={colseHandle}>X</div>
+                    </div>
+
+                    {/* 内容部分 */}
+                    <div className="editor-modal-content flex-center" style={{height: `${clientHeight - 70 - 50 - 50}px` /** 这里的高度很好算的 模态框上下边距为 70, 再减去 标题 50，以及底部操作按钮 50 */}}>
+                        <textarea 
+                            style={{
+                                height: `${clientHeight - 70 - 50 - 50 - 30}px`, 
+                                width: `${clientWidth - 62 - 30}px`
+                            }}
+                            value={editorContent}
+                            onChange={contentTitleHandle}
+                            placeholder="请输入内容"
+                        />
+                    </div>
+                    
+                    {/* 操作按钮部分 */}
+                    <div className="editor-modal-operate flex-start-center">
+
+                        <div className="modal-operate-item" onClick={deleteHandle}>
+                            <span style={{borderRight: '1px solid #ddd'}}>删除</span>
+                        </div>
+
+                        <div className="modal-operate-item">
+                            <span style={{borderRight: '1px solid #ddd'}}>保存</span>
+                        </div>
+
+                        <div className="modal-operate-item">
+                            <span style={{borderRight: '1px solid #ddd'}}>上一篇</span>
+                        </div>
+
+                        <div className="modal-operate-item">
+                            <span>下一篇</span>
+                        </div>
+                    </div>
+                </div>
+            </MobileListModal>
+        );
+    }
+
     render() {
         return (
             <React.Fragment>
 
-                {this.renderHead() /* 渲染头部 */}
-                {this.renderList() /* 渲染列表页 */}
-                {this.renderAddModal() /* 渲染新增模态框 */}
+                {this.renderHead() /* 渲染 头部 */}
+                {this.renderList() /* 渲染 列表页 */}
+                {this.renderAddModal() /* 渲染 新增模态框 */}
+                {this.renderEditorModal() /* 渲染 编辑模态框 */}
 
             </React.Fragment>
         );
