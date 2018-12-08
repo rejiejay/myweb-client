@@ -1,0 +1,59 @@
+$black1: #303133;
+$black2: #606266;
+$black3: #909399;
+$black4: #C0C4CC;
+
+.rejiejay-record-random {
+
+.preview-header {
+    position: relative;
+    height: 40px;
+
+    .title-icon {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        height: 40px;
+        color: #fff;
+        padding: 0px 10px;
+        z-index: 2;
+        background: #F56C6C;
+        svg {
+            position: relative;
+            top: 8px;
+        }
+    }
+
+    .title-input {
+        overflow: hidden;
+        width: 100%;
+        height: 40px;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        line-height: 40px;
+        text-align: center;
+        background: #F56C6C;
+        color: #fff;
+    }
+}
+
+.mobile-operation {
+    position: fixed;
+    bottom: 35px;
+    right: 15px;
+
+    .mobile-operation-item {
+        font-size: 14px;
+        margin-top: 15px;
+        height: 40px;
+        width: 100px;
+        border-radius: 20px;
+        text-align: center;
+        line-height: 40px;
+        color: #fff;
+        background: #F56C6C;
+    }
+}
+
+}

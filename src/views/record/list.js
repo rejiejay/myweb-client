@@ -23,9 +23,6 @@ class recordlist extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pagenum: 1, // 页码
-            pageCount: 0, // 一共有多少数据
-
             list: [
                 // {
                 //     content: "你好",
@@ -40,35 +37,173 @@ class recordlist extends Component {
             ],
 
             /**
+             * 排序方式
+             * @param {string} time 时间排序 就是 默认排序 
+             * @param {string} random 随机排序 
+             */
+            sortType: 'time',
+
+            /**
              * 新增模态框
              */
-            isAddModalShow: true, // 是否显示新增模态框
+            isAddModalShow: false, // 是否显示新增模态框
             addTitle: '', // 新增的 标题
             addContent: '', // 新增的 内容
         };
+
+        /**
+         * 分页相关
+         */
+        this.pagenum = 1; // 页码
+        this.pageTotal = 1; // 一共有多少数据
+        this.isScrollLoding = false; // 是否正在加载分页..
     }
 
     componentDidMount() {
         this.getListBy(); // 获取页面数据
+        
+
+		window.addEventListener('scroll', this.scrollHandle.bind(this)); // 添加滚动事件，检测滚动到页面底部
+    }
+    
+    componentWillUnmount() {
+        this.isScrollLoding = true; // 阻塞掉 正在加载分页
+		window.removeEventListener('scroll', this.scrollHandle.bind(this)); // 移除滚动事件，检测滚动到页面底部
     }
 
     /**
      * 获取页面数据
+     * @param {Boolean} isLodeMore 是否 新增 分页 加载
      */
-    getListBy() {
+    getListBy(isLodeMore) {
         const _this = this;
+        let sortType = this.state.sortType; // 排序方式
 
-        ajaxs.getList(this.state.pagenum)
-        .then(
-            res => {
-                _this.setState({
-                    pageCount: (res && res.count) ? res.count : 1,
-                    list: (res && res.list) ? res.list.map(val => {
-                        return val;
-                    }) : [],
-                });
+        /**
+         * 根据时间 获取页面数据
+         */
+        let ajaxsGetList = () => {
+            ajaxs.getList(_this.pagenum)
+            .then(
+                res => {
+                    // 设置分页为 不是正在加载
+                    _this.isScrollLoding = false;
+    
+                    // 校验一下数据
+                    if (!res || !res.pageTotal || !res.list) {
+                        return alert(`列表数据有误!`);
+                    }
+    
+                    _this.pageTotal = res.pageTotal;
+                    
+                    // 判断是否 新增 分页 加载
+                    if (isLodeMore) {
+                        _this.setState({ list: JSON.parse(JSON.stringify(_this.state.list)).concat(res.list) });
+                        
+                    } else { // 如果是首次加载
+                        _this.setState({ list: res.list });
+    
+                    }
+    
+                }, error => alert(error)
+            );
+        }
+        
+        /**
+         * 随机 获取页面数据
+         */
+        let ajaxsGetRandom = () => {
+            ajaxs.getrandom()
+            .then(
+                res => {
+                    _this.pagenum = 1; // 因为 随机查询 页码是无限的, 所以页面每次设置为 1
+                    _this.pageTotal = 2; // 因为 随机查询 是无限的, 所以页面每次设置为 2
+                    _this.isScrollLoding = false; // 设置分页为 不是正在加载
+    
+                    // 校验一下数据
+                    if (!res || !res instanceof Array || res.length === 0) {
+                        return alert(`列表数据有误!`);
+                    }
+                    
+                    // 判断是否 新增 分页 加载
+                    if (isLodeMore) {
+                        _this.setState({ list: JSON.parse(JSON.stringify(_this.state.list)).concat(res) });
+                        
+                    } else { // 如果是首次加载
+                        _this.setState({ list: res });
+    
+                    }
 
-            }, error => alert(error)
+                }, error => alert(error)
+            );
+
+        }
+
+        // 先判断排序方式
+        if (sortType === 'time') {
+            ajaxsGetList(); // 根据时间排序获取
+
+        } else {
+            ajaxsGetRandom(); // 随机获取
+
+        }
+
+    }
+
+    /**
+     * 滚动事件 处理函数
+     */
+    scrollHandle() {
+        let screenHeight = window.screen.height; // 屏幕的高度
+        let clientHeight = document.getElementById('root').clientHeight; // 页面的总高度
+        let myScrollTop = document.documentElement.scrollTop || document.body.scrollTop; // 滚动的距离
+
+        if (
+            screenHeight + myScrollTop >= clientHeight - 50 && // (屏幕高度 + 滚动的距离) 必须 (大于整个页面的总高度 - 50像素的预留空间)
+            this.isScrollLoding === false && // 并且页面不是请求状态
+            this.pagenum < this.pageTotal // 并且 目前的页码 必须小于 总页码
+        ) {
+            this.pagenum = this.pagenum + 1; // 请求的页码 加一
+            this.getListBy(true); // 开始请求 并且 该请求 设置为 新增列表
+        }
+    }
+
+    /**
+     * 渲染头部
+     */
+    renderHead() {
+        const _this = this;
+        let sortType = this.state.sortType; // 排序方式
+
+        /**
+         * 打开新增模态框的方法
+         */
+        let openAddModal = () => _this.setState({isAddModalShow: true});
+
+        /**
+         * 切换排序方式的方法
+         */
+        let sortTypeSwitcher = () => {
+            _this.pagenum = 1; // 页码
+            _this.pageTotal = 1; // 一共有多少数据
+            _this.isScrollLoding = false; // 是否正在加载分页..
+            
+            _this.setState({
+                sortType: sortType === 'time' ? 'random' : 'time'
+            }, _this.getListBy);
+        };
+
+        return (
+            <div className="record-head flex-start">
+                <div className="record-head-item" onClick={sortTypeSwitcher}>
+                    <span style={{
+                        borderRight: '1px solid #ddd'
+                    }}>{sortType === 'time' ? '切换随机' : '返回默认'}排序</span>
+                </div>
+                <div className="record-head-item" onClick={openAddModal}>
+                    <span>新增记录</span>
+                </div>
+            </div>
         );
     }
 
@@ -190,6 +325,7 @@ class recordlist extends Component {
         return (
             <React.Fragment>
 
+                {this.renderHead() /* 渲染头部 */}
                 {this.renderList() /* 渲染列表页 */}
                 {this.renderAddModal() /* 渲染新增模态框 */}
 

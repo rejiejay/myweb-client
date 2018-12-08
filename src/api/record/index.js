@@ -20,6 +20,11 @@ export default {
     getList: pagenum => apibasics.get(`/record/get/list?pagenum=${pagenum}`, '列表数据'),
     
     /**
+     * 获取 随机查询
+     */
+    getrandom: () => apibasics.get('/record/get/random', '随机查询'),
+    
+    /**
      * 保存记录
      */
     saveRecord: (title, content) => {
