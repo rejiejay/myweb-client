@@ -6,8 +6,8 @@ import ReactMarkdown from 'react-markdown';
 import './index.scss';
 // 请求类
 import recordAjaxs from './../../api/record';
-import englishAjaxs from './../../api/english/list';
-
+import englishAjaxs from './../../api/english';
+// 初始化
 let clientWidth = document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth;
 let clientHeight = document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight;
 

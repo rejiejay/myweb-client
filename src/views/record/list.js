@@ -54,14 +54,15 @@ class recordlist extends Component {
             editorId: null, // 编辑记录的 唯一标识
             editorTitle: '', // 编辑记录的 标题
             editorContent: '', // 编辑记录的 内容
-            stepStack: [ // 上一篇, 下一篇的堆栈
+            // 上一篇, 下一篇的堆栈
+            stepStack: window.sessionStorage.stepStack ? JSON.parse(window.sessionStorage.stepStack) : [ 
                 // {
                 //     id: 1,
                 //     title: '',
                 //     content: '',
                 // }
             ],
-        };
+        }
 
         /**
          * 分页相关
@@ -502,7 +503,17 @@ class recordlist extends Component {
                 return false;
             }
 
-            // 如果有内容，堆栈退出一条
+            // 先判断是否数据改变
+            if (editorTitle !== window.sessionStorage.recordEditorTitle || editorContent !== window.sessionStorage.recordEditorContent) {
+                
+                // 如果数据发生改变, 弹出提示
+                if (window.confirm('你的数据尚未保存, 你是否需要查看上一篇?') === false) {
+                    // 如果不想查看了，阻止往下执行即可
+                    return false;
+                }
+            }
+
+            // 堆栈退出一条
             let newStepStack = JSON.parse(JSON.stringify(stepStack));
             newStepStack.pop();
 
@@ -520,9 +531,20 @@ class recordlist extends Component {
          * 下一篇
          */
         let nextRecordHandle = () => {
+
+            // 如果有内容，先判断是否数据改变
+            if (editorTitle !== window.sessionStorage.recordEditorTitle || editorContent !== window.sessionStorage.recordEditorContent) {
+                
+                // 如果数据发生改变, 弹出提示
+                if (window.confirm('你的数据尚未保存, 你是否需要查看下一篇?') === false) {
+                    // 如果不想查看了，阻止往下执行即可
+                    return false;
+                }
+            }
+            
             let newStepStack = stepStack.concat([]);
 
-            // 先判断是不是第一次点击
+            // 判断是不是第一次点击
             if (stepStack.length <= 0) {
                 // 如果是第一次点击，那么本条记录也是要进行缓存的
                 newStepStack.push({
