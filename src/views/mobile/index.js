@@ -177,7 +177,13 @@ class computer extends Component {
                         <div className="banner-main-content" onClick={getOneRecordByRandom}><ReactMarkdown source={_this.state.bannerRecordContent} /></div>
                         <div className="banner-main-operate flex-start">
                             <div className="main-operate-left flex-rest"></div>
-                            <div className="main-operate-edit" style={{paddingRight: '15px', color: '#F56C6C'}}>编辑</div>
+                            <div className="main-operate-edit" 
+                                style={{
+                                    paddingRight: '15px', 
+                                    color: '#F56C6C'
+                                }}
+                                onClick={() => window.location.href = `./?pageType=edit&id=${_this.state.bannerRandomDescribeId}#/record/list`}
+                            >编辑</div>
                             <div className="main-operate-more" 
                                 onClick={bannerRecover /** 因为没有过多的状态, 所以点击更多的时候 返回默认状态 【这个是诱导按钮】 */} 
                                 style={{color: '#F56C6C'}}
@@ -449,8 +455,13 @@ class computer extends Component {
      * 渲染 英语
      */
     renderEnglishList() {
+        /**
+         * 跳转到 编辑
+         */
+        let jumpToEnglish = () => window.location.href = `./#/english/list`;
+
         return this.state.navBarStatus === 'english' ? (
-            <div className="mobile-list-english"> {/** 这个页面无论点击什么都是跳转到英语页 */}
+            <div className="mobile-list-english" onClick={jumpToEnglish}>
             
                 {this.state.englishList.map((val, key) => (
                     <div className="mobile-list-item" key={key}>

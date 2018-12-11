@@ -3,28 +3,25 @@ $black2: #606266;
 $black3: #909399;
 $black4: #C0C4CC;
 
-$pagination-container-z-index: 2;
+// 头部
+.record-head {
+    line-height: 45px;
 
-// 新增部分
-// 顶部操作部分
-.top-operation {
-    width: 100%;
+    .english-audio {
+        display: none;
+    }
 
-    > div {
+    .record-head-item {
         width: 50%;
-        text-align: center;
-        font-weight: bold;
-        line-height: 45px;
-        background: #fff;
         border-bottom: 1px solid #ddd;
-    }
+        font-size: 14px;
+        color: $black2;
 
-    .english-add {
-        border-right: 1px solid #ddd;
+        span {
+            display: block;
+            text-align: center;
+        }
     }
-
-    // .english-out-of-order {
-    // }
 }
 
 // 一个项
@@ -93,19 +90,43 @@ $pagination-container-z-index: 2;
     }
 }
 
-// 底部分页
-.pagination-container {
-    position: fixed;
-    left: 0px;
-    bottom: 0px;
-    width: 100%;
-    height: 55px;
-    border-top: 1px solid #ddd;
-    background: #fff;
-    z-index: $pagination-container-z-index;
+// 新增模态框
+.add-modal {
 
-    .am-pagination {
-        width: 320px;
+    // 标题部分
+    .add-modal-title {
+        padding-left: 15px;
+        height: 50px;
+        border-bottom: 1px solid #ddd;
+
+        input {
+            font-size: 16px;
+            color: $black1;
+            font-weight: bold;
+        }
+
+        .modal-title-close {
+            padding: 0px 15px;
+            height: 50px;
+            line-height: 50px;
+        }
+    }
+
+    // 内容部分
+    .add-modal-content textarea {
+        width: 100%;
+    }
+
+    .add-modal-operate {
+        padding: 10px 15px;
+        height: 30px;
+        border-top: 1px solid #ddd;
+
+        .modal-operate-container {
+            line-height: 30px;
+            text-align: center;
+            color: #fff;
+            background: #409EFF;
+        }
     }
 }
-

@@ -29,6 +29,9 @@ class RouterConfig extends Component {
 
                         {/* 记录列表 */}
                         <Route path="/record/list" component={asyncComponent(() => import('./../views/record/list'))} />
+
+                        {/* 英语列表 */}
+                        <Route path="/english/list" component={asyncComponent(() => import('./../views/english'))} />
                         
                         {/* 简历页面 这几个页面新版都会改掉 */}
                         {/* <Route path="/reuseme" component={asyncComponent(() => import('./../views/reuseme/index'))} /> */}

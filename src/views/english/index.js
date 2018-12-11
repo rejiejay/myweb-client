@@ -5,6 +5,10 @@
 import React, { Component } from 'react';
 import ReactMarkdown from 'react-markdown';
 
+// 组件类
+import MobileListModal from './../../components/MobileListModal';
+import convertTime from './../../utils/convertTime';
+
 // 样式类
 import './index.scss';
 
@@ -193,6 +197,12 @@ class english extends Component {
 
         return (
             <div className="record-head flex-start">
+            
+                {/* 这个用于 baidu 发音 的 api */}
+                <div id='myVideo' className='english-audio'>
+                    {/* <audio type="audio/mp3" src="http://tsn.baidu.com/text2audio?tex=value&lan=zh&cuid=15976713287&ctp=1&tok=24.b53eed642f92ed8bc4c21d61969ecf8e.2592000.1520344527.282335-10792466"  autoPlay={true} id='myVideo' controls="controls" autoPlay={true}></audio> */}
+                </div>
+
                 <div className="record-head-item" onClick={sortTypeSwitcher}>
                     <span style={{
                         borderRight: '1px solid #ddd'
@@ -203,6 +213,17 @@ class english extends Component {
                 </div>
             </div>
         );
+    }
+
+    /**
+     * 刷新页面数据
+     */
+    refreshList() {
+        this.pagenum = 1;
+        this.pageTotal = 1;
+        this.isScrollLoding = false;
+
+        this.getListBy();
     }
 
     /**
@@ -266,8 +287,6 @@ class english extends Component {
          * @param {number} key 数组的下标
          */
         let text2audio = key => {
-            let item = _this.state.list[key];
-
             /**
              * 调用百度 api 的方法
              * 这个方法在哪调用的？
@@ -275,7 +294,7 @@ class english extends Component {
              * 整个项目启动的时候都会初始化一次 在 index.js models/init.js 下初始化
              */
             let vid = document.getElementById('myVideo');
-            vid.innerHTML = `<audio type="audio/mp3" src="https://tsn.baidu.com/text2audio?tex=${item.en_text}&lan=zh&cuid=15976713287&ctp=1&tok=${window.localStorage.baidu_text2audio_access_token}" controls="controls" autoplay="autoplay"></audio>`;
+            vid.innerHTML = `<audio type="audio/mp3" src="https://tsn.baidu.com/text2audio?tex=${_this.state.list[key].en_text}&lan=zh&cuid=15976713287&ctp=1&tok=${window.localStorage.baidu_text2audio_access_token}" controls="controls" autoplay="autoplay"></audio>`;
         }
 
         /**
@@ -285,9 +304,9 @@ class english extends Component {
         let affirmEdit = key => {
             let request = _this.state.list[key];
 
-            ajaxs.edit(request.id, request.en_text, request.zh_text, this)
+            ajaxs.edit(request.id, request.en_text, request.zh_text)
             .then(() => {
-                _this.getListBy();
+                _this.refreshList.call(_this);
 
             }, error => alert(error));
         }
@@ -297,12 +316,14 @@ class english extends Component {
          * @param {number} key 数组的下标
          */
         let affirmDel = key => {
-            let request = _this.state.list[key];
-
+            
+            // 弹出提示是否删除
             if (window.confirm('你确定要删除吗?')) {
-                ajaxs.del(request.id, this)
+
+                // 确认删除
+                ajaxs.del(_this.state.list[key].id)
                 .then(() => {
-                    _this.getListBy();
+                    _this.refreshList.call(_this);
 
                 }, error => alert(error));
             }
@@ -351,6 +372,7 @@ class english extends Component {
         const _this = this;
         let addTitle = this.state.addTitle; // 新增的 标题
         let addContent = this.state.addContent; // 新增的 内容
+        let contentStyleHeight = (clientHeight - 70 - 50 - 50) / 2; // 这里的高度很好算的 模态框上下边距为 70, 再减去 标题 50，以及底部操作按钮 50 然后对半分
 
         /**
          * 模态框关闭 的处理函数
@@ -375,24 +397,21 @@ class english extends Component {
          * 数据提交 的处理函数
          */
         let submitHandle = () => {
-            if (!addContent) {
-                return alert('内容不能为空');
+            if (!addTitle && !addContent ) {
+                return alert('内容与标题不能为空');
             }
 
-            let mytitle = addTitle ? addTitle : `记录 ${convertTime.dateToYYYYmmDDhhMM(new Date())}`;
+            ajaxs.saveRecord(addTitle, addContent)
+            .then(() => {
+                _this.setState({
+                    isAddModalShow: false,
+                    addTitle: '',
+                    addContent: '',
             
-            ajaxs.saveRecord(mytitle, addContent)
-            .then(
-                () => {
-                    _this.setState({
-                        isAddModalShow: false,
-                        addTitle: '',
-                        addContent: '',
+                // 重新获取最新的数据
+                }, _this.refreshList.call(_this));
 
-                    }, _this.refreshList.call(_this));
-                    
-                }, error => alert(error)
-            );
+            }, error => alert(error));
         }
 
         /**
@@ -411,24 +430,33 @@ class english extends Component {
                     
                     {/* 标题部分 */}
                     <div className="add-modal-title flex-start-center">
-                        <input className="flex-rest" 
-                            value={addTitle}
-                            onChange={inputTitleHandle}
-                            placeholder="请输入标题" 
-                        />
+                        <div className="flex-rest" >新增英语</div>
                         <div className="modal-title-close" onClick={colseHandle}>X</div>
                     </div>
 
                     {/* 内容部分 */}
-                    <div className="add-modal-content flex-center" style={{height: `${clientHeight - 70 - 50 - 50}px` /** 这里的高度很好算的 模态框上下边距为 70, 再减去 标题 50，以及底部操作按钮 50 */}}>
+                    <div className="add-modal-content flex-center" style={{height: `${contentStyleHeight - 1}px`, borderBottom: '1px solid #ddd'}}>
                         <textarea 
                             style={{
-                                height: `${clientHeight - 70 - 50 - 50 - 30}px`, 
+                                height: `${contentStyleHeight - 30}px`, 
+                                width: `${clientWidth - 62 - 30}px`
+                            }}
+                            value={addTitle}
+                            onChange={inputTitleHandle}
+                            placeholder="请输入英语"
+                        />
+                    </div>
+
+                    {/* 内容部分 */}
+                    <div className="add-modal-content flex-center" style={{height: `${contentStyleHeight}px`}}>
+                        <textarea 
+                            style={{
+                                height: `${contentStyleHeight - 30}px`, 
                                 width: `${clientWidth - 62 - 30}px`
                             }}
                             value={addContent}
                             onChange={contentTitleHandle}
-                            placeholder="请输入内容"
+                            placeholder="请输入注释"
                         />
                     </div>
                     
@@ -467,17 +495,6 @@ class english extends Component {
 
         return (
             <React.Fragment>
-            
-                {/* 这个用于 baidu 发音 的 api */}
-                <div id='myVideo' className='English-audio'>
-                    {/* <audio type="audio/mp3" src="http://tsn.baidu.com/text2audio?tex=value&lan=zh&cuid=15976713287&ctp=1&tok=24.b53eed642f92ed8bc4c21d61969ecf8e.2592000.1520344527.282335-10792466"  autoPlay={true} id='myVideo' controls="controls" autoPlay={true}></audio> */}
-                </div>
-
-                {/* 新增 */}
-                <div className="top-operation flex-start">
-                    <div className="english-add" onClick={() => this.jumpToRouter('/english/add')}>新增</div>
-                    <div className="english-out-of-order" onClick={goRandom}>随机查询</div>
-                </div>
 
                 {this.renderHead() /* 渲染 头部 */}
                 {this.renderList()/* 列表 */}
@@ -496,8 +513,4 @@ class english extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    user_islogin: state.user.isLogin,
-});
-
-export default connect(mapStateToProps)(english);
+export default english;
