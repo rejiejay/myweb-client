@@ -67,6 +67,7 @@ class recordlist extends Component {
     componentDidMount() {
         let pageType = loadPageVar('pageType'); // 页面状态
         let recordId = loadPageVar('id'); // 记录的唯一标识
+
         this.getListBy(); // 获取页面数据
 
         window.addEventListener('scroll', this.scrollHandle.bind(this)); // 添加滚动事件，检测滚动到页面底部
@@ -125,7 +126,7 @@ class recordlist extends Component {
                 }, error => alert(error)
             );
         }
-        
+
         /**
          * 随机 获取页面数据
          */
@@ -168,6 +169,17 @@ class recordlist extends Component {
     }
 
     /**
+     * 刷新页面数据
+     */
+    refreshList() {
+        this.pagenum = 1;
+        this.pageTotal = 1;
+        this.isScrollLoding = false;
+
+        this.getListBy();
+    }
+
+    /**
      * 初始化编辑
      * @param {number} id 记录的唯一标识
      */
@@ -187,7 +199,9 @@ class recordlist extends Component {
                 editorId: res.id,
                 editorTitle: res.title,
                 editorContent: res.content,
-            });
+            
+            // 重新获取最新的数据
+            }, _this.refreshList.call(_this));
 
         }, error => alert(error));
     }
@@ -322,7 +336,8 @@ class recordlist extends Component {
                         isAddModalShow: false,
                         addTitle: '',
                         addContent: '',
-                    });
+
+                    }, _this.refreshList.call(_this));
                     
                 }, error => alert(error)
             );
@@ -397,13 +412,20 @@ class recordlist extends Component {
             ajaxs.editRecord(this.state.editorId, mytitle, editorContent)
             .then(
                 () => { // 修改成功
+                    // 删除缓存
+                    window.sessionStorage.removeItem('recordEditorId');
+                    window.sessionStorage.removeItem('recordEditorTitle');
+                    window.sessionStorage.removeItem('recordEditorContent');
+
                     // 修改页面状态
                     _this.setState({
                         isEditorModalShow: false, // 关闭修改成功的模态框
                         editorId: '', // 清空 id
                         editorTitle: '', // 清空 标题
                         editorContent: '', // 清空 内容
-                    });
+
+                    // 重新获取最新的数据
+                    }, _this.refreshList.call(_this));
                     
                 }, error => alert(error)
             );
@@ -441,21 +463,23 @@ class recordlist extends Component {
                 return false
             }
 
-            ajaxs.deleteRecord()
+            ajaxs.deleteRecord(window.sessionStorage.recordEditorId)
             .then(() => { // 记录删除成功
 
                 // 删除缓存
                 window.sessionStorage.removeItem('recordEditorId');
                 window.sessionStorage.removeItem('recordEditorTitle');
                 window.sessionStorage.removeItem('recordEditorContent');
-
+                    
                 // 更新页面状态
                 _this.setState({
                     isEditorModalShow: false, // 关闭模态框
                     editorId: null, // 清空id
                     editorTitle: '', // 清空 标题
                     editorContent: '', // 清空 内容
-                });
+
+                // 重新获取最新的数据
+                }, _this.refreshList.call(_this));
 
             }, error => alert(error));
         }
@@ -504,7 +528,7 @@ class recordlist extends Component {
                             <span style={{borderRight: '1px solid #ddd'}}>删除</span>
                         </div>
 
-                        <div className="modal-operate-item">
+                        <div className="modal-operate-item" onClick={submitHandle}>
                             <span style={{borderRight: '1px solid #ddd'}}>保存</span>
                         </div>
 
