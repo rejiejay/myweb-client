@@ -11,6 +11,7 @@ import './list.scss';
 // 组件类
 import MobileListModal from './../../components/MobileListModal';
 import convertTime from './../../utils/convertTime';
+import loadPageVar from './../../utils/loadPageVar';
 
 // 请求类
 import ajaxs from './../../api/record';
@@ -27,10 +28,6 @@ class recordlist extends Component {
                 // {
                 //     content: "你好",
                 //     id: 1,
-                //     record_data: 4,
-                //     record_day: 12,
-                //     record_month: 1,
-                //     record_week: 3,
                 //     timestamp: 123123123,
                 //     title: "hi",
                 // }
@@ -53,7 +50,7 @@ class recordlist extends Component {
             /**
              * 编辑模态框
              */
-            isEditorModalShow: true, // 是否显示 编辑模态框
+            isEditorModalShow: false, // 是否显示 编辑模态框
             editorId: null, // 编辑记录的 唯一标识
             editorTitle: '', // 编辑记录的 标题
             editorContent: '', // 编辑记录的 内容
@@ -68,9 +65,22 @@ class recordlist extends Component {
     }
 
     componentDidMount() {
+        let pageType = loadPageVar('pageType'); // 页面状态
+        let recordId = loadPageVar('id'); // 记录的唯一标识
         this.getListBy(); // 获取页面数据
 
-		window.addEventListener('scroll', this.scrollHandle.bind(this)); // 添加滚动事件，检测滚动到页面底部
+        window.addEventListener('scroll', this.scrollHandle.bind(this)); // 添加滚动事件，检测滚动到页面底部
+
+        // 判断页面是否 新增
+        if (pageType && pageType === 'add') {
+            // 如果页面是新增 打开 新增的模态框
+            this.setState({isAddModalShow: true});
+
+        } else if (pageType && recordId && pageType === 'edit') {
+            // 如果页面是编辑状态 
+            this.initEdit(recordId);
+
+        }
     }
     
     componentWillUnmount() {
@@ -158,6 +168,31 @@ class recordlist extends Component {
     }
 
     /**
+     * 初始化编辑
+     * @param {number} id 记录的唯一标识
+     */
+    initEdit(id) {
+        const _this = this;
+
+        ajaxs.getOneById(id)
+        .then(res => {
+            // 缓存 要修改的数据（之后会用来进行对比的）
+            window.sessionStorage.setItem('recordEditorId', res.id);
+            window.sessionStorage.setItem('recordEditorTitle', res.title);
+            window.sessionStorage.setItem('recordEditorContent', res.content);
+
+            // 修改 页面的状态
+            _this.setState({
+                isEditorModalShow: true,
+                editorId: res.id,
+                editorTitle: res.title,
+                editorContent: res.content,
+            });
+
+        }, error => alert(error));
+    }
+
+    /**
      * 滚动事件 处理函数
      */
     scrollHandle() {
@@ -226,11 +261,14 @@ class recordlist extends Component {
      * 列表 内容
      */
     renderList() {
+        const _this = this;
+        
         return (
             <div className="record-list">
                 {this.state.list.map((val, key) => (
                     <div className="list-item ReactMarkdown" 
                         key={key} 
+                        onClick={() => _this.initEdit(val.id)}
                     >
                         <div className="list-item-title">{val.title}</div>
                         <div className="list-item-content"><ReactMarkdown source={val.content} /></div>
