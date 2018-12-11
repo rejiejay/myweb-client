@@ -54,6 +54,13 @@ class recordlist extends Component {
             editorId: null, // 编辑记录的 唯一标识
             editorTitle: '', // 编辑记录的 标题
             editorContent: '', // 编辑记录的 内容
+            stepStack: [ // 上一篇, 下一篇的堆栈
+                // {
+                //     id: 1,
+                //     title: '',
+                //     content: '',
+                // }
+            ],
         };
 
         /**
@@ -396,6 +403,7 @@ class recordlist extends Component {
         const _this = this;
         let editorTitle = this.state.editorTitle; // 编辑的 标题
         let editorContent = this.state.editorContent; // 编辑的 内容
+        let stepStack = this.state.stepStack; // 上一篇, 下一篇的堆栈
 
         /**
          * 数据提交 的处理函数
@@ -485,6 +493,71 @@ class recordlist extends Component {
         }
 
         /**
+         * 上一篇
+         */
+        let preRecordHandle = () => {
+            // 先判断堆栈是否无内容
+            if (stepStack.length <= 1) {
+                // 没有内容的情况下不执行
+                return false;
+            }
+
+            // 如果有内容，堆栈退出一条
+            let newStepStack = JSON.parse(JSON.stringify(stepStack));
+            newStepStack.pop();
+
+            // 持久化堆栈
+            window.sessionStorage.setItem('stepStack', JSON.stringify(newStepStack));
+
+            // 初始化到到页面上
+            _this.setState({
+                stepStack: newStepStack
+
+            }, _this.initEdit(newStepStack[newStepStack.length - 1].id));
+        }
+
+        /**
+         * 下一篇
+         */
+        let nextRecordHandle = () => {
+            let newStepStack = stepStack.concat([]);
+
+            // 先判断是不是第一次点击
+            if (stepStack.length <= 0) {
+                // 如果是第一次点击，那么本条记录也是要进行缓存的
+                newStepStack.push({
+                    id: window.sessionStorage.recordEditorId,
+                    title: window.sessionStorage.recordEditorTitle,
+                    content: window.sessionStorage.recordEditorContent,
+                });
+            }
+
+            // 随机获取 一条数据
+            ajaxs.getOneByRandom()
+            .then(
+                value => {
+                    // 堆栈的一个项
+                    let stepStackItem = {
+                        id: value.id,
+                        title: value.title,
+                        content: value.content,
+                    }
+                    // 新的堆栈
+                    newStepStack.push(stepStackItem);
+
+                    // 持久化堆栈
+                    window.sessionStorage.setItem('stepStack', JSON.stringify(newStepStack));
+
+                    // 初始化到到页面上
+                    _this.setState({
+                        stepStack: newStepStack
+                    }, _this.initEdit(value.id));
+
+                }, error => alert(error)
+            );
+        }
+
+        /**
          * 标题 输入框 处理函数
          */
         const inputTitleHandle = event => _this.setState({editorTitle: event.target.value});
@@ -532,11 +605,14 @@ class recordlist extends Component {
                             <span style={{borderRight: '1px solid #ddd'}}>保存</span>
                         </div>
 
-                        <div className="modal-operate-item">
-                            <span style={{borderRight: '1px solid #ddd'}}>上一篇</span>
+                        <div className="modal-operate-item" onClick={preRecordHandle}>
+                            <span style={{
+                                borderRight: '1px solid #ddd', 
+                                color: `${stepStack.length > 1 ? '#303133' : '#909399'}`, // 堆栈必须大于零的时候才可以点击上一篇
+                            }}>上一篇</span>
                         </div>
 
-                        <div className="modal-operate-item">
+                        <div className="modal-operate-item" onClick={nextRecordHandle}>
                             <span>下一篇</span>
                         </div>
                     </div>
