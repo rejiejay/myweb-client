@@ -12,6 +12,8 @@ const modelsInit = {
 
     /**
      * 暂时不用初始化这个
+     * 因为目前使用 window.localStorage.rejiejay_token 判断是否登录
+     * 而且不判断合法性
      */
     rejiejayToken: function rejiejayToken() {
     },

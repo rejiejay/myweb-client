@@ -22,15 +22,19 @@ class mobileListModal extends Component {
         let colseHandle = this.props.colseHandle; // 关闭这个模态框触发的函数
         
         return isShow ? (
-            <div className="list-modal flex-center">
+            <div className="list-modal flex-column-center">
 
                 {/* 遮罩层 */}
                 <div className="list-modal-shade" onClick={colseHandle}></div>
 
                 {/* 主要内容区域 */}
-                <div className="list-modal-main" style={{width: `${clientWidth - 60}px`, height: `${clientHeight - 70}px`}}>
-                    {this.props.children}
-                </div>
+                <div className="list-modal-main" 
+                    style={{
+                        marginTop: '35px',
+                        width: `${clientWidth - 60}px`, 
+                        height: `${clientHeight - 70}px`
+                    }}
+                >{this.props.children}</div>
             </div>
         ) : null;
     }
