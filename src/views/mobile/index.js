@@ -101,7 +101,7 @@ class computer extends Component {
     renderHeadlineBanner() {
         return (
             <div className="mobile-headline-banner">
-                <img alt="headline-banner-image" src='https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/mobile-headline-banner.png' />
+                <img alt="headline" src='https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/mobile-headline-banner.png' />
             </div>
         );
     }

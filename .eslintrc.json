@@ -1,0 +1,12 @@
+{
+    "extends": "react-app",
+    "globals": { 
+        "wx": true 
+    },
+    "rules": { 
+        "no-undef": "off",
+        "no-restricted-globals": "off",
+        "no-unused-vars": "off",
+        "no-useless-escape": "off"
+    }
+}

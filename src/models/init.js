@@ -10,9 +10,12 @@ const modelsInit = {
      * 初始化所有的方法
      */
     all: function all() {
-        this.initWXshare();
         // this.rejiejayToken(); // 初始化 判断是否登录
         this.baiduText2audioToken(); // 初始化 百度音频的应用程序编程接口凭证
+        // 判断是不是非本地情况
+        if (window.location.hostname !== 'localhost') {
+            this.initWXshare(); // 如果非本地的情况 初始化 微信 分享
+        }
     },
 
     /**
