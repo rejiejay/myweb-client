@@ -1,7 +1,7 @@
 /**
  * 初始化微信JS-SDK
  */
-import apibasics from "./../../components/apibasics";
+import apibasics from "./apibasics";
 
 /**
  * 获取公众号用于调用微信JS接口的权限验证配置信息
