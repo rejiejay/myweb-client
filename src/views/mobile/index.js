@@ -33,6 +33,7 @@ class computer extends Component {
             bannerRecordTitle: '', // 横幅描述 的 随机记录 标题
             bannerRecordContent: '', // 横幅描述 的 随机记录 内容
 
+            reusemeList: [], // 简历 列表数据 这里简单几条重要的数据即可 7 条数据即可
             recordList: [], // 记录 列表数据
             englishList: [], // 英语 列表数据
         };
@@ -400,6 +401,86 @@ class computer extends Component {
     }
 
     /**
+     * 渲染 简历
+     */
+    renderReusemeList() {
+        // 简历的数据
+        // 这里展示 7 条数据即可
+        let reusemeList = [
+            {
+                imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/very_sorry.png',
+                title: '金车管家',
+                content: '“金车管家”是使用Vue框架，以及Java Spring Boot服务的前后端分离项目，面向“保险销售人员、保险代理人员或其他车务、保险相关从业人员”的展业工具，帮助其管理现有客户、拓展新客户，创造客户接触机会，给客户提供加油、洗车、保养等高品质优惠服务，给业务经理分成。',
+            }, {
+                imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/very_sorry.png',
+                title: '深圳人保财险PICC洗车项目',
+                content: '人保洗车项目是使用Play框架编写的全栈的Java Web的项目, 与另一套Java服务集成后台管理端，可随时导入新增门店，客户端全深圳城市的人保洗车门店情况；通过目的门店站搜索、筛选，微信定位、可以快速定位到要查询的门店，一键导航洗车门店。',
+            }, {
+                imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/very_sorry.png',
+                title: '深圳平安财险车商小程序',
+                content: '',
+            }, {
+                imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/very_sorry.png',
+                title: '特来电充电桩H5',
+                content: '特来电充电桩是嵌入到H5',
+            }, {
+                imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/very_sorry.png',
+                title: '养车频道车主端',
+                content: '',
+            }, {
+                imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/very_sorry.png',
+                title: '潜游时光商城',
+                content: '',
+            }, {
+                imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/very_sorry.png',
+                title: '潜游时光用户信息收集小程序',
+                content: '',
+            },
+        ]
+
+        return this.state.navBarStatus === 'resume' ? (
+            <div className="mobile-list-resume">
+
+                {/* 标题列 为了 新增 */}
+                <div className="list-resume-title flex-start">
+                    <div className="resume-title-lable flex-rest">简历作品</div>
+                    <div className="resume-title-add  flex-start-center">
+                        <span>更多</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" >
+                            <path fill="#F56C6C" d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path>
+                        </svg>
+                    </div>
+                </div>
+                
+                {reusemeList.map((val, key) => (
+                    <div className="mobile-list-item" key={key}>
+                        <div className="list-item-container">
+
+                            {/* 图片 */}
+                            <div className="list-item-img" 
+                                style={{
+                                    /* 长和高的比例为 345:150 计算， 实际高清图为 690:300 */
+                                    width: `${clientWidth - 30}px`, 
+                                    height: `${Math.floor( (clientWidth - 30) * 150 / 345 ) }px`
+                                }}>
+                                <img alt="item" src={val.imgsrc} />
+                            </div>
+
+                            {/* 描述 */}
+                            <div className="list-item-describe">
+                                <div className="item-describe-title">{val.title}</div>
+                                <div className="item-describe-content">{val.content}</div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+
+            </div>
+        ) : null;
+
+    }
+
+    /**
      * 渲染 记录
      */
     renderRecordList() {
@@ -422,7 +503,6 @@ class computer extends Component {
         return this.state.navBarStatus === 'record' ? (
             <div className="mobile-list-record">
 
-                {/* 标题列 为了 新增 */}
                 <div className="list-record-title flex-start">
                     <div className="record-title-lable flex-rest" onClick={jumpToViewMore}>个人动态</div>
                     <div className="record-title-add  flex-start-center" onClick={jumpToAdd}>
@@ -497,6 +577,7 @@ class computer extends Component {
                 {this.renderDescribeBanner() /* 渲染 描述横幅 */}
                 {this.renderNavBar() /* 渲染 导航栏 */}
                 {this.renderMainList() /* 渲染 主页 */}
+                {this.renderReusemeList() /* 渲染 简历 */}
                 {this.renderRecordList() /* 渲染 记录 */}
                 {this.renderEnglishList() /* 渲染 英语 */}
                 {this.renderCopyright() /* 渲染 底部的 备案号 */}
