@@ -424,7 +424,7 @@ class computer extends Component {
 
                 {/* 标题列 为了 新增 */}
                 <div className="list-record-title flex-start">
-                    <div className="record-title-lable flex-rest">个人动态</div>
+                    <div className="record-title-lable flex-rest" onClick={jumpToViewMore}>个人动态</div>
                     <div className="record-title-add  flex-start-center" onClick={jumpToAdd}>
                         <span>新增</span>
                         <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" >
@@ -434,8 +434,8 @@ class computer extends Component {
                 </div>
 
                 {this.state.recordList.map((val, key) => (
-                    <div className="mobile-list-item" key={key} onClick={() => jumpToEditBy(val.id)}>
-                        <div className="list-item-container ReactMarkdown">
+                    <div className="mobile-list-item" key={key}>
+                        <div className="list-item-container ReactMarkdown" onClick={() => jumpToEditBy(val.id)}>
                             <div className="item-describe-title">{val.title}</div>
                             <div className="item-describe-content"><ReactMarkdown source={val.content} /></div>
                         </div>

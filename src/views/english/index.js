@@ -401,7 +401,7 @@ class english extends Component {
                 return alert('内容与标题不能为空');
             }
 
-            ajaxs.saveRecord(addTitle, addContent)
+            ajaxs.add(addTitle, addContent)
             .then(() => {
                 _this.setState({
                     isAddModalShow: false,
@@ -470,29 +470,6 @@ class english extends Component {
     }
 
     render() {
-        const _this = this;
-
-        /**
-         * 点击随机获取列表数据的烦恼歌发
-         */
-        let goRandom = () => {
-            ajaxs.getrandom()
-            .then(
-                res => {
-                    _this.setState({
-                        pagenum: 1,
-                        list: res ? res.map(val => {
-                            val.isZh = false; // 是否中文
-                            val.isEdit = false; // 是否编辑
-                            return val;
-                        }) : [],
-                    });
-                }, error => {
-                    alert(error);
-                }
-            )
-        }
-
         return (
             <React.Fragment>
 
