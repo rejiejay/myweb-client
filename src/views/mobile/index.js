@@ -11,7 +11,7 @@ import englishAjaxs from './../../api/english';
 let clientWidth = document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth;
 let clientHeight = document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight;
 
-class computer extends Component {
+class mobile extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -418,23 +418,23 @@ class computer extends Component {
             }, {
                 imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/very_sorry.png',
                 title: '深圳平安财险车商小程序',
-                content: '',
+                content: '车商小程序是在平安科技体系下的一个小程序项目，汇集多家汽车经销商，提供维修保养、新车试驾、保险询价等线上服务。',
             }, {
                 imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/very_sorry.png',
-                title: '特来电充电桩H5',
-                content: '特来电充电桩是嵌入到H5',
+                title: '充电桩新能源项目',
+                content: '充电桩是使用Vue框架，后台是Java和C#提供服务的前后端分离项目，该项目对接特来电等多家公司的服务。',
             }, {
                 imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/very_sorry.png',
                 title: '养车频道车主端',
-                content: '',
+                content: '养车频道车主端是使用Vue前端框架, 后台为C#以及JAVA的平台项目，平台近四百家商户，以及几十家合作伙伴，为超过10万名车主提供过服务。',
             }, {
                 imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/very_sorry.png',
                 title: '潜游时光商城',
-                content: '',
+                content: '潜游时光商城是使用了jquery与React Dva多种前端技术，后台为Java服务前后端分离的电商网站。网站兼容PC端以及移动端。',
             }, {
                 imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/very_sorry.png',
-                title: '潜游时光用户信息收集小程序',
-                content: '',
+                title: '潜游时光用户信息收集',
+                content: '潜游时光用户信息收集是承担了业务流程优化的一个项目。项目使得客服人员工作量大幅度下降。优化用户体验，同时为网站积累用户以及数据量便于以后拓展使用。',
             },
         ]
 
@@ -592,4 +592,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps)(computer);
+export default connect(mapStateToProps)(mobile);

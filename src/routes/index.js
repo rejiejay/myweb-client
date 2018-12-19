@@ -27,6 +27,10 @@ class RouterConfig extends Component {
                         {/* 登录页面 */}
                         <Route path="/user/login" component={asyncComponent(() => import('./../views/user/login'))} />
 
+                        {/* 简历页 */}
+                        <Route path="/reuseme/list" component={asyncComponent(() => import('./../views/reuseme/index'))} />
+                        <Route path="/reuseme/details" component={asyncComponent(() => import('./../views/reuseme/details'))} />
+
                         {/* 记录列表 */}
                         <Route path="/record/list" component={asyncComponent(() => import('./../views/record/list'))} />
 
