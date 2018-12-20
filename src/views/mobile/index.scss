@@ -225,6 +225,19 @@ $black4: #C0C4CC;
             color: $black3;
         }
     }
+
+    .list-resume-operate {
+        padding-top: 15px;
+
+        .resume-operate-container {
+            line-height: 45px;
+            text-align: center;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            color: $black1;
+            background: #fff;
+        }
+    }
 }
 
 // 记录列表

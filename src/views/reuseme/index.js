@@ -16,7 +16,11 @@ class reuseme extends Component {
     }
 
     render() {
-        // 简历的数据
+        /**
+         * 简历的数据
+         * 这里的数据为什么要和首页的数据分开?
+         * 因为两个地方是不同的数据, 这里的数据是展示全部数据的
+         */
         let reusemeList = [
             {
                 id: 'flgx', // 数据唯一标识

@@ -409,8 +409,11 @@ class mobile extends Component {
          */
         let jumpToReusemeList = () => window.location.href = `./#/reuseme/list`;
 
-        // 简历的数据
-        // 这里展示 7 条数据即可
+        /**
+         * 简历的数据
+         * 这里的数据为什么要和列表页的数据分开?
+         * 因为两个地方是不同的数据, 这里展示 7 条数据即可
+         */
         let reusemeList = [
             {
                 id: 'flgx', // 数据唯一标识
@@ -490,6 +493,11 @@ class mobile extends Component {
                         </div>
                     </div>
                 ))}
+
+                {/* 查看更多 按钮 */}
+                <div className="list-resume-operate" onClick={jumpToReusemeList}>
+                    <div className="resume-operate-container">查看更多</div>
+                </div>
 
             </div>
         ) : null;
