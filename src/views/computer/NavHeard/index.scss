@@ -51,24 +51,43 @@ $black4: #C0C4CC;
         }
     }
 
+    // 头像 与 项的分割线
+    .nav-heard-division {
+        padding-left: 7.5px;
+        padding-right: 25px;
+        height: 35px;
+        width: 1px;
+
+        span {
+            display: block;
+            width: 1px;
+            height: 100%;
+            background: #ddd;
+        }
+    }
+
     // 一个项
     .nav-heard-item {
-        margin-right: 15px;
-        padding: 12.5px 20px;
-        font-size: 16px;
-        color: $black2;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: color 0.25s;
-        -moz-transition: color 0.25s;	/* Firefox 4 */
-        -webkit-transition: color 0.25s;	/* Safari 和 Chrome */
-        -o-transition: color 0.25s;	/* Opera */
-        transition: background 1s;
-        -moz-transition: background 1s;	/* Firefox 4 */
-        -webkit-transition: background 1s;	/* Safari 和 Chrome */
-        -o-transition: background 1s;	/* Opera */
+        padding-right: 10px;
+
+        span {
+            display: block;
+            padding: 12.5px 20px;
+            font-size: 16px;
+            color: $black2;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: color 0.25s;
+            -moz-transition: color 0.25s;	/* Firefox 4 */
+            -webkit-transition: color 0.25s;	/* Safari 和 Chrome */
+            -o-transition: color 0.25s;	/* Opera */
+            transition: background 1s;
+            -moz-transition: background 1s;	/* Firefox 4 */
+            -webkit-transition: background 1s;	/* Safari 和 Chrome */
+            -o-transition: background 1s;	/* Opera */
+        }
     }
-    .nav-heard-item:hover {
+    .nav-heard-item:hover span {
         color: $black1;
         background: rgba($color: #000000, $alpha: 0.08);
     }

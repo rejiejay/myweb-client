@@ -18,6 +18,15 @@ class computer extends Component {
         this.state = {
             // 横幅描述的内容
             bannerRecordContent: '',
+
+            /**
+             * 导航栏（不需要持久化）
+             * @param {String} home 首页合集部分
+             * @param {String} resume 简历和作品
+             * @param {String} record 记录
+             * @param {String} english 英语
+             */
+            navBarSelected: 'home',
         };
     }
 
@@ -90,7 +99,93 @@ class computer extends Component {
                     </div>
                 </div>
             </div>
-        )
+        );
+    }
+
+    /**
+     * 渲染 导航栏部分
+     */
+    renderNavigation() {
+        const _this = this;
+
+        /**
+         * 导航栏列表
+         */
+        let navList = [
+            {
+                value: 'home', // 导航栏的唯一标识
+                lable: '主页' // 标签名称
+            }, {
+                value: 'resume',
+                lable: '作品'
+            }, {
+                value: 'record',
+                lable: '记录'
+            }, {
+                value: 'english',
+                lable: '英语'
+            },
+        ];
+
+        /**
+         * 导航栏选择
+         */
+        let navSelectHandle = item => _this.setState({navBarSelected: item});
+
+        return (
+            <div className="computer-main-navigation flex-start-center">
+                {navList.map((val, key) => (
+                    <div className="computer-navigation-item" 
+                        key={key}
+                        onClick={() => navSelectHandle(val.value)}
+                    >
+                        <span className={this.state.navBarSelected === val.value ? 'navigation-item-selected' : ''}>{
+                            val.lable
+                        }</span>
+                    </div>
+                ))}
+            </div>
+        );
+    }
+
+    /**
+     * 渲染 首页部分
+     */
+    renderHome() {
+        return this.state.navBarSelected === 'home' ? (
+            <div className="computer-main-home">
+            </div>
+        ) : '';
+    }
+
+    /**
+     * 渲染 简历和作品
+     */
+    renderResume() {
+        return this.state.navBarSelected === 'resume' ? (
+            <div className="computer-main-resume">
+            </div>
+        ) : '';
+    }
+
+    /**
+     * 渲染 记录
+     */
+    renderRecord() {
+        return this.state.navBarSelected === 'record' ? (
+            <div className="computer-main-record">
+            </div>
+        ) : '';
+    }
+
+    /**
+     * 渲染 英语
+     */
+    renderEnglish() {
+        return this.state.navBarSelected === 'english' ? (
+            <div className="computer-main-english">
+            </div>
+        ) : '';
     }
 
     render() {
@@ -102,7 +197,20 @@ class computer extends Component {
                 <div className="rejiejay-computer flex-column-center" style={{minHeight: `${clientHeight - 81 - 60 - 25}px`}}>
                     <div className="rejiejay-computer-container flex-start-top">
  
-                        {this.renderUserInfor.call(this) /** 渲染 个人信息 横幅部分 */}
+                        {/* 左边 个人信息部分 */}
+                        {this.renderUserInfor.call(this)}
+
+                        {/* 右 边主要内容部分 */}
+                        <div className="rejiejay-computer-main flex-rest">
+ 
+                            {this.renderNavigation.call(this) /** 渲染 导航栏部分 */}
+
+                            {this.renderHome.call(this) /** 渲染 首页部分 */}
+                            {this.renderResume.call(this) /** 渲染 简历和作品 */}
+                            {this.renderRecord.call(this) /** 渲染 记录 */}
+                            {this.renderEnglish.call(this) /** 渲染 英语 */}
+
+                        </div>
                     </div>
                 </div>
 

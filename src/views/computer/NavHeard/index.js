@@ -46,7 +46,12 @@ class NavHeard extends Component {
                 </div>
 
                 <div className="nav-heard-right flex-start-center">
-                    <div className="nav-heard-item" onClick={jumpToMobile}>手机端</div>
+                    <div className="nav-heard-item" onClick={jumpToMobile}>
+                        <span>手机端</span>
+                    </div>
+
+                    <div className="nav-heard-division flex-center"><span></span></div>
+
                     {/* 头像 */}
                     <div className="heard-right-portrait flex-start-center" onClick={jumpToLogin}>
                         <div className="heard-portrait-left">

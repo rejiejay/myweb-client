@@ -93,3 +93,41 @@ $black4: #C0C4CC;
         
     }
 }
+
+// 导航栏部分
+.computer-main-navigation {
+    line-height: 50px;
+    border-bottom: 1px solid #ddd;
+
+    .computer-navigation-item {
+        height: 50px;
+        padding-right: 15px;
+        cursor: pointer;
+
+        span {
+            display: block;
+            line-height: 49px;
+            padding: 0px 15px;
+        }
+        
+        .navigation-item-selected {
+            color: #e36209;
+            font-weight: bold;
+            border-bottom: 2px solid #e36209;
+        }
+    }
+
+    .computer-navigation-item:hover {
+        span {
+            color: $black1;
+            font-weight: bold;
+            border-bottom: 2px solid $black4;
+        }
+
+        .navigation-item-selected {
+            color: #e36209;
+            font-weight: bold;
+            border-bottom: 2px solid #e36209;
+        }
+    }
+}
