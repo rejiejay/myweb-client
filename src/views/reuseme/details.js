@@ -131,14 +131,14 @@ let reusemekeyvaldata = {
         },
     ],
     // 潜游时光商城
-    ycpd: [
+    divingtime: [
         {
             title: '潜游时光商城',
             content: '潜游时光商城是使用了jquery与React Dva多种前端技术，后台为Java服务前后端分离的电商网站。网站兼容PC端以及移动端。',
         },
     ],
     // 潜游时光用户信息收集
-    ycpd: [
+    divingtimeuserinfor: [
         {
             title: '潜游时光用户信息收集',
             content: '潜游时光用户信息收集是承担了业务流程优化的一个项目。项目使得客服人员工作量大幅度下降。优化用户体验，同时为网站积累用户以及数据量便于以后拓展使用。',
