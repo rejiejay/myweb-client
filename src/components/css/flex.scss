@@ -1,4 +1,5 @@
 .flex-start,
+.flex-start-top,
 .flex-start-center,
 .flex-start-bottom,
 .flex-column-center,
@@ -12,6 +13,12 @@
 
 // 主轴水平向右 顶部对齐
 .flex-start {
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+// 主轴水平向右 顶部对齐
+.flex-start-top {
     justify-content: flex-start;
     align-items: flex-start;
 }
