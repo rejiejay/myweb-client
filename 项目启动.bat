@@ -1,4 +1,4 @@
-start web-workspace.code-workspace
+start my-web.code-workspace
 
 start npm run start
 

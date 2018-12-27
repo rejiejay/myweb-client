@@ -26,7 +26,7 @@ class computer extends Component {
              * @param {String} record 记录
              * @param {String} english 英语
              */
-            navBarSelected: 'home',
+            navBarSelected: window.localStorage.computer_nav ? window.localStorage.computer_nav : 'home',
         };
     }
 
@@ -34,6 +34,7 @@ class computer extends Component {
      * 组件加载完毕之后立即执行
      */
     componentDidMount() {
+        
         this.initBannerRecord(); // 初始化 横幅描述 随机记录
     }
 
@@ -130,7 +131,10 @@ class computer extends Component {
         /**
          * 导航栏选择
          */
-        let navSelectHandle = item => _this.setState({navBarSelected: item});
+        let navSelectHandle = item => {
+            window.localStorage.setItem('computer_nav', item); // 持久化需求
+            _this.setState({navBarSelected: item});
+        };
 
         return (
             <div className="computer-main-navigation flex-start-center">
