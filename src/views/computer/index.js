@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 // 组件类
 import NavHeard from './NavHeard/index';
 import Copyright from './../../components/Copyright';
+import convertTime from './../../utils/convertTime';
 // 请求类
 import recordAjaxs from './../../api/record';
 // 样式类
@@ -20,14 +21,38 @@ class computer extends Component {
             bannerRecordContent: '',
 
             /**
-             * 导航栏（不需要持久化）
+             * 导航栏
              * @param {String} home 首页合集部分
              * @param {String} resume 简历和作品
              * @param {String} record 记录
              * @param {String} english 英语
              */
             navBarSelected: window.localStorage.computer_nav ? window.localStorage.computer_nav : 'home',
+
+            /**
+             * 记录 排序方式
+             * @param {string} time 时间排序 就是 默认排序 
+             * @param {string} random 随机排序 
+             */
+            recordSortType: 'time',
+
+            /**
+             * 记录列表数据
+             */
+            recordList: [],
+
+            /**
+             * 新增 记录
+             */
+            addRecordTitle: '', // 新增 记录 标题
+            addRecordContent: '', // 新增 记录 内容
         };
+
+        /**
+         * 分页相关
+         */
+        this.recordPagenum = 1; // 页码
+        this.recordPageTotal = 1; // 一共有多少数据
     }
 
     /**
@@ -36,6 +61,8 @@ class computer extends Component {
     componentDidMount() {
         
         this.initBannerRecord(); // 初始化 横幅描述 随机记录
+
+        this.getRecordListBy(); // 获取 记录 数据
     }
 
     /**
@@ -49,6 +76,49 @@ class computer extends Component {
             value => _this.setState({ bannerRecordContent: value.content }), 
             error => alert(error)
         );
+    }
+
+    /**
+     * 获取页面数据
+     * @param {Boolean} isLodeMore 是否 新增 分页 加载
+     */
+    getRecordListBy() {
+        const _this = this;
+        let recordSortType = this.state.recordSortType; // 排序方式
+
+        if (recordSortType === 'time') {
+            recordAjaxs.getList(_this.pagenum)
+            .then(
+                res => {
+                    // 校验一下数据
+                    if (!res || !res.pageTotal || !res.list) {
+                        return alert(`列表数据有误!`);
+                    }
+    
+                    _this.pageTotal = res.pageTotal;
+                    
+                    _this.setState({ recordList: res.list });
+    
+                }, error => alert(error)
+            );
+
+        } else {
+
+            recordAjaxs.getrandom()
+            .then(
+                res => {
+                    // 校验一下数据
+                    if (!res || !res instanceof Array || res.length === 0) {
+                        return alert(`列表数据有误!`);
+                    }
+    
+                    _this.setState({ recordList: res });
+
+                }, error => alert(error)
+            );
+            
+        }
+
     }
 
     /**
@@ -176,8 +246,97 @@ class computer extends Component {
      * 渲染 记录
      */
     renderRecord() {
+        const _this = this;
+        let addRecordTitle = this.state.addRecordTitle; // 新增 记录 标题
+        let addRecordContent = this.state.addRecordContent; // 新增 记录 内容
+
+        /**
+         * 数据提交 的处理函数
+         */
+        let submitHandle = () => {
+            if (!addRecordContent) {
+                return alert('内容不能为空');
+            }
+
+            let mytitle = addRecordTitle ? addRecordTitle : `记录 ${convertTime.dateToYYYYmmDDhhMM(new Date())}`;
+            
+            ajaxs.saveRecord(mytitle, addRecordContent)
+            .then(
+                () => _this.setState({ addRecordTitle: '', addRecordContent: '' }), 
+                error => alert(error)
+            );
+        }
+
+        /**
+         * 标题 输入框 处理函数
+         */
+        const inputTitleHandle = event => _this.setState({addRecordTitle: event.target.value});
+
+        /**
+         * 内容 输入框 处理函数
+         */
+        const contentTitleHandle = event => _this.setState({addRecordContent: event.target.value});
+
+        /**
+         * 排序方式 处理函数
+         */
+        const sortTypeHandle = event => _this.setState({recordSortType: event.target.value}, _this.getRecordListBy.bind(_this));
+
         return this.state.navBarSelected === 'record' ? (
             <div className="computer-main-record">
+
+                {/* 新增部分 */}
+                <div className="computer-record-add">
+                    <div className="record-add-top flex-start-bottom">
+                        <div className="flex-rest">Add records</div>
+                        <div className="add-top-btn" onClick={submitHandle}>Create new record</div>
+                    </div>
+
+                    <div className="record-add-title flex-start">
+                        <input className="flex-rest" 
+                            value={addRecordTitle}
+                            onChange={inputTitleHandle}
+                            placeholder="Input you record title..." 
+                        />
+                    </div>
+
+                    <div className="record-add-content flex-start">
+                        <textarea className="flex-rest" 
+                            value={addRecordContent}
+                            onChange={contentTitleHandle}
+                            placeholder="Input you record content..."
+                        />
+                    </div>
+                </div>
+
+                {/* 列表部分 */}
+                <div className="computer-record-list">
+                    <div className="record-list-title flex-start-bottom">
+                        <div className="flex-rest">All records</div>
+                        <div className="list-title-select">
+                            <select 
+                                value={this.state.recordSortType}
+                                onChange={sortTypeHandle}
+                            >
+                                <option value ="time">时间排序</option>
+                                <option value="random">随机排序</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div className="record-list-main">
+                        {this.state.recordList.map((val, key) => (
+                            <div className={`list-main-item ${key % 2 ==0 ? 'list-item-left' : ''}`}
+                                    key={key}
+                                    onClick={() => _this.initEdit(val.id)}
+                                >
+                                <div className="list-item-title">{val.title}</div>
+                                <div className="list-item-content ReactMarkdown"><ReactMarkdown source={val.content} /></div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                
             </div>
         ) : '';
     }
