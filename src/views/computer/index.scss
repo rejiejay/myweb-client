@@ -248,3 +248,29 @@ $black4: #C0C4CC;
         }
     }
 }
+
+// 分页部分
+.record-list-pagination {
+    padding-top: 15px;
+
+    .list-pagination-item {
+        height: 30px;
+        min-width: 30px;
+        text-align: center;
+        line-height: 30px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .list-pagination-item:hover {
+        border: 1px solid #1890ff;
+        color: #1890ff;
+    }
+
+    // 省略号
+    .list-pagination-point {
+        margin-right: 10px;
+    }
+}
