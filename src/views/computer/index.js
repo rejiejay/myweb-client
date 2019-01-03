@@ -52,6 +52,7 @@ class computer extends Component {
              */
             recordPagenum: 1, // 页码
             recordPageTotal: 1, // 一共有多少数据
+            recordPaginationNum: 1, // 记录页跳转的数据
         };
     }
 
@@ -87,7 +88,7 @@ class computer extends Component {
         let recordSortType = this.state.recordSortType; // 排序方式
 
         if (recordSortType === 'time') {
-            recordAjaxs.getList(_this.pagenum)
+            recordAjaxs.getList(_this.state.recordPagenum)
             .then(
                 res => {
                     // 校验一下数据
@@ -252,6 +253,7 @@ class computer extends Component {
         let addRecordContent = this.state.addRecordContent; // 新增 记录 内容
         let recordPagenum = this.state.recordPagenum; // 页码
         let recordPageTotal = this.state.recordPageTotal; // 一共有多少数据
+        let recordPaginationNum = this.state.recordPaginationNum; // 要跳转的页码
 
         /**
          * 数据提交 的处理函数
@@ -289,14 +291,112 @@ class computer extends Component {
          * 渲染分页
          */
         const renderPagination = () => {
-            let paginationItem = (<div className="list-pagination-item" key={`111`}>1</div>);
+            let paginationItem = (<div className="list-pagination-item" key="default">1</div>);
+
+            /**
+             * 下一页
+             */
+            const nextPageHandle = () => {
+                // 判断是否可以下一页
+                if (recordPagenum >= recordPageTotal) {
+                    return false
+                }
+
+                let newPageNum = recordPagenum + 1;
+
+                _this.setState(
+                    {
+                        recordPagenum: newPageNum,
+                        recordPaginationNum: newPageNum
+                    }, 
+                    _this.getRecordListBy.bind(_this)
+                );
+            }
+
+            /**
+             * 上一页
+             */
+            const previousPageHandle = () => {
+                // 判断是否可以上一页
+                if (recordPagenum <= 1) {
+                    return false
+                }
+
+                let newPageNum = recordPagenum - 1;
+
+                _this.setState(
+                    {
+                        recordPagenum: newPageNum,
+                        recordPaginationNum: newPageNum
+                    }, 
+                    _this.getRecordListBy.bind(_this)
+                );
+            }
+
+            /**
+             * 选择跳转
+             */
+            const jumpBySelect = pageNum => {
+                // 是否当前页
+                if (pageNum === recordPagenum) {
+                    return false
+                }
+
+                _this.setState(
+                    {
+                        recordPagenum: pageNum,
+                        recordPaginationNum: pageNum
+                    }, 
+                    _this.getRecordListBy.bind(_this)
+                );
+            }
+
+            /**
+             * 输入跳转
+             */
+            const jumpByInputHandle = event => {
+                // 判断是否合法
+                let newPageNum = event.target.value;
+                if (event.target.value <= 1) {
+                    newPageNum = 1;
+                    
+                } else if (event.target.value >= recordPageTotal) {
+                    newPageNum = recordPageTotal;
+
+                }
+
+                _this.setState({recordPaginationNum: newPageNum});
+            }
+
+            /**
+             * 输入跳转确认
+             */
+            const jumpByInputConfirm = () => {
+                // 是否当前页
+                if (recordPaginationNum === recordPagenum) {
+                    return false
+                }
+
+                _this.setState(
+                    {
+                        recordPagenum: recordPaginationNum,
+                        recordPaginationNum: recordPaginationNum
+                    }, 
+                    _this.getRecordListBy.bind(_this)
+                );
+            }
 
             // 总页数 小于 9 页的情况
             if (recordPageTotal < 9) {
                 // 显示全部页码
                 let paginationItemList = [];
                 for (let i = 0; i < recordPageTotal; i++) {
-                    paginationItemList.push(<div className="list-pagination-item" key={`${i}11`}>{i + 1}</div>)
+                    paginationItemList.push(
+                        <div key={`${i}11`}
+                            className="list-pagination-item"
+                            onClick={() => jumpBySelect(i + 1)}
+                        >{i + 1}</div>
+                    );
                 }
 
                 paginationItem = paginationItemList;
@@ -309,33 +409,48 @@ class computer extends Component {
                 if (recordPagenum <= 5) {
                     // 在这个区间内的话 显示1~5
                     for (let i = 0; i <= 5; i++) {
-                        paginationItemList.push(<div className="list-pagination-item" key={`${i}11`}>{i + 1}</div>)
+                        paginationItemList.push(
+                            <div key={`${i}11`}
+                                className={`list-pagination-item ${recordPagenum === (i + 1) ? 'pagination-item-selected' : ''}`} 
+                                onClick={() => jumpBySelect(i + 1)}
+                            >{i + 1}</div>
+                        );
                     }
                     paginationItemList.push(<div className="list-pagination-point" key={`112`}>...</div>); // 显示点点点
-                    paginationItemList.push(<div className="list-pagination-item" key={`1${recordPageTotal}1`}>{recordPageTotal}</div>); // 最后一页
+                    paginationItemList.push(<div className="list-pagination-item" key={`1${recordPageTotal}1`} onClick={() => jumpBySelect(recordPageTotal)}>{recordPageTotal}</div>); // 最后一页
 
                 // 当前页数是否在倒数第五页内?
                 } else if (recordPagenum >= (recordPageTotal - 5)) {
-                    paginationItemList.push(<div className="list-pagination-item" key={`1222`}>1</div>); // 显示第一页
-                    paginationItemList.push(<div className="list-pagination-point" key={`2222`}>...</div>); // 显示点点点
+                    paginationItemList.push(<div className="list-pagination-item" key={`1222`} onClick={() => jumpBySelect(1)}>1</div>); // 显示第一页
+                    paginationItemList.push(<div className="list-pagination-point" key={`123321`}>...</div>); // 显示点点点
 
                     // 显示最后5页
-                    for (let i = 5; i >= 0; i--) {
-                        paginationItemList.push(<div className="list-pagination-item" key={`222${i}`}>{recordPageTotal - i}</div>)
+                    for (let i = 6; i >= 0; i--) {
+                        paginationItemList.push(
+                            <div key={`222${i}`}
+                                className={`list-pagination-item ${recordPagenum === (recordPageTotal - i) ? 'pagination-item-selected' : ''}`} 
+                                onClick={() => jumpBySelect(recordPageTotal - i)}
+                            >{recordPageTotal - i}</div>
+                        );
                     }
 
                 // 表示在区间内
                 } else {
-                    paginationItemList.push(<div className="list-pagination-item" key={`3331`}>1</div>); // 显示第一页
+                    paginationItemList.push(<div className="list-pagination-item" key={`3331`} onClick={() => jumpBySelect(1)}>1</div>); // 显示第一页
                     paginationItemList.push(<div className="list-pagination-point" key={`3332`}>...</div>); // 显示点点点
 
                     // 显示当前页码5前后5页码的数据
                     for (let i = -2; i <= 2; i++) {
-                        paginationItemList.push(<div className="list-pagination-item" key={`${i}333`}>{recordPagenum + i}</div>); // 显示第一页
+                        paginationItemList.push(
+                            <div key={`${i}333`}
+                                className={`list-pagination-item ${recordPagenum === (recordPagenum + i) ? 'pagination-item-selected' : ''}`} 
+                                onClick={() => jumpBySelect(recordPagenum + i)}
+                            >{recordPagenum + i}</div>
+                        );
                     }
 
                     paginationItemList.push(<div className="list-pagination-point" key={`3334`}>...</div>); // 显示点点点
-                    paginationItemList.push(<div className="list-pagination-item" key={`3335`}>{recordPageTotal}</div>); // 最后一页
+                    paginationItemList.push(<div className="list-pagination-item" key={`3335`} onClick={() => jumpBySelect(recordPageTotal)}>{recordPageTotal}</div>); // 最后一页
                 }
 
                 paginationItem = paginationItemList;
@@ -344,12 +459,22 @@ class computer extends Component {
             return (
                 <div className="record-list-pagination flex-center">
                     <div className="list-pagination-container flex-start-center">
-                        <div className="list-pagination-item list-pagination-left flex-center">
+                        <div className="list-pagination-item list-pagination-left flex-center" onClick={previousPageHandle}>
                             <svg viewBox="64 64 896 896" data-icon="left" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8a31.86 31.86 0 0 0 0 50.3l450.8 352.1c5.3 4.1 12.9.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z"></path></svg>
                         </div>
                         {paginationItem}
-                        <div className="list-pagination-item list-pagination-right flex-center">
+                        <div className="list-pagination-item list-pagination-right flex-center" onClick={nextPageHandle}>
                             <svg viewBox="64 64 896 896" data-icon="right" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M765.7 486.8L314.9 134.7A7.97 7.97 0 0 0 302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 0 0 0-50.4z"></path></svg>
+                        </div>
+
+                        <div className="list-pagination-input flex-start-center">
+                            <div className="pagination-input-container">
+                                <input 
+                                    value={recordPaginationNum}
+                                    onChange={jumpByInputHandle}
+                                />
+                            </div>
+                            <div className="pagination-input-submit" onChange={jumpByInputConfirm}>跳转</div>
                         </div>
                     </div>
                 </div>
