@@ -39,7 +39,15 @@ class computer extends Component {
             /**
              * 记录列表数据
              */
-            recordList: [],
+            recordList: [
+                // {
+                //     id: 276,
+                //     isEdit: false,
+                //     title: "123123123123",
+                //     content: "【对比】不同人和不同人和不同人的差别是非常大的，        ↵【换位】所以从态度来说，满意和不满意的区别是很大的，  ↵【结论】阙值的管理调整这些不是我能够改变的，又不是没得选，我要做的其实是做最优选而已。123",
+                //     timestamp: 1544597707534,
+                // }
+            ],
 
             /**
              * 新增 记录
@@ -87,6 +95,18 @@ class computer extends Component {
         const _this = this;
         let recordSortType = this.state.recordSortType; // 排序方式
 
+        /**
+         * 数据转换函数
+         * @param {Array} list 数据查询出来的列表数据
+         */
+        let dataHandle = list => {
+            return list.map(val => {
+                val.isEdit = false;
+
+                return val;
+            });
+        }
+
         if (recordSortType === 'time') {
             recordAjaxs.getList(_this.state.recordPagenum)
             .then(
@@ -97,7 +117,7 @@ class computer extends Component {
                     }
                     
                     _this.setState({ 
-                        recordList: res.list,
+                        recordList: dataHandle(res.list),
                         recordPageTotal: res.pageTotal,
                     });
     
@@ -114,7 +134,7 @@ class computer extends Component {
                         return alert(`列表数据有误!`);
                     }
     
-                    _this.setState({ recordList: res });
+                    _this.setState({ recordList: dataHandle(res) });
 
                 }, error => alert(error)
             );
@@ -249,6 +269,7 @@ class computer extends Component {
      */
     renderRecord() {
         const _this = this;
+        let recordList = this.state.recordList; // 记录列表数据
         let addRecordTitle = this.state.addRecordTitle; // 新增 记录 标题
         let addRecordContent = this.state.addRecordContent; // 新增 记录 内容
         let recordPagenum = this.state.recordPagenum; // 页码
@@ -282,10 +303,64 @@ class computer extends Component {
          */
         const contentTitleHandle = event => _this.setState({addRecordContent: event.target.value});
 
+
+        /**
+         * 编辑标题 输入框 处理函数
+         */
+        const editTitleHandle = (val, index) => {
+            let newRecordList = recordList.concat([]);
+            newRecordList[index].title = val;
+            _this.setState({recordList: newRecordList});
+        };
+
+        /**
+         * 编辑内容 输入框 处理函数
+         */
+        const editContentHandle = (val, index) => {
+            let newRecordList = recordList.concat([]);
+            newRecordList[index].content = val;
+            _this.setState({recordList: newRecordList});
+        };
+
         /**
          * 排序方式 处理函数
          */
         const sortTypeHandle = event => _this.setState({recordSortType: event.target.value}, _this.getRecordListBy.bind(_this));
+
+        /**
+         * 通过下标 切换编辑状态
+         * @param {number} index 要切换编辑状态的下标
+         */
+        const editSwitcher = index => {
+            let newRecordList = recordList.concat([]);
+            newRecordList[index].isEdit = !newRecordList[index].isEdit;
+            _this.setState({recordList: newRecordList});
+        }
+
+        /**
+         * 保存编辑
+         */
+        const editSubmit = index => {
+            let id = recordList[index].id;
+            let title = recordList[index].title;
+            let content = recordList[index].content;
+
+            // 必须要判断 编辑的 内容 是否为空
+            if (!content) {
+                return alert('内容不能为空');
+            }
+
+            // 初始化标题, 当标题为空的时候 
+            let mytitle = title ? title : `记录 ${convertTime.dateToYYYYmmDDhhMM(new Date())}`;
+
+            recordAjaxs.editRecord(id, mytitle, content)
+            .then(
+                () => { // 修改成功
+                    _this.getRecordListBy.call(_this)
+
+                }, error => alert(error)
+            );
+        }
 
         /**
          * 渲染分页
@@ -524,13 +599,37 @@ class computer extends Component {
                     </div>
 
                     <div className="record-list-main">
-                        {this.state.recordList.map((val, key) => (
-                            <div className={`list-main-item ${key % 2 ==0 ? 'list-item-left' : ''}`}
-                                    key={key}
-                                    onClick={() => _this.initEdit(val.id)}
-                                >
-                                <div className="list-item-title">{val.title}</div>
-                                <div className="list-item-content ReactMarkdown"><ReactMarkdown source={val.content} /></div>
+                        {recordList.map((val, key) => (
+                            <div className={`list-main-item ${key % 2 == 0 ? 'list-item-left' : ''}`}
+                                key={key}
+                            >
+                                {val.isEdit ? (
+                                    <div className="main-item-edit">
+                                        <div className="record-edit-title flex-start">
+                                            <input className="flex-rest" 
+                                                value={val.title}
+                                                onChange={event => editTitleHandle(event.target.value, key)}
+                                                placeholder="Input you record title..." 
+                                            />
+                                        </div>
+                                        <div className="record-edit-content flex-start">
+                                            <textarea className="flex-rest" 
+                                                value={val.content}
+                                                onChange={event => editContentHandle(event.target.value, key)}
+                                                placeholder="Input you record content..."
+                                            />
+                                        </div>
+                                        <div className="record-edit-operate flex-start">
+                                            <div className="record-edit-submit flex-rest" onClick={() => editSubmit(key)}>确认</div>
+                                            <div className="record-edit-cancel flex-rest" onClick={() => editSwitcher(key)}>取消</div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="main-item-container" onClick={() => editSwitcher(key)}>
+                                        <div className="list-item-title">{val.title}</div>
+                                        <div className="list-item-content ReactMarkdown"><ReactMarkdown source={val.content} /></div>
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>

@@ -219,32 +219,89 @@ $black4: #C0C4CC;
         }
     }
 
+    // 列表框架部分
     .record-list-main {
         overflow: hidden;
         padding-top: 15px;
 
-        .list-main-item {
-            width: 352.5px;
-            float: left;
-            border: 1px solid #ddd;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            background: #fbfbfb;
-
-            .list-item-title {
-                color: $black1;
-                font-weight: bold;
-                font-size: 16px;
-                padding: 15px 15px 0px 15px;
-            }
-
-            .list-item-content {
-                color: $black3 !important;
-            }
-        }
-
         .list-item-left {
             margin-right: 10px;
+        }
+    }
+    
+    // 列表内容部分
+    .list-main-item {
+        width: 352.5px;
+        float: left;
+        border: 1px solid #ddd;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        background: #fbfbfb;
+        cursor: pointer;
+
+        .list-item-title {
+            color: $black1;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 15px 15px 0px 15px;
+        }
+
+        .list-item-content {
+            color: $black3 !important;
+        }
+    }
+
+    .list-main-item:hover {
+        border: 1px solid #1890ff;
+        background: #fff;
+    }
+
+    // 列表编辑
+    .main-item-edit {
+
+        input,
+        textarea {
+            background-color: #fff;
+            background-position: right 8px center;
+            background-repeat: no-repeat;
+            border-radius: 3px;
+            color: #24292e;
+            font-size: 14px;
+            line-height: 20px;
+            min-height: 34px;
+            outline: none;
+            padding: 6px 8px;
+            vertical-align: middle;
+            -webkit-appearance: textfield;
+            outline-offset: -2px;
+        }
+
+        textarea {
+            min-height: 140px;
+        }
+
+        .record-edit-title {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .record-edit-content {
+            padding-top: 5px;
+        }
+
+        .record-edit-operate {
+            border-top: 1px solid #ddd;
+            line-height: 45px;
+            text-align: center;
+
+            .record-edit-submit {
+                border-right: 1px solid #ddd;
+            }
+
+            .record-edit-submit:hover,
+            .record-edit-cancel:hover {
+                background: #1890ff;
+                color: #fff;
+            }
         }
     }
 }

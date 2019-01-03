@@ -418,7 +418,7 @@ class recordlist extends Component {
             // 初始化标题, 当标题为空的时候 
             let mytitle = editorTitle ? editorTitle : `记录 ${convertTime.dateToYYYYmmDDhhMM(new Date())}`;
 
-            ajaxs.editRecord(this.state.editorId, mytitle, editorContent)
+            ajaxs.editRecord(_this.state.editorId, mytitle, editorContent)
             .then(
                 () => { // 修改成功
                     // 删除缓存
