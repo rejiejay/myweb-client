@@ -457,6 +457,23 @@ class computer extends Component {
         }
 
         /**
+         * 删除一个项目
+         */
+        const delItem = index => {
+            // 询问是否确认删除
+            if (window.confirm('是否删除此条数据?') === false) {
+                // 不删除的情况, 阻止往下执行即可
+                return false
+            }
+            
+            recordAjaxs.deleteRecord(recordList[index].id)
+            .then(() => { // 记录删除成功
+                _this.getRecordListBy.call(_this)
+
+            }, error => alert(error));
+        }
+
+        /**
          * 渲染分页
          */
         const renderPagination = () => {
@@ -720,8 +737,9 @@ class computer extends Component {
                                             />
                                         </div>
                                         <div className="record-edit-operate flex-start">
-                                            <div className="record-edit-submit flex-rest" onClick={() => editSubmit(key)}>确认</div>
-                                            <div className="record-edit-cancel flex-rest" onClick={() => editSwitcher(key)}>取消</div>
+                                            <div className="record-edit-submit" onClick={() => editSubmit(key)}>确认</div>
+                                            <div className="record-edit-del" onClick={() => delItem(key)}>删除</div>
+                                            <div className="record-edit-cancel" onClick={() => editSwitcher(key)}>取消</div>
                                         </div>
                                     </div>
                                 ) : (
@@ -832,6 +850,23 @@ class computer extends Component {
 
                 }, error => alert(error)
             );
+        }
+
+        /**
+         * 删除一个项目
+         */
+        const delItem = index => {
+            // 询问是否确认删除
+            if (window.confirm('是否删除此条数据?') === false) {
+                // 不删除的情况, 阻止往下执行即可
+                return false
+            }
+            
+            englishAjaxs.del(englishList[index].id)
+            .then(() => { // 记录删除成功
+                _this.getEnglishListBy.call(_this)
+
+            }, error => alert(error));
         }
 
         /**
@@ -1098,8 +1133,9 @@ class computer extends Component {
                                             />
                                         </div>
                                         <div className="english-edit-operate flex-start">
-                                            <div className="english-edit-submit flex-rest" onClick={() => editSubmit(key)}>确认</div>
-                                            <div className="english-edit-cancel flex-rest" onClick={() => editSwitcher(key)}>取消</div>
+                                            <div className="english-edit-submit" onClick={() => editSubmit(key)}>确认</div>
+                                            <div className="english-edit-del" onClick={() => delItem(key)}>删除</div>
+                                            <div className="english-edit-cancel" onClick={() => editSwitcher(key)}>取消</div>
                                         </div>
                                     </div>
                                 ) : (

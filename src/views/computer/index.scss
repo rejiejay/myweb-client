@@ -308,12 +308,18 @@ $black4: #C0C4CC;
                 border-top: 1px solid #ddd;
                 line-height: 45px;
                 text-align: center;
+
+                > div {
+                    width: 33.3%;
+                }
     
-                .record-edit-submit {
+                .record-edit-submit,
+                .record-edit-del {
                     border-right: 1px solid #ddd;
                 }
     
                 .record-edit-submit:hover,
+                .record-edit-del:hover,
                 .record-edit-cancel:hover {
                     background: #1890ff;
                     color: #fff;
@@ -557,12 +563,18 @@ $black4: #C0C4CC;
                 border-top: 1px solid #ddd;
                 line-height: 45px;
                 text-align: center;
+
+                > div {
+                    width: 33.3%;
+                }
     
-                .english-edit-submit {
+                .english-edit-submit,
+                .english-edit-del {
                     border-right: 1px solid #ddd;
                 }
     
                 .english-edit-submit:hover,
+                .english-edit-del:hover,
                 .english-edit-cancel:hover {
                     background: #1890ff;
                     color: #fff;
