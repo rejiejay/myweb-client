@@ -270,6 +270,7 @@ class computer extends Component {
     renderRecord() {
         const _this = this;
         let recordList = this.state.recordList; // 记录列表数据
+        let recordSortType = this.state.recordSortType; // 记录排序方式
         let addRecordTitle = this.state.addRecordTitle; // 新增 记录 标题
         let addRecordContent = this.state.addRecordContent; // 新增 记录 内容
         let recordPagenum = this.state.recordPagenum; // 页码
@@ -366,6 +367,11 @@ class computer extends Component {
          * 渲染分页
          */
         const renderPagination = () => {
+            // 只有时间排序才有分页
+            if (recordSortType !== 'time') {
+                return '';
+            }
+
             let paginationItem = (<div className="list-pagination-item" key="default">1</div>);
 
             /**
@@ -587,9 +593,10 @@ class computer extends Component {
                 <div className="computer-record-list">
                     <div className="record-list-title flex-start-bottom">
                         <div className="flex-rest">All records</div>
+                        {recordSortType === 'random' ? <div className="list-random-refresh" onClick={_this.getRecordListBy.bind(_this)}>Refresh</div> : ""}
                         <div className="list-title-select">
                             <select 
-                                value={this.state.recordSortType}
+                                value={recordSortType}
                                 onChange={sortTypeHandle}
                             >
                                 <option value ="time">时间排序</option>
