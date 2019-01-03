@@ -189,13 +189,202 @@ $black4: #C0C4CC;
             min-height: 80px;
         }
     }
+    
+    // 列表部分
+    .computer-record-list {
+        padding-top: 25px;
+    
+        .record-list-title {
+            .flex-rest {
+                font-size: 16px;
+                line-height: 20px;
+                color: $black1;
+                font-weight: 400;
+            }
+    
+            .list-random-refresh {
+                position: relative;
+                margin-right: 15px;
+                padding: 6px 12px;
+                border-radius: 4px;
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 20px;
+                user-select: none;
+                vertical-align: middle;
+                white-space: nowrap;
+                color: #fff;
+                border: 1px solid rgba(27, 31, 35, 0.2);
+                background-color: #28a745;
+                cursor: pointer;
+            }
+    
+            .list-title-select select {
+                background: #f5f5f5;
+                border: none;
+                outline: none;
+            }
+    
+            option {
+                margin: 2.5px 15px;
+            }
+    
+            select:focus {
+                border: none;
+                box-shadow: none;
+            }
+        }
+    
+        // 列表框架部分
+        .record-list-main {
+            overflow: hidden;
+            padding-top: 15px;
+    
+            .list-item-left {
+                margin-right: 10px;
+            }
+        }
+        
+        // 列表内容部分
+        .list-main-item {
+            width: 352.5px;
+            float: left;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background: #fbfbfb;
+            cursor: pointer;
+    
+            .list-item-title {
+                color: $black1;
+                font-weight: bold;
+                font-size: 16px;
+                padding: 15px 15px 0px 15px;
+            }
+    
+            .list-item-content {
+                color: $black3 !important;
+            }
+        }
+    
+        .list-main-item:hover {
+            border: 1px solid #1890ff;
+            background: #fff;
+        }
+    
+        // 列表编辑
+        .main-item-edit {
+    
+            input,
+            textarea {
+                background-color: #fff;
+                background-position: right 8px center;
+                background-repeat: no-repeat;
+                border-radius: 3px;
+                color: #24292e;
+                font-size: 14px;
+                line-height: 20px;
+                min-height: 34px;
+                outline: none;
+                padding: 6px 8px;
+                vertical-align: middle;
+                -webkit-appearance: textfield;
+                outline-offset: -2px;
+            }
+    
+            textarea {
+                min-height: 140px;
+            }
+    
+            .record-edit-title {
+                border-bottom: 1px solid #ddd;
+            }
+    
+            .record-edit-content {
+                padding-top: 5px;
+            }
+    
+            .record-edit-operate {
+                border-top: 1px solid #ddd;
+                line-height: 45px;
+                text-align: center;
+    
+                .record-edit-submit {
+                    border-right: 1px solid #ddd;
+                }
+    
+                .record-edit-submit:hover,
+                .record-edit-cancel:hover {
+                    background: #1890ff;
+                    color: #fff;
+                }
+            }
+        }
+    }
+    
+    // 分页部分
+    .record-list-pagination {
+        padding-top: 15px;
+    
+        .list-pagination-item {
+            height: 30px;
+            min-width: 30px;
+            text-align: center;
+            line-height: 30px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+            cursor: pointer;
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Chrome/Safari/Opera */
+            -khtml-user-select: none; /* Konqueror */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently not supported by any browser */
+        }
+    
+        // 省略号
+        .list-pagination-point {
+            margin-right: 10px;
+        }
+    
+        .list-pagination-input {
+            .pagination-input-container {
+                margin-right: 15px;
+                width: 45px;
+                line-height: 30px;
+                border-radius: 2px;
+                border: 1px solid #ddd;
+    
+                input {
+                    text-align: center;
+                }
+            }
+    
+            .pagination-input-submit {
+                padding: 0px 10px;
+                line-height: 30px;
+                border-radius: 4px;
+                border: 1px solid #ddd;
+                cursor: pointer;
+            }
+        }
+    
+        .pagination-item-selected,
+        .list-pagination-item:hover,
+        .pagination-input-submit:hover {
+            border: 1px solid #1890ff;
+            color: #1890ff;
+        }
+    
+    }
 }
 
-// 列表部分
-.computer-record-list {
+// 英语部分
+.computer-main-english {
     padding-top: 25px;
 
-    .record-list-title {
+    .english-add-top {
         .flex-rest {
             font-size: 16px;
             line-height: 20px;
@@ -203,85 +392,35 @@ $black4: #C0C4CC;
             font-weight: 400;
         }
 
-        .list-random-refresh {
-            position: relative;
-            margin-right: 15px;
-            padding: 6px 12px;
+        .add-top-btn {
+            background-color: #28a745;
+            color: #fff;
+            border: 1px solid rgba(27, 31, 35, 0.2);
             border-radius: 4px;
+            cursor: pointer;
             font-size: 14px;
             font-weight: 600;
             line-height: 20px;
+            padding: 6px 12px;
+            position: relative;
             user-select: none;
             vertical-align: middle;
             white-space: nowrap;
-            color: #fff;
-            border: 1px solid rgba(27, 31, 35, 0.2);
-            background-color: #28a745;
-            cursor: pointer;
-        }
-
-        .list-title-select select {
-            background: #f5f5f5;
-            border: none;
-            outline: none;
-        }
-
-        option {
-            margin: 2.5px 15px;
-        }
-
-        select:focus {
-            border: none;
-            box-shadow: none;
         }
     }
 
-    // 列表框架部分
-    .record-list-main {
-        overflow: hidden;
+    .english-add-title,
+    .english-add-content {
         padding-top: 15px;
-
-        .list-item-left {
-            margin-right: 10px;
-        }
-    }
-    
-    // 列表内容部分
-    .list-main-item {
-        width: 352.5px;
-        float: left;
-        border: 1px solid #ddd;
-        margin-bottom: 10px;
-        border-radius: 5px;
-        background: #fbfbfb;
-        cursor: pointer;
-
-        .list-item-title {
-            color: $black1;
-            font-weight: bold;
-            font-size: 16px;
-            padding: 15px 15px 0px 15px;
-        }
-
-        .list-item-content {
-            color: $black3 !important;
-        }
-    }
-
-    .list-main-item:hover {
-        border: 1px solid #1890ff;
-        background: #fff;
-    }
-
-    // 列表编辑
-    .main-item-edit {
 
         input,
         textarea {
             background-color: #fff;
             background-position: right 8px center;
             background-repeat: no-repeat;
+            border: 1px solid #d1d5da;
             border-radius: 3px;
+            box-shadow: inset 0 1px 2px rgba(27,31,35,.075);
             color: #24292e;
             font-size: 14px;
             line-height: 20px;
@@ -291,91 +430,202 @@ $black4: #C0C4CC;
             vertical-align: middle;
             -webkit-appearance: textfield;
             outline-offset: -2px;
+            overflow: visible;
         }
 
         textarea {
-            min-height: 140px;
+            min-height: 80px;
         }
-
-        .record-edit-title {
-            border-bottom: 1px solid #ddd;
-        }
-
-        .record-edit-content {
-            padding-top: 5px;
-        }
-
-        .record-edit-operate {
-            border-top: 1px solid #ddd;
-            line-height: 45px;
-            text-align: center;
-
-            .record-edit-submit {
-                border-right: 1px solid #ddd;
+    }
+    
+    // 列表部分
+    .computer-english-list {
+        padding-top: 25px;
+    
+        .english-list-title {
+            .flex-rest {
+                font-size: 16px;
+                line-height: 20px;
+                color: $black1;
+                font-weight: 400;
             }
-
-            .record-edit-submit:hover,
-            .record-edit-cancel:hover {
-                background: #1890ff;
+    
+            .list-random-refresh {
+                position: relative;
+                margin-right: 15px;
+                padding: 6px 12px;
+                border-radius: 4px;
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 20px;
+                user-select: none;
+                vertical-align: middle;
+                white-space: nowrap;
                 color: #fff;
+                border: 1px solid rgba(27, 31, 35, 0.2);
+                background-color: #28a745;
+                cursor: pointer;
+            }
+    
+            .list-title-select select {
+                background: #f5f5f5;
+                border: none;
+                outline: none;
+            }
+    
+            option {
+                margin: 2.5px 15px;
+            }
+    
+            select:focus {
+                border: none;
+                box-shadow: none;
             }
         }
-    }
-}
-
-// 分页部分
-.record-list-pagination {
-    padding-top: 15px;
-
-    .list-pagination-item {
-        height: 30px;
-        min-width: 30px;
-        text-align: center;
-        line-height: 30px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        margin-right: 10px;
-        cursor: pointer;
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Chrome/Safari/Opera */
-        -khtml-user-select: none; /* Konqueror */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none; /* Non-prefixed version, currently not supported by any browser */
-    }
-
-    // 省略号
-    .list-pagination-point {
-        margin-right: 10px;
-    }
-
-    .list-pagination-input {
-        .pagination-input-container {
-            margin-right: 15px;
-            width: 45px;
-            line-height: 30px;
-            border-radius: 2px;
-            border: 1px solid #ddd;
-
-            input {
-                text-align: center;
+    
+        // 列表框架部分
+        .english-list-main {
+            overflow: hidden;
+            padding-top: 15px;
+    
+            .list-item-left {
+                margin-right: 10px;
             }
         }
-
-        .pagination-input-submit {
-            padding: 0px 10px;
-            line-height: 30px;
-            border-radius: 4px;
+        
+        // 列表内容部分
+        .list-main-item {
+            width: 352.5px;
+            float: left;
             border: 1px solid #ddd;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background: #fbfbfb;
             cursor: pointer;
+    
+            .list-item-content {
+                padding: 15px;
+                font-weight: bold;
+                font-size: 16px;
+                color: $black1;
+            }
+
+            .list-item-tip {
+                padding: 0px 15px 15px 15px;
+                color: $black3;
+            }
+        }
+    
+        .list-main-item:hover {
+            border: 1px solid #1890ff;
+            background: #fff;
+        }
+    
+        // 列表编辑
+        .main-item-edit {
+    
+            input,
+            textarea {
+                background-color: #fff;
+                background-position: right 8px center;
+                background-repeat: no-repeat;
+                border-radius: 3px;
+                color: #24292e;
+                font-size: 14px;
+                line-height: 20px;
+                min-height: 34px;
+                outline: none;
+                padding: 6px 8px;
+                vertical-align: middle;
+                -webkit-appearance: textfield;
+                outline-offset: -2px;
+            }
+    
+            textarea {
+                min-height: 140px;
+            }
+    
+            .english-edit-title {
+                border-bottom: 1px solid #ddd;
+            }
+    
+            .english-edit-content {
+                padding-top: 5px;
+            }
+    
+            .english-edit-operate {
+                border-top: 1px solid #ddd;
+                line-height: 45px;
+                text-align: center;
+    
+                .english-edit-submit {
+                    border-right: 1px solid #ddd;
+                }
+    
+                .english-edit-submit:hover,
+                .english-edit-cancel:hover {
+                    background: #1890ff;
+                    color: #fff;
+                }
+            }
         }
     }
-
-    .pagination-item-selected,
-    .list-pagination-item:hover,
-    .pagination-input-submit:hover {
-        border: 1px solid #1890ff;
-        color: #1890ff;
+    
+    // 分页部分
+    .english-list-pagination {
+        padding-top: 15px;
+    
+        .list-pagination-item {
+            height: 30px;
+            min-width: 30px;
+            text-align: center;
+            line-height: 30px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+            cursor: pointer;
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Chrome/Safari/Opera */
+            -khtml-user-select: none; /* Konqueror */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently not supported by any browser */
+        }
+    
+        // 省略号
+        .list-pagination-point {
+            margin-right: 10px;
+        }
+    
+        .list-pagination-input {
+            .pagination-input-container {
+                margin-right: 15px;
+                width: 45px;
+                line-height: 30px;
+                border-radius: 2px;
+                border: 1px solid #ddd;
+    
+                input {
+                    text-align: center;
+                }
+            }
+    
+            .pagination-input-submit {
+                padding: 0px 10px;
+                line-height: 30px;
+                border-radius: 4px;
+                border: 1px solid #ddd;
+                cursor: pointer;
+            }
+        }
+    
+        .pagination-item-selected,
+        .list-pagination-item:hover,
+        .pagination-input-submit:hover {
+            border: 1px solid #1890ff;
+            color: #1890ff;
+        }
+    
     }
-
 }
+
