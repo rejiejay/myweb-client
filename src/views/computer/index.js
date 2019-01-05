@@ -35,7 +35,7 @@ class computer extends Component {
              * @param {string} time 时间排序 就是 默认排序 
              * @param {string} random 随机排序 
              */
-            recordSortType: 'time',
+            recordSortType: window.localStorage.computer_recordSortType ? window.localStorage.computer_recordSortType : 'time',
 
             /**
              * 记录列表数据
@@ -68,7 +68,7 @@ class computer extends Component {
              * @param {string} time 时间排序 就是 默认排序 
              * @param {string} random 随机排序 
              */
-            englishSortType: 'time',
+            englishSortType: window.localStorage.computer_englishSortType ? window.localStorage.computer_englishSortType : 'time',
 
             /**
              * 英语 列表数据
@@ -419,7 +419,13 @@ class computer extends Component {
         /**
          * 排序方式 处理函数
          */
-        const sortTypeHandle = event => _this.setState({recordSortType: event.target.value}, _this.getRecordListBy.bind(_this));
+        const sortTypeHandle = event => {
+            window.localStorage.setItem('computer_recordSortType', event.target.value);
+            _this.setState(
+                {recordSortType: event.target.value}, 
+                _this.getRecordListBy.bind(_this)
+            );
+        };
 
         /**
          * 通过下标 切换编辑状态
@@ -818,7 +824,13 @@ class computer extends Component {
         /**
          * 排序方式 处理函数
          */
-        const sortTypeHandle = event => _this.setState({englishSortType: event.target.value}, _this.getEnglishListBy.bind(_this));
+        const sortTypeHandle = event => {
+            window.localStorage.setItem('englishSortType', event.target.value);
+            _this.setState(
+                {englishSortType: event.target.value}, 
+                _this.getEnglishListBy.bind(_this)
+            );
+        };
 
         /**
          * 通过下标 切换编辑状态

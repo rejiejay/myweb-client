@@ -369,6 +369,12 @@ class mobile extends Component {
                 imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/mobile-list/articles-1.png',
                 title: 'Hi, 我是曾杰杰。',
                 content: '欢迎来到我的个人网站, 没有关系你也不用, 没有关系你也不用, 没有关系你也不用给我机会反正我还有一生可以浪费。我就是这么一点点倔。',
+                onclickevent: () => {},
+            }, {
+                imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/mobile-list/articles-2.png',
+                title: '英语背诵 (*°▽°)ﾉ',
+                content: '去复习您的英语吧，your magistrate！',
+                onclickevent: () => { window.location.href = './#/english/recite' },
             }
         ]
 
@@ -377,7 +383,7 @@ class mobile extends Component {
                 
                 {articlesList.map((val, key) => (
                     <div className="mobile-list-item" key={key}>
-                        <div className="list-item-container">
+                        <div className="list-item-container" onClick={val.onclickevent}>
 
                             {/* 图片 */}
                             <div className="list-item-img" 
