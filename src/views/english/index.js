@@ -3,11 +3,10 @@
  */
 // 框架类
 import React, { Component } from 'react';
-import ReactMarkdown from 'react-markdown';
 
 // 组件类
 import MobileListModal from './../../components/MobileListModal';
-import convertTime from './../../utils/convertTime';
+import loadPageVar from './../../utils/loadPageVar';
 
 // 样式类
 import './index.scss';
@@ -57,6 +56,7 @@ class english extends Component {
 
     componentDidMount() {
         this.getListBy(); // 获取页面数据
+        this.englishId = loadPageVar('id'); // 记录的唯一标识
 
         window.addEventListener('scroll', this.scrollHandle.bind(this)); // 添加滚动事件，检测滚动到页面底部
     }
@@ -73,6 +73,18 @@ class english extends Component {
     getListBy(isLodeMore) {
         const _this = this;
         let sortType = this.state.sortType; // 排序方式
+
+        /**
+         * 初始化一条编辑数据
+         */
+        let ajaxsGetOne = id => {
+            ajaxs.getOneById(id)
+            .then(res => {
+                let newList = _this.state.list.concat([]);
+                newList.unshift(res);
+                _this.setState({ list: newList });
+            }, error => alert(error));
+        }
         
         /**
          * 根据时间 获取页面数据
@@ -98,6 +110,14 @@ class english extends Component {
                     } else { // 如果是首次加载
                         _this.setState({ list: res.list });
     
+                    }
+
+                    /**
+                     * 判断是否存在 id 如果存在 id 加载一次
+                     */
+                    if (_this.englishId) {
+                        ajaxsGetOne(_this.englishId);
+                        _this.englishId = null; // 只查询一次，查询完毕则进行清空
                     }
                 }, error => {
                     alert(error);

@@ -11,7 +11,13 @@ export default {
     /**
      * 获取 随机查询
      */
-    getrandom: () => apibasics.get(`/english/get/random`, '随机查询'),
+    getrandom: count => apibasics.get(`/english/get/random${count ? `?count=${count}` : ''}`, '随机查询'),
+    
+    /**
+     * 根据id获取一条记录
+     * @param {number} id 记录id
+     */
+    getOneById: id => apibasics.get(`/english/get/id?id=${id}`, '根据id获取一条记录'),
 
     /**
      * 新增一条记录
