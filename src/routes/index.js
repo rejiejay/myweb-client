@@ -41,6 +41,8 @@ class RouterConfig extends Component {
                         <Route path="/english/list" component={asyncComponent(() => import('./../views/english'))} />
                         <Route path="/english/recite" component={asyncComponent(() => import('./../views/english/recite'))} />
                         
+                        {/* 微软 */}
+                        <Route path="/microsoft/test" component={asyncComponent(() => import('./../views/microsoft/test'))} />
                     </Switch>
                 </Router>
             </Provider>
