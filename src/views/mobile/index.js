@@ -375,7 +375,12 @@ class mobile extends Component {
                 title: '英语背诵 (*°▽°)ﾉ',
                 content: '去复习您的英语吧，your magistrate！',
                 onclickevent: () => { window.location.href = './#/english/recite' },
-            }
+            }, {
+                imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/mobile-list/articles-3.png',
+                title: '复习笔记列表',
+                content: '回去看看你写的笔记吧，Miss (＾Ｕ＾)ノ~ＹＯ！',
+                onclickevent: () => { window.location.href = './#/microsoft/onenote/list' },
+            },
         ]
 
         return this.state.navBarStatus === 'all' ? (

@@ -45,6 +45,7 @@ class RouterConfig extends Component {
                         <Route path="/microsoft/test" component={asyncComponent(() => import('./../views/microsoft/test'))} />{/* 用于测试页面 */}
                         <Route path="/microsoft/onenote/pages" component={asyncComponent(() => import('./../views/microsoft/getAllPages'))} />{/* 获取 OneNote notebook 所有的 pages */}
                         <Route path="/microsoft/onenote/sections" component={asyncComponent(() => import('./../views/microsoft/getSectionsByUrl'))} />{/* 根据Url的名称获取笔记本的分区 */}
+                        <Route path="/microsoft/onenote/list" component={asyncComponent(() => import('./../views/microsoft/myOneNoteList'))} />{/* 我的所有onenote列表 */}
                     </Switch>
                 </Router>
             </Provider>

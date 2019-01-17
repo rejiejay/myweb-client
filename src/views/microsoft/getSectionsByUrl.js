@@ -28,7 +28,7 @@ class getSectionsByUrl extends Component {
         /**
          * 本地测试 (postman手动赋值)
          */
-        this.access_token = "EwBwA8l6BAAURSN/FHlDW5xN74t6GzbtsBBeBUYAAaws1IagzEHnlPPrFslaw79gsklyoewDWz6/H9v7pDaLkpiJvaf339uP2+QzMvCrQzTbuBzH3lvAssQYgIjD2T6WaMFEN6QWP0ftdNeEUdoOziBEx/lCqt2vdLZ849X6eY2WI1Yj6nYkawJls5Cg4+4V74lw0gwUGtiXCTe1ddBWFnR5kKXZdj7GQni7rBoZeMEpm5c72UaCNK4aSjsh6095vJdBgrzPzWhw+WC5OhESF1ifh1a5JSL3R3yE1LyNds5/dr+3S8UNzndjLdGeila/bzNQocnfsc7E8uwGsEL74X8gZSkagEGXuMyzC6UWMxWrtvVzy9H5lQklm+S5Q54DZgAACETHPfOANw06QALaj8XsCEXGGmatWgg+AVDrg5ywDZumVUlAFDYxaNhXzgzSPk/dpK5kcSAVZTVhp+TG1QL0BFBRezhqJ+x4TwF6NYCMVnvJoOWy53rPepNje5iSqfhNjcmq8Zg8dXtjIubibnXS2cY+zF9+YMhXy2nVfJHX16vAwal+WbhuAsPkRgCEz6uJUICcoxe3SFDz361e911GEJgfANyhMuGnPTcOG0OnZ3+w6GxL7Vwu2sh0KRzb7+3LIZDx5gTPV3fpPdXknmw/V59Pa5KNILk8IxM51cd3uQM4VtAkTAIjuSPoteUms6nlzxP8j7u3o7uZmY10bQxc7EV8Vko2wewkIs+YyDjdlFTkfj+iHFVbF95XbMdC6bJbm+00WHFOra9tbDqBzatG4aCs8nBfr7BtcCkhz/s/sIIJ68YdYSS0Y/9DM/EDi8aHyAlshjMFATfpI81gspruF6CHH3YIZkrvrK6EO8FOGnCxb2+fTS4KkN7FXQvOjk2YhL/Vk82prexEa+MdKgaoWpNoRh2Z/vaheMtTTsfD9j+pE8ij+XmX2mi3fpPDxjO/CkufZxWbHfaGlHf8YRbFaI/FdZOYoQtIY/FkyvIWfo46RINrGsbjFve+3A05AikrwhzEYSR+YcGOow/Ac9GWhK9vLF9CBIKuuNF7rltwSagakuhYauEjHkfdlTsBgjyOlN3ENHlKcWsF72A6cs39lgszYaeqYlJBD8VqGTCfLo2JvcMVxbTSxi1FYiIKDLLu1nHW6sAcEI+BoGV9Ag==";
+        this.access_token = "EwBwA8l6BAAURSN/FHlDW5xN74t6GzbtsBBeBUYAARxu/YrgsYkTrwdqkaLc18na/GmDfvEioSd+yN7q97qLjFjE2T89NJ9AjoL+j6Ae9v+B8ewJZzDHIN76ttQ6JDR0WGoRaaXo+EfrwQan7vqdQoRuMSwxHFO6ZeFHQft2tKNvR5oc44sX9exK//2ncFqkaMm/8jvuzQTC6WPSi8QTCUmBAJB8wLucHkyuJ+9WSZ6TxGgI74wFBsn5XBoMCsftWy5uL/T2NGaReYrbrS7u45uvhANlA7haKHCUCD9PAytGXk7jcUpzGbvweMM5kN01O9r1bIxsFLEPpym31yV7BzvCAcCeerZIMQw8JVnNag7+qmmLix2AcZdsYG4Q7I4DZgAACFTFfQqVlcDVQAK3FtH4fIeOzHwMnFXhsMrBs9djd7MsHiC0kOlMr5pcAG8daqFeTIfI9ZhNt1OtkCsJJpQtsUJ9RiBA+nY9Go16LWwvbnaZzpGvtaQKEMQe3xVGFha0m6oFOzazjLo0aOO8yJFDdKMBmK0GdXUlATBVxsupeCOLayBPpqsIBKGobReY8JBxQ1WO2oyx+OjiWvmWJjoQ4YLETDLRvMb6E/pPsrBzYh27Z5a5ed/zrtgutTLv+VCOVzrB0NDEPDVzNUVvyKxbZD/xjk2kilRdwrrzNAHsat9nXINhriZRzyjTlgAEuBb5Grc6UncT+nBdyvxpZaa559TKXEvizmBjfxE7OyYmSIcAKdG4hjGuN5xWHVtrpoVF1Y1nAFcxt/kdNnWYwZvuHbIbUFtK5rKdZEVRuFpYalaEGwXvswrvT5ONNptv850JJrov8zrGy7PStXsF5hzhgxw8JPuGG84majAic7yg1VG4n3Jubh1dmPrsAahczIWl3PMtDdl7+g4rH5CntnSgMXkwpqKhy+ErNn8GvyngyK46lLZ3QidHFYC/K2tYsZBFwuyLkKhHpXWJ8C/nAV0usxmZmnq1Iv40Eiy4u5uopKZO5x0Lwqociopnjt3+jsblI9IFDuU6uQn4CvSciMseUHsYFay0f8MiD5m5sROlWgcEfbzITnYg+um7ejaebHxL8PInPVmtZLmDOT1FHI+9P2h1KDOJljcoyItsr7s8pPxna55AS7MI3SRB547i0Gm+zVZoaSvgR4zUZNZ9Ag==";
 
         this.parentSectionId = false;
     }
@@ -161,8 +161,12 @@ class getSectionsByUrl extends Component {
          * @param {string} contentUrl 
          */
         let getContentHtmlBy = contentUrl => {
+            Toast.show(); // 弹出加载框
+
             apibasicsgethtml(contentUrl)
             .then(res => {
+                Toast.destroy(); // 关闭加载框
+
                 console.log(res);
 
                 let divElement = window.document.createElement('div');
@@ -172,12 +176,16 @@ class getSectionsByUrl extends Component {
                 let html_title = divElement.getElementsByTagName('title')[0].textContent; // 获取
                 let html_body = divElement.getElementsByTagName('div')[0]; // 获取页面内容
 
+                html_body = html_body ? html_body.innerHTML : '暂时无内容'; // 判断是否有内容
+
                 _this.setState({
-                    html_title: html_title,
-                    html_body: html_body.innerHTML,
+                    html_title: html_title ? html_title : '暂无标题',
+                    html_body: html_body,
                 });
 
             }, error => {
+                Toast.destroy(); // 关闭加载框
+
                 alert(`通过 contentUrl 获取 HTML 内容 失败! 原因已经打印到桌面`);
     
                 console.log(error);
