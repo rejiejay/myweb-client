@@ -42,7 +42,9 @@ class RouterConfig extends Component {
                         <Route path="/english/recite" component={asyncComponent(() => import('./../views/english/recite'))} />
                         
                         {/* 微软 */}
-                        <Route path="/microsoft/test" component={asyncComponent(() => import('./../views/microsoft/test'))} />
+                        <Route path="/microsoft/test" component={asyncComponent(() => import('./../views/microsoft/test'))} />{/* 用于测试页面 */}
+                        <Route path="/microsoft/onenote/pages" component={asyncComponent(() => import('./../views/microsoft/getAllPages'))} />{/* 获取 OneNote notebook 所有的 pages */}
+                        <Route path="/microsoft/onenote/sections" component={asyncComponent(() => import('./../views/microsoft/getSectionsByUrl'))} />{/* 根据Url的名称获取笔记本的分区 */}
                     </Switch>
                 </Router>
             </Provider>

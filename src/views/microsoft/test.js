@@ -9,7 +9,7 @@ let clientHeight = document.body.offsetHeight || document.documentElement.client
 /**
  * 用于测试微软的接口
  */
-class english extends Component {
+class microsoft extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -343,4 +343,4 @@ class english extends Component {
     }
 }
 
-export default english;
+export default microsoft;

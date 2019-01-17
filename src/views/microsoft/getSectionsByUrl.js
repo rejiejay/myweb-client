@@ -9,7 +9,7 @@ let clientHeight = document.body.offsetHeight || document.documentElement.client
 /**
  * 根据Url的名称获取笔记本的分区
  */
-class english extends Component {
+class getSectionsByUrl extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -50,18 +50,18 @@ class english extends Component {
             });
         }
 
-        /**
-         * 【第二步】 查询数据库缓存 contentUrl 及 parentSection id 是否过期
-         */
-        let isPagesExpire = () => {
-        }
+        // /**
+        //  * 【第二步】 查询数据库缓存 contentUrl 及 parentSection id 是否过期
+        //  */
+        // let isPagesExpire = () => {
+        // }
 
-        /**
-         * 【第三步】 查询所有分区
-         */
-        let getAccessToken = () => {
+        // /**
+        //  * 【第三步】 查询所有分区
+        //  */
+        // let getAccessToken = () => {
 
-        }
+        // }
     }
 
     render() {
@@ -72,4 +72,4 @@ class english extends Component {
     }
 }
 
-export default english;
+export default getSectionsByUrl;
