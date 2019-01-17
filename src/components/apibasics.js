@@ -23,7 +23,7 @@ export default {
             response => response.json(),
             error => ({result: 0, message: error})
         ).then(val => {
-            Toast.destroy(); // 关闭加载框、
+            Toast.destroy(); // 关闭加载框
 
             if (val.result === 1) {
                 resolve(val.data);

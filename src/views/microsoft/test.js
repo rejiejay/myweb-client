@@ -23,7 +23,7 @@ class english extends Component {
         /**
          * 这个可以根据postman手动赋值
          */
-        this.access_token = "EwB4A8l6BAAURSN/FHlDW5xN74t6GzbtsBBeBUYAARv2RVeVWgJ1vJOHs6uRSQrWUQBJbwu93XGyWVQpY6ruEKKY7eMPBpTdVWzzNdQzgDjQADxYMkOfSLRurA7KZLL1MN2tN7lVjo6rSmDE10LfCjHIE11n1LPiWoS2FnLlJIOS6zQM370syuGQZXAytEhhs/MVjXL04IpGQgCTZJ/q+vHhLLQ0ZAPl9cRArMxD0g2d0kcIYpXE7csAsm7sQ0aFPcFyxflrDT8V/VvuSFL6Zkh3CP78e9TQVt8n26vmuSa4YV/ZdH/9VenyoYfjRGXQUKJRjswk+TdPmF/QdbdALHpJGpWNS9TDeZbkBAGc/Yves7yxmqxnV5h3Qgf8TwEDZgAACMwy/pnHxQvhSALCSqMa7ukk3pskKPXjXQebjJdKX9KiLjSS8W10b+WnMR4aTLE3OW7H0h1SNle54wnMraSNEGUavdmOTlbUIRRTe0FQTiRqPIAfn5/J0DwyngZ2tNNc5mz8DVHXDVInNy2iRuFSYJ1dFSI6DMgoPYsEeMuCWW4LOq18AT2D7lY4wYvEo4ETS0uoEPB/4psMp+/ERicnQ+LEBadDLDsCi5i+iH1suZI98OUW3DzkNgewi612ZXMhLTQuLehsFguy20dEKeZsK/X6H12OwNudN2h5t13VBc2KhjvPq8ydwZQTcxgYd52ZwDwcInbsd+mNAobuZ1ZeE9Bk1hEgwglcWOTHvFzDyq8MHqB4lriRpPAjTysrEADQtc/VyiLA+A6CKoPX6D5lva1XsaQX6XRetUPaX34cufN/JLSfNuX5cDaNRSHEKkVX0IU0gxs0EIhLSPs/0dqQjOTFrqx3QBTmthwp6ii5gyTirbb3OR/rUs9HzAeA96swOC9/xNVOy4CR9igl4HXi+UMisVUcF8p/qlVpevj7ZAqf8U1Gl9LCuSe6xCqTDHDbGStG4rUeDpnSWle30y7OlzH9TlAlyXYSm9YQxkB8FvcF2a6yN5k/vNt6fJhg2v/IW1aMoIl0Pfek22WZIqxbFEsAgO+geCzxT77eZnn3cftVndXUK5aAblIw/Q+jPjIy/bdaFejNrM2ybViOzsDWNgUkEWxLla+6qKY0bdWNVPqyZj+l4Owvpf2lydGSz1M0aLS3cczqI0wM9Bk3cFfdzgphNn0C";
+        this.access_token = "EwBwA8l6BAAURSN/FHlDW5xN74t6GzbtsBBeBUYAAbHxySpDQGxWtl2+0WOPl0F4X72SFEQBBjUG9HLexj2iqlzoTHxEyazBAYq6hOb8vId3jm9er74rWHDGJHM06rrEFFlr78nrhfzI2IGmtTEzA863/h+NQo71ZvUtZasHNPvWXJevnDjTL/bAkZ5ffXPUdq/VFJA604jd894ifsu76t1NnpItmCHw7+7ZOT6jjWWh8e4kh1sF+7YyMldW6iZs1b4xuvj9WBYbjumduuUThzD3Jdjn6jcibqxdo3WtBCuaBRnS6A1q+aN/UDXmUDNfXtA3seHYnjcbXyuTj0YoK9ng6GcAiY5XkT9bYTomcw+p1MN7EqZkRSFKd5bcxDADZgAACPZSRpX0E84IQAJWURnk+sOmwBP5TFFFnFacTDd7OtXHwyaHTxX1a2iN/UrzajhbLu9ZjTKOJUxaMyqKxgDWus0ej/DWd5kkxzhIY1r/pZKHq3O+O7lTiyjiF/4TAtHOIJSy9E8zQKK5nRZirTINUfJbV9fX/BNjZtL7GyhrU58dCHaAYOCZsIQpZ+J86+fzGvIW5XiOSobIazpFrKpiW8wWT1Ruk1KSHJcGzp4juwOOoamfAQQ504dv0Vln252K0bV6XcxAUXnI1QcXsIYWE9aQA9roLs0VJWsz8vJ93UOrj7IEtPi2zuoSRcOh/NvPZKrOBVhQd0AcULZl0QxRnAN03TBBMUIgdlRzw7tTvNjCWdskfkcYnORO0FSdm/MpVejwF9zfM6IVDghLnylRxL1TYP6JA4st/IaGbwWTtbifxFBZ9Hupsn9e33+G4K8nKq5P5sS3xvSyB65pYjpvGx80r4+Ep8ekhdHIvdjYSB6pyFJG6Yfs8pDxxT0rIMumUWoSAM4GLJLg9g8iu9vWSiKqtTI1IvuY2MUCdk4PQrDarvosWGjTp2ELluGcSnjRh9OffqTCxJ+xzi0VWF2KcH4s9uKu/cGURitK6H78IP0qy/9T4lcQR1vQtK0hmDwmA27np0IrUcOWoehmt9OHZDUKrT88kBVDkRRbvWmDo4ajmLGDn9/1Mw2RBuxptNJnpsDtFkw/LMRqlgZbBPNUPEiWbbnbxKVx7a7NoRMvguhHXv+yhkkl6R/yYQomBmrY+hUgPpllq8XvyJ99Ag==";
     }
 
     componentDidMount() {
@@ -236,9 +236,11 @@ class english extends Component {
             error => ({result: 0, message: error})
         ).then(val => {
             console.log(val)
-            _this.setState({
-                pageList: val.value
-            });
+            if (val && val.value) {
+                _this.setState({
+                    pageList: val.value
+                });
+            }
 
             let res = {
                 "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('454766952%40qq.com')/onenote/pages",
