@@ -1,6 +1,7 @@
 // 框架类
 import React, { Component } from 'react';
 // 请求类
+import { apibasicsget } from './ajaxs';
 import { getToken, storagePages, getStoragePagesStatus } from './../../api/microsoft/index';
 // 组件类
 import Toast from './../../components/toast';
@@ -10,6 +11,7 @@ let clientHeight = document.body.offsetHeight || document.documentElement.client
 
 /**
  * 获取 OneNote notebook 所有的 pages
+ * 这个页面是强制刷新所有 pages，就是说无论任何时候, 只要进入到这个页面就会进行重置所有页面
  */
 class getAllPages extends Component {
     constructor(props) {
@@ -33,8 +35,36 @@ class getAllPages extends Component {
         const _this = this;
 
         /**
-         * 【第一步】 获取Token
+         * 判断一下页面状态
          */
+        getStoragePagesStatus()
+        .then(res => {
+            if (res.result === 1) {
+                // 有缓存数据，但是 这个页面是强制刷新所有 pages，下一步
+                _this.initAccessToken();
+
+            } else if (res.result === 233) {
+                // 正在缓存 OneNote notebook 所有的 pages, 跳转到【第四步】 轮询缓存所有页面的状态
+                _this.iteratorStoragePagesStatus.call(_this);
+                
+            } else {
+                // 压根就没有缓存OneNote notebook 所有的 pages, 直接下一步
+                _this.initAccessToken();
+            }
+
+        }, error => {
+            // 失败的情况下就不用管了, 直接下一步
+            _this.initAccessToken();
+        });
+
+    }
+
+    /**
+     * 【第一步】 获取Token
+     */
+    initAccessToken() {
+        const _this = this;
+
         if (window.location.hostname === 'localhost') { // 判断是不是本地环境
             // 本地环境的情况下, 直接跳转到第二步
             window.sessionStorage.setItem('microsoft_access_token', this.access_token);
@@ -56,6 +86,7 @@ class getAllPages extends Component {
                 window.location.href = 'microsoft/authorize.html';
             }
         });
+
     }
 
     /**
@@ -74,16 +105,8 @@ class getAllPages extends Component {
         }
 
         Toast.show(); // 弹出加载框
-        fetch(url, {
-            'method': 'GET',
-            headers: {
-                'contentType': 'application/json; charset=utf-8',
-                'Authorization': _this.access_token
-            },
-        }).then(
-            response => response.json(),
-            error => ({result: 0, message: error})
-        ).then(val => {
+        apibasicsget(url)
+        .then(val => {
             Toast.destroy(); // 关闭加载框
 
             // 判断获取的参数是否有效
@@ -95,6 +118,7 @@ class getAllPages extends Component {
                         contentUrl: item.contentUrl, // 缓存 contentUrl
                         parentSectionId: item.parentSection.id, // 以及 父分区的唯一标识
                     });
+                    return item;
                 });
 
                 // 判断是否存在其他页面
@@ -181,7 +205,7 @@ class getAllPages extends Component {
                 {this.state.errorMessage ? (
                     <div>
                         <div>
-                            <button type="button" onClick={_this.iteratorPagesByUrl('https://graph.microsoft.com/v1.0/me/onenote/pages')}>重新获取</button>
+                            <button type="button" onClick={() => _this.iteratorPagesByUrl('https://graph.microsoft.com/v1.0/me/onenote/pages')}>重新获取</button>
                         </div>
                         <div>{_this.state.errorMessage}</div>
                     </div>

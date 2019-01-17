@@ -1,0 +1,39 @@
+$black1: #303133;
+$black2: #606266;
+$black3: #909399;
+$black4: #C0C4CC;
+
+.microsoft {
+    position: relative;
+}
+
+.microsoft-title {
+    font-size: 16px;
+    color: $black1;
+    line-height: 45px;
+    padding: 0px 15px;
+}
+
+.microsoft-body {
+    position: relative;
+    color: $black2;
+    font-size: 11pt;
+}
+
+.microsoft-operate {
+    position: fixed;
+    height: 45px;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+
+    .microsoft-operate-botton {
+        font-size: 12px;
+        padding: 0px 25px;
+        line-height: 32px;
+        border-radius: 32px;
+        background-color: #1AAD19;
+        color: #FFFFFF;
+    }
+}

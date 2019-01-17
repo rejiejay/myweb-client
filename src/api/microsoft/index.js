@@ -40,3 +40,10 @@ export function storagePages(allPages) {
 export function getStoragePagesStatus() {
     return apibasics.resget(`/microsoft/pages/status`, '查看缓存所有页面的状态');
 }
+
+/**
+ * 根据分区id随机查询 OneNote notebook 
+ */
+export function getContentUrlBy(parentSectionId) {
+    return apibasics.get(`/microsoft/pages/get/random?parentSectionId=${parentSectionId}`, '根据分区id随机查询 OneNote notebook ');
+}
