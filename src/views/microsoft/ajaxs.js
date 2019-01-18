@@ -33,6 +33,5 @@ export function apibasicsgethtml(url) {
 /**
  * 微软用的 post 请求(暂时没用上)
  */
-export function apibasicspost() {
-
-}
+// export function apibasicspost() {
+// }

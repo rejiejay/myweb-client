@@ -38,43 +38,34 @@ $black4: #C0C4CC;
     }
 }
 
-// 简历
+// 我的所有onenote列表
 .microsoft-onenote-list {
     background: #f1f1f1;
-    padding: 0px 15px 15px 15px;
+    padding: 15px 7.5px;
+    overflow: hidden;
 
-    .list-item {
-        padding-top: 15px;
+    .onenote-item {
+        padding-bottom: 15px;
+        float: left;
+    }
+        
+    .onenote-item-border {
+        padding: 0px 7.5px;
+    }
+        
+    .onenote-item-container {
+        background: #fff;
+    }
 
-        .list-item-container {
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            background: #fff;
-            overflow: hidden;
-        }
+    .onenote-item-icon {
+        color: #fff;
+        padding: 10px 0px;
+        font-size: 20px;
+    }
 
-        .list-item-img img {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-
-        .list-item-describe {
-            padding: 10px 15px;
-        }
-
-        .item-describe-title {
-            padding-bottom: 5px;
-            font-weight: bold;
-            position: relative;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            color: $black1;
-        }
-
-        .item-describe-content {
-            font-size: 12px;
-            color: $black3;
-        }
+    .onenote-item-describe {
+        height: 35px;
+        font-size: 14px;
+        color: $black2;
     }
 }

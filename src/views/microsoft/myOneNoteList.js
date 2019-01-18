@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 // 样式类
 import './style.scss';
+// 组件类
+import createRandomColor from './../../utils/createRandomColor';
 // 初始化
 let clientWidth = document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth;
 let clientHeight = document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight;
@@ -19,10 +21,13 @@ class myOneNoteList extends Component {
     render() {
         let list = [
             {
-                value: '', // 对应 OneNote 里面的分区
-                label: '', // 页面显示的名称
-                describe: '', // 可有可无的描述
-                imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/very_sorry.png', // 图片
+                value: 'english-idea', // 对应 OneNote 里面的分区
+                icon: '想法', // 页面显示的名称
+                label: '英语d想法', // 页面显示的名称
+            }, {
+                value: 'english-recite', // 对应 OneNote 里面的分区
+                icon: '背诵', // 页面显示的名称
+                label: '英语文章-背诵', // 页面显示的名称
             }, 
         ];
 
@@ -34,23 +39,17 @@ class myOneNoteList extends Component {
         return (
             <div className="microsoft-onenote-list" style={{minHeight: clientHeight}}>
                 {list.map((val, key) => (
-                    <div className="list-item" key={key}>
-                        <div className="list-item-container" onClick={() => jumpToOneNoteDetails(val.value)}>
-
-                            {/* 图片 */}
-                            <div className="list-item-img" 
-                                style={{
-                                    /* 长和高的比例为 345:150 计算， 实际高清图为 690:300 */
-                                    width: `${clientWidth - 30}px`, 
-                                    height: `${Math.floor( (clientWidth - 30) * 150 / 345 ) }px`
-                                }}>
-                                <img alt="item" src={val.imgsrc} />
-                            </div>
-
-                            {/* 描述 */}
-                            <div className="list-item-describe">
-                                <div className="item-describe-title">{val.label}</div>
-                                {val.describe ? (<div className="item-describe-content">{val.describe}</div>) : ''}
+                    <div className="onenote-item" 
+                        style={{width: `${(clientWidth - 15) / 2}px`}}
+                        key={key}
+                        onClick={() => jumpToOneNoteDetails(val.value)}
+                    >
+                        <div className="onenote-item-border">
+                            <div className="onenote-item-container">
+                                <div className="onenote-item-icon flex-center"
+                                    style={{backgroundColor: createRandomColor()}}
+                                >{val.icon}</div>
+                                <div className="onenote-item-describe flex-center">{val.label}</div>
                             </div>
                         </div>
                     </div>
