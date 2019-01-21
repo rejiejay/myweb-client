@@ -117,7 +117,10 @@ class getSectionsByUrl extends Component {
                     // 有效的情况下， 判断 url 的分区是否能够匹配成功
                     _this.parentSectionId = false;
 
+                    console.log('sections', sections);
+
                     val.value.map(item => {
+                        console.log('item.displayName', item.displayName);
                         if (item.displayName === sections) {
                             _this.parentSectionId = item.id;
                         }
@@ -132,7 +135,6 @@ class getSectionsByUrl extends Component {
 
                     } else {
                         alert(`匹配无此 ${sections} 笔记本!`);
-                        window.history.back(-1); // 返回上一页即可
                     }
                 }
     
@@ -174,13 +176,10 @@ class getSectionsByUrl extends Component {
                 divElement.innerHTML = res;
 
                 let html_title = divElement.getElementsByTagName('title')[0].textContent; // 获取
-                let html_body = divElement.getElementsByTagName('div')[0]; // 获取页面内容
-
-                html_body = html_body ? html_body.innerHTML : '暂时无内容'; // 判断是否有内容
 
                 _this.setState({
                     html_title: html_title ? html_title : '暂无标题',
-                    html_body: html_body,
+                    html_body: res,
                 });
 
             }, error => {

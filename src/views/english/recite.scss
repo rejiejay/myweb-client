@@ -30,3 +30,21 @@ $black4: #C0C4CC;
         background: #ddd;
     }
 }
+
+.microsoft-operate {
+    position: fixed;
+    height: 45px;
+    width: 100%;
+    left: 0;
+    bottom: 45px;
+    z-index: 2;
+
+    .microsoft-operate-botton {
+        font-size: 12px;
+        padding: 0px 25px;
+        line-height: 32px;
+        border-radius: 32px;
+        background-color: #1AAD19;
+        color: #FFFFFF;
+    }
+}

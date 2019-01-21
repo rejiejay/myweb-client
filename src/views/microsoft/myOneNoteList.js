@@ -25,19 +25,23 @@ class myOneNoteList extends Component {
                 icon: '想法', // 页面显示的名称
                 label: '英语d想法', // 页面显示的名称
             }, {
-                value: 'english-recite', // 对应 OneNote 里面的分区
-                icon: '背诵', // 页面显示的名称
-                label: '英语文章-背诵', // 页面显示的名称
+                value: 'english-recite', 
+                icon: '背诵',
+                label: '英语文章-背诵',
+            },  {
+                value: 'zhihu', 
+                icon: '知乎',
+                label: '待消化的知识',
             }, 
         ];
 
         /**
          * 跳转到详情页面
          */
-        let jumpToOneNoteDetails = parentSectionId => window.location.href = `./?parentSectionId=${parentSectionId}#/microsoft/onenote/sections`;
+        let jumpToOneNoteDetails = sections => window.location.href = `./?sections=${sections}#/microsoft/onenote/sections`;
 
         return (
-            <div className="microsoft-onenote-list" style={{minHeight: clientHeight}}>
+            <div className="microsoft-onenote-list" style={{minHeight: `${(clientHeight - 30)}px`}}>
                 {list.map((val, key) => (
                     <div className="onenote-item" 
                         style={{width: `${(clientWidth - 15) / 2}px`}}
@@ -54,6 +58,10 @@ class myOneNoteList extends Component {
                         </div>
                     </div>
                 ))}
+                
+                <div className="microsoft-operate flex-center">
+                    <div className="microsoft-operate-botton" onClick={() => window.location.href = '#/microsoft/onenote/pages'}>刷新数据</div>
+                </div>
             </div>
         );
     }

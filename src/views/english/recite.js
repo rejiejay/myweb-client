@@ -80,6 +80,10 @@ class english extends Component {
                     <div className="recite-operate-line"></div>
                     <div className="flex-rest" onClick={this.getrandom.bind(this)}>下一组</div>
                 </div>
+                
+                <div className="microsoft-operate flex-center">
+                    <div className="microsoft-operate-botton" onClick={() => window.location.href = `./?sections=english-idea#/microsoft/onenote/sections`}>碰见不会的单词怎么办？</div>
+                </div>
             </div>
         );
     }
