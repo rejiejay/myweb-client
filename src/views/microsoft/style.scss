@@ -8,6 +8,9 @@ $black4: #C0C4CC;
 }
 
 .microsoft-title {
+    position: absolute;
+    left: 0px;
+    top: 0px;
     font-size: 16px;
     color: $black1;
     line-height: 45px;
@@ -15,17 +18,16 @@ $black4: #C0C4CC;
 }
 
 .microsoft-body {
-    position: relative;
+    width: 100%;
+    height: 100%;
     color: $black2;
     font-size: 11pt;
 }
 
 .microsoft-operate {
-    position: fixed;
-    height: 45px;
-    width: 100%;
-    left: 0;
-    top: 45;
+    position: absolute;
+    right: 15px;
+    top: 15px;
     z-index: 2;
 
     .microsoft-operate-botton {
@@ -68,22 +70,22 @@ $black4: #C0C4CC;
         font-size: 14px;
         color: $black2;
     }
+}
 
-    .microsoft-operate {
-        position: fixed;
-        height: 45px;
-        width: 100%;
-        left: 0;
-        bottom: 0;
-        z-index: 2;
-    
-        .microsoft-operate-botton {
-            font-size: 12px;
-            padding: 0px 25px;
-            line-height: 32px;
-            border-radius: 32px;
-            background-color: #1AAD19;
-            color: #FFFFFF;
-        }
+.my-microsoft-operate {
+    position: fixed;
+    height: 45px;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+
+    .microsoft-operate-botton {
+        font-size: 12px;
+        padding: 0px 25px;
+        line-height: 32px;
+        border-radius: 32px;
+        background-color: #1AAD19;
+        color: #FFFFFF;
     }
 }

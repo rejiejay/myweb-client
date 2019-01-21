@@ -6,6 +6,8 @@ import { getToken, getStoragePagesStatus, getContentUrlBy } from './../../api/mi
 // 组件类
 import loadPageVar from './../../utils/loadPageVar';
 import Toast from './../../components/toast';
+// 配置类
+import config from "./../../config/index";
 // 样式类
 import './style.scss';
 // 初始化
@@ -28,7 +30,7 @@ class getSectionsByUrl extends Component {
         /**
          * 本地测试 (postman手动赋值)
          */
-        this.access_token = "EwBwA8l6BAAURSN/FHlDW5xN74t6GzbtsBBeBUYAARxu/YrgsYkTrwdqkaLc18na/GmDfvEioSd+yN7q97qLjFjE2T89NJ9AjoL+j6Ae9v+B8ewJZzDHIN76ttQ6JDR0WGoRaaXo+EfrwQan7vqdQoRuMSwxHFO6ZeFHQft2tKNvR5oc44sX9exK//2ncFqkaMm/8jvuzQTC6WPSi8QTCUmBAJB8wLucHkyuJ+9WSZ6TxGgI74wFBsn5XBoMCsftWy5uL/T2NGaReYrbrS7u45uvhANlA7haKHCUCD9PAytGXk7jcUpzGbvweMM5kN01O9r1bIxsFLEPpym31yV7BzvCAcCeerZIMQw8JVnNag7+qmmLix2AcZdsYG4Q7I4DZgAACFTFfQqVlcDVQAK3FtH4fIeOzHwMnFXhsMrBs9djd7MsHiC0kOlMr5pcAG8daqFeTIfI9ZhNt1OtkCsJJpQtsUJ9RiBA+nY9Go16LWwvbnaZzpGvtaQKEMQe3xVGFha0m6oFOzazjLo0aOO8yJFDdKMBmK0GdXUlATBVxsupeCOLayBPpqsIBKGobReY8JBxQ1WO2oyx+OjiWvmWJjoQ4YLETDLRvMb6E/pPsrBzYh27Z5a5ed/zrtgutTLv+VCOVzrB0NDEPDVzNUVvyKxbZD/xjk2kilRdwrrzNAHsat9nXINhriZRzyjTlgAEuBb5Grc6UncT+nBdyvxpZaa559TKXEvizmBjfxE7OyYmSIcAKdG4hjGuN5xWHVtrpoVF1Y1nAFcxt/kdNnWYwZvuHbIbUFtK5rKdZEVRuFpYalaEGwXvswrvT5ONNptv850JJrov8zrGy7PStXsF5hzhgxw8JPuGG84majAic7yg1VG4n3Jubh1dmPrsAahczIWl3PMtDdl7+g4rH5CntnSgMXkwpqKhy+ErNn8GvyngyK46lLZ3QidHFYC/K2tYsZBFwuyLkKhHpXWJ8C/nAV0usxmZmnq1Iv40Eiy4u5uopKZO5x0Lwqociopnjt3+jsblI9IFDuU6uQn4CvSciMseUHsYFay0f8MiD5m5sROlWgcEfbzITnYg+um7ejaebHxL8PInPVmtZLmDOT1FHI+9P2h1KDOJljcoyItsr7s8pPxna55AS7MI3SRB547i0Gm+zVZoaSvgR4zUZNZ9Ag==";
+        this.access_token = "EwB4A8l6BAAURSN/FHlDW5xN74t6GzbtsBBeBUYAAWHpYF8s0AXaCX7DlWe2boxJfIZr0u5uykZ/55a0h/lhq+SkNWeq6SFqEo7TN8yAzaxaLlTc3s6Jmr5x4omk8dtql4X592EAvOKE0Z8CjAFrlZNi0yxbf/obiTC814DOM2FL8Fvl3synkFN/h8+fpM5D9qlRpadmWpbkwoJcaZFhseEdF4bDVxmcKsSkOE702Knfp1ozPOGdmSxAW50Tlj/H00/AvBuI5ioqDc8oV/0VAo3E2jqgouIvzX0qxrMTQY0chIqCS1DMjskC2sZLqLFiNkPj1bARtYrZV7kWKKLGRPvu0JP5Mx+RAoIU6Bn00d8mpv0Je1Xn1sp7GEr8VRQDZgAACLKPP22YERd0SAKPsbW/FA/4/BWkRbjqWZhfj+3STCtOgX9CJ6flb5G3TtSecMblJ7/w8pPB4sR5roS/HoTxYVzkLGebaVyJ0riB3FljL64Wdi25umHTg7xWq1bFb3eSju2/Y/LGuiohr/ELXaCY2BK/6VhYZan8CnsrKPoTzUNNUoouc6BtK0eM9LQbL2KmQPIHXI05Ds+u7u9uuOdFvGzy7hl7cNJiiGJjjTx9TKYUC7DNQN0KM2gkGtcv3v+9J7UnQ4iiy2O2bDy9oGzgXPklyy0gXrj411r3sdBgYPbRpK9h1DlMFcl21xkigk8M6s4Of4DvLBSpe2BYAH9J0uvU49gAQs4Yl3h8zSTRfz1iBvRwK37ww9ynwanbf9GwuelPJsaz3TG+V0Zw9O+v1KtsZTUeFLtSFp2+ZJJBTmv+D7AxUa68tX8LI4RyE790uOBErp0w1df5CgDcNR1gW0LsSU69Lc3/9T3uNNYgNny5bx8fck2p4hC3epcuBoGHMZaCawotNouXyBN7cP5D8aNaEHirY98yfTOMlv6ts/saY1Lou1nfF7KWPDKbgzRxvWZ7JgxtPuS8W1KCR76EYs1HVl8kkHGTiTtTSQVpF0HUhz3iGTblJVDVTSuEnMQ2PWuZDwig16vxvJP86Ba9Zpz1rFLKhdNbXo31tSamyuPKS0oTUyuRdIkjXMHtfZWrJS4Hicu6/CN5pu7Cbhcnx7BRcJaasUxnpYlZvoZvR7vLieUtSupwjYbbDX/NfapvRFBI6MukqD9dweqYMXwUndcewX0C";
 
         this.parentSectionId = false;
     }
@@ -159,6 +161,37 @@ class getSectionsByUrl extends Component {
         const _this = this;
 
         /**
+         * 替换所有 string 的方法
+         */
+        let replaceAll = string => new Promise((resolved, rejected) => {
+            // 需要匹配字符串
+            let matchedString = ` src="https://graph.microsoft.com/v1.0/users('454766952@qq.com')/onenote/resources/`;
+            // 替换为的字符串
+            let targetString = ` src="${config.url.origin}/microsoft/pages/img?access_token=${window.sessionStorage.microsoft_access_token}&encode_url=`;
+
+            /**
+             * 迭代替换的方法
+             */
+            let thisreplace = thisstring => {
+                // 判断是否匹配到链接
+                if (thisstring.indexOf(matchedString) !== -1) {
+                    // 匹配成功
+                    // 替换字符串
+                    let newstring = thisstring.replace(matchedString, targetString);
+                    // 迭代执行
+                    thisreplace(newstring);
+                    
+                } else {
+                    // 匹配失败
+                    // 表示替换完成
+                    resolved(thisstring);
+                }
+            }
+
+            thisreplace(string);
+        });
+
+        /**
          * 通过 contentUrl 获取 HTML 内容
          * @param {string} contentUrl 
          */
@@ -169,17 +202,18 @@ class getSectionsByUrl extends Component {
             .then(res => {
                 Toast.destroy(); // 关闭加载框
 
-                console.log(res);
-
                 let divElement = window.document.createElement('div');
 
                 divElement.innerHTML = res;
 
                 let html_title = divElement.getElementsByTagName('title')[0].textContent; // 获取
 
-                _this.setState({
-                    html_title: html_title ? html_title : '暂无标题',
-                    html_body: res,
+                replaceAll(res)
+                .then(replaceString => {
+                    _this.setState({
+                        html_title: html_title ? html_title : '暂无标题',
+                        html_body: replaceString,
+                    });
                 });
 
             }, error => {
@@ -197,7 +231,6 @@ class getSectionsByUrl extends Component {
 
         getContentUrlBy(this.parentSectionId)
         .then(res => {
-            console.log(res)
             getContentHtmlBy(res.key_value);
 
         }, error => {
@@ -213,14 +246,19 @@ class getSectionsByUrl extends Component {
         const _this = this;
 
         return (
-            <div className="microsoft" style={{minHeight: clientHeight}}>
+            <React.Fragment>
                 {this.state.errorMessage ? (<div>{_this.state.errorMessage}</div>) : ''}
+
                 <div id='microsoft-title' className="microsoft-title">{this.state.html_title}</div>
-                <div id='microsoft-body' data-absolute-enabled="true" className="microsoft-body" dangerouslySetInnerHTML={{__html: this.state.html_body}}></div>
-                <div className="microsoft-operate flex-center">
+
+                <div className="microsoft-operate">
                     <div className="microsoft-operate-botton" onClick={this.getNotebookByParentSectionId.bind(this)}>下一篇</div>
                 </div>
-            </div>
+                
+                <div>
+                    <div id='microsoft-body' data-absolute-enabled="true" className="microsoft-body" dangerouslySetInnerHTML={{__html: this.state.html_body}}></div>
+                </div>
+            </React.Fragment>
         );
     }
 }

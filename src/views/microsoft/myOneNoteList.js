@@ -59,7 +59,7 @@ class myOneNoteList extends Component {
                     </div>
                 ))}
                 
-                <div className="microsoft-operate flex-center">
+                <div className="my-microsoft-operate flex-center">
                     <div className="microsoft-operate-botton" onClick={() => window.location.href = '#/microsoft/onenote/pages'}>刷新数据</div>
                 </div>
             </div>
