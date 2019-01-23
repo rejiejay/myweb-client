@@ -1,9 +1,11 @@
 // 框架类
 import React, { Component } from 'react';
 import ReactMarkdown from 'react-markdown';
+import wangeditor from 'wangeditor';
 // 组件类
 import NavHeard from './NavHeard/index';
 import Copyright from './../../components/Copyright';
+import ReactWangEditor from './../../components/ReactWangEditor';
 import convertTime from './../../utils/convertTime';
 // 请求类
 import recordAjaxs from './../../api/record';
@@ -395,7 +397,7 @@ class computer extends Component {
         /**
          * 内容 输入框 处理函数
          */
-        const inputContentHandle = event => _this.setState({addRecordContent: event.target.value});
+        const inputContentHandle = html => _this.setState({addRecordContent: html});
 
 
         /**
@@ -678,8 +680,8 @@ class computer extends Component {
             )
         }
 
-        return this.state.navBarSelected === 'record' ? (
-            <div className="computer-main-record">
+        return (
+            <div className="computer-main-record" style={this.state.navBarSelected === 'record' ? {display: 'block'} : {display: 'none'}}>
 
                 {/* 新增部分 */}
                 <div className="computer-record-add">
@@ -697,11 +699,12 @@ class computer extends Component {
                     </div>
 
                     <div className="record-add-content flex-start">
-                        <textarea className="flex-rest" 
+                        <ReactWangEditor edit_onchange={html => inputContentHandle(html)}></ReactWangEditor>
+                        {/* <textarea className="flex-rest" 
                             value={addRecordContent}
                             onChange={inputContentHandle}
                             placeholder="Input you record content..."
-                        />
+                        /> */}
                     </div>
                 </div>
 
@@ -736,11 +739,12 @@ class computer extends Component {
                                             />
                                         </div>
                                         <div className="record-edit-content flex-start">
-                                            <textarea className="flex-rest" 
+                                            <ReactWangEditor edit_html={val.content} edit_onchange={html => editContentHandle(html, key)}></ReactWangEditor>
+                                            {/* <textarea className="flex-rest" 
                                                 value={val.content}
                                                 onChange={event => editContentHandle(event.target.value, key)}
                                                 placeholder="Input you record content..."
-                                            />
+                                            /> */}
                                         </div>
                                         <div className="record-edit-operate flex-start">
                                             <div className="record-edit-submit" onClick={() => editSubmit(key)}>确认</div>
@@ -751,7 +755,10 @@ class computer extends Component {
                                 ) : (
                                     <div className="main-item-container" onClick={() => editSwitcher(key)}>
                                         <div className="list-item-title">{val.title}</div>
-                                        <div className="list-item-content ReactMarkdown"><ReactMarkdown source={val.content} /></div>
+                                        <div className="list-item-content">
+                                            <div className="markdown-body" dangerouslySetInnerHTML={{__html: val.content}}></div>
+                                        </div>
+                                        
                                     </div>
                                 )}
                             </div>
@@ -761,7 +768,7 @@ class computer extends Component {
                 
                 {renderPagination() /* 分页部分 */}
             </div>
-        ) : '';
+        );
     }
 
     /**

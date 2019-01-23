@@ -185,6 +185,30 @@ $black4: #C0C4CC;
             overflow: visible;
         }
 
+        .rejiejay-editor {
+            background-color: #fff;
+            background-position: right 8px center;
+            background-repeat: no-repeat;
+            border: 1px solid #d1d5da;
+            border-radius: 3px;
+            box-shadow: inset 0 1px 2px rgba(27,31,35,.075);
+            color: #24292e;
+            font-size: 14px;
+            line-height: 20px;
+            min-height: 34px;
+            outline: none;
+            padding: 6px 8px;
+            vertical-align: middle;
+            -webkit-appearance: textfield;
+            outline-offset: -2px;
+            overflow: visible;
+            width: 100%;
+
+            #editor {
+                height: 80px;
+            }
+        }
+
         textarea {
             min-height: 80px;
         }
@@ -259,10 +283,12 @@ $black4: #C0C4CC;
                 color: $black1;
                 font-weight: bold;
                 font-size: 16px;
-                padding: 15px 15px 0px 15px;
+                padding: 15px;
+                border-bottom: 1px solid #ddd;
             }
     
             .list-item-content {
+                padding: 15px;
                 color: $black3 !important;
             }
         }
@@ -301,7 +327,28 @@ $black4: #C0C4CC;
             }
     
             .record-edit-content {
-                padding-top: 5px;
+
+                .rejiejay-editor {
+                    background-color: #fff;
+                    background-position: right 8px center;
+                    background-repeat: no-repeat;
+                    border-radius: 3px;
+                    color: #24292e;
+                    font-size: 14px;
+                    line-height: 20px;
+                    outline: none;
+                    padding: 6px 8px;
+                    vertical-align: middle;
+                    -webkit-appearance: textfield;
+                    outline-offset: -2px;
+                    overflow: visible;
+                    width: 100%;
+                    height: 120px;
+        
+                    #editor {
+                        height: 120px;
+                    }
+                }
             }
     
             .record-edit-operate {

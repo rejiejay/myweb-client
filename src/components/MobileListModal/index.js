@@ -21,8 +21,8 @@ class mobileListModal extends Component {
         let isShow = this.props.isShow; // 用于判断是否显示这个模态框
         let colseHandle = this.props.colseHandle; // 关闭这个模态框触发的函数
         
-        return isShow ? (
-            <div className="list-modal flex-column-center">
+        return (
+            <div className="list-modal flex-column-center" style={{display: `${isShow ? 'flex' : 'none'}`}}>
 
                 {/* 遮罩层 */}
                 <div className="list-modal-shade" onClick={colseHandle}></div>
@@ -36,7 +36,7 @@ class mobileListModal extends Component {
                     }}
                 >{this.props.children}</div>
             </div>
-        ) : null;
+        );
     }
 }
 

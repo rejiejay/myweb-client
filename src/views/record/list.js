@@ -3,7 +3,7 @@
  */
 // 框架类
 import React, { Component } from 'react';
-import ReactMarkdown from 'react-markdown';
+import wangeditor from 'wangeditor';
 
 // 样式类
 import './list.scss';
@@ -73,6 +73,7 @@ class recordlist extends Component {
     }
 
     componentDidMount() {
+        const _this = this;
         let pageType = loadPageVar('pageType'); // 页面状态
         let recordId = loadPageVar('id'); // 记录的唯一标识
 
@@ -90,6 +91,18 @@ class recordlist extends Component {
             this.initEdit(recordId);
 
         }
+
+        // 创建编辑器
+        this.addeditor = new wangeditor('#add-modal-content');
+        this.addeditor.customConfig.onchange = function (html) {
+            _this.setState({addContent: html});
+        }
+        this.addeditor.create();
+        this.editoreditor = new wangeditor('#editor-modal-content');
+        this.editoreditor.customConfig.onchange = function (html) {
+            _this.setState({editorContent: html});
+        }
+        this.editoreditor.create();
     }
     
     componentWillUnmount() {
@@ -202,6 +215,7 @@ class recordlist extends Component {
             window.sessionStorage.setItem('recordEditorContent', res.content);
 
             // 修改 页面的状态
+            _this.editoreditor.txt.html(res.content);
             _this.setState({
                 isEditorModalShow: true,
                 editorId: res.id,
@@ -288,12 +302,12 @@ class recordlist extends Component {
         return (
             <div className="record-list">
                 {this.state.list.map((val, key) => (
-                    <div className="list-item ReactMarkdown" 
+                    <div className="list-item" 
                         key={key} 
                         onClick={() => _this.initEdit(val.id)}
                     >
                         <div className="list-item-title">{val.title}</div>
-                        <div className="list-item-content"><ReactMarkdown source={val.content} /></div>
+                        <div className="list-item-content markdown-body" dangerouslySetInnerHTML={{__html: val.content}}></div>
                     </div>
                 ))}
             </div>
@@ -357,9 +371,10 @@ class recordlist extends Component {
         const inputTitleHandle = event => _this.setState({addTitle: event.target.value});
         
         /**
-         * 内容 输入框 处理函数
+         * 内容 输入框 处理函数（废弃）
+         * 转移到 componentDidMount 那里去了
          */
-        const contentTitleHandle = event => _this.setState({addContent: event.target.value});
+        // const contentTitleHandle = event => _this.setState({addContent: event.target.value});
 
         return (
             <MobileListModal isShow={this.state.isAddModalShow} colseHandle={colseHandle}>
@@ -377,7 +392,14 @@ class recordlist extends Component {
 
                     {/* 内容部分 */}
                     <div className="add-modal-content flex-center" style={{height: `${clientHeight - 70 - 50 - 50}px` /** 这里的高度很好算的 模态框上下边距为 70, 再减去 标题 50，以及底部操作按钮 50 */}}>
-                        <textarea 
+                        <div
+                            id="add-modal-content"
+                            style={{
+                                height: `${clientHeight - 70 - 50 - 50}px`, 
+                                width: `${clientWidth - 62}px`
+                            }}
+                        ></div>
+                        {/* <textarea 
                             style={{
                                 height: `${clientHeight - 70 - 50 - 50 - 30}px`, 
                                 width: `${clientWidth - 62 - 30}px`
@@ -385,7 +407,7 @@ class recordlist extends Component {
                             value={addContent}
                             onChange={contentTitleHandle}
                             placeholder="请输入内容"
-                        />
+                        /> */}
                     </div>
                     
                     {/* 操作按钮部分 */}
@@ -586,8 +608,9 @@ class recordlist extends Component {
         
         /**
          * 内容 输入框 处理函数
+         * 转移到 componentDidMount 那里去了
          */
-        const contentTitleHandle = event => _this.setState({editorContent: event.target.value});
+        // const contentTitleHandle = event => _this.setState({editorContent: event.target.value});
 
         return (
             <MobileListModal isShow={this.state.isEditorModalShow} colseHandle={colseHandle}>
@@ -605,7 +628,14 @@ class recordlist extends Component {
 
                     {/* 内容部分 */}
                     <div className="editor-modal-content flex-center" style={{height: `${clientHeight - 70 - 50 - 50}px` /** 这里的高度很好算的 模态框上下边距为 70, 再减去 标题 50，以及底部操作按钮 50 */}}>
-                        <textarea 
+                        <div
+                            id="editor-modal-content"
+                            style={{
+                                height: `${clientHeight - 70 - 50 - 50}px`, 
+                                width: `${clientWidth - 62}px`
+                            }}
+                        ></div>
+                        {/* <textarea 
                             style={{
                                 height: `${clientHeight - 70 - 50 - 50 - 30}px`, 
                                 width: `${clientWidth - 62 - 30}px`
@@ -613,7 +643,7 @@ class recordlist extends Component {
                             value={editorContent}
                             onChange={contentTitleHandle}
                             placeholder="请输入内容"
-                        />
+                        /> */}
                     </div>
                     
                     {/* 操作按钮部分 */}

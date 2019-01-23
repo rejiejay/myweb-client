@@ -26,7 +26,10 @@ class RouterConfig extends Component {
                         <Route path="/" exact component={isMobile ? mobileHome : pcHome} />
                         <Route path="/computer" exact component={pcHome} />
                         <Route path="/mobile" exact component={mobileHome} />
-                        
+
+                        {/* 测试 */}
+                        <Route path="/test" component={asyncComponent(() => import('./../views/test/index'))} />
+
                         {/* 登录页面 */}
                         <Route path="/user/login" component={asyncComponent(() => import('./../views/user/login'))} />
 

@@ -66,6 +66,17 @@ $black4: #C0C4CC;
         width: 100%;
     }
 
+    // 内容部分
+    .add-modal-content {
+        .w-e-toolbar {
+            display: none;
+        }
+
+        .w-e-text-container {
+            height: 100% !important;
+        }
+    }
+
     .add-modal-operate {
         padding: 10px 15px;
         height: 30px;
@@ -103,8 +114,14 @@ $black4: #C0C4CC;
     }
 
     // 内容部分
-    .editor-modal-content textarea {
-        width: 100%;
+    .editor-modal-content {
+        .w-e-toolbar {
+            display: none;
+        }
+
+        .w-e-text-container {
+            height: 100% !important;
+        }
     }
 
     // 底部操作按钮部分

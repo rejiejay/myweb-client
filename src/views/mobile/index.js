@@ -552,9 +552,9 @@ class mobile extends Component {
 
                 {this.state.recordList.map((val, key) => (
                     <div className="mobile-list-item" key={key}>
-                        <div className="list-item-container ReactMarkdown" onClick={() => jumpToEditBy(val.id)}>
+                        <div className="list-item-container" onClick={() => jumpToEditBy(val.id)}>
                             <div className="item-describe-title">{val.title}</div>
-                            <div className="item-describe-content"><ReactMarkdown source={val.content} /></div>
+                            <div className="item-describe-content markdown-body" dangerouslySetInnerHTML={{__html: val.content}}></div>
                         </div>
                     </div>
                 ))}
