@@ -23,7 +23,12 @@ class reuseme extends Component {
          */
         let reusemeList = [
             {
-                id: 'flgx', // 数据唯一标识
+                id: 'cdimms', // 数据唯一标识
+                imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/reuseme/cdimms/banner.png',
+                title: '智慧监控管理系统',
+                content: '“智慧监控管理系统”是使用Vue框架，以及Java Spring Boot服务的前后端分离项目，是中国人保财险一套智能的监管系统。提供了车行，支公司和团队的监控功能，并且支持表单以及统计进行智能分析和预测，给车行服务人员提供方便的工具。帮助其管理现有车商，支公司，团队、拓展新业务，创造业务的机会。',
+            }, {
+                id: 'flgx',
                 imgsrc: 'https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/reuseme/flgx/banner.png',
                 title: '金车管家',
                 content: '“金车管家”是使用Vue框架，以及Java Spring Boot服务的前后端分离项目，面向“保险销售人员、保险代理人员或其他车务、保险相关从业人员”的展业工具，帮助其管理现有客户、拓展新客户，创造客户接触机会，给客户提供加油、洗车、保养等高品质优惠服务，给业务经理分成。',

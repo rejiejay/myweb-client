@@ -11,6 +11,25 @@ let clientWidth = document.body.offsetWidth || document.documentElement.clientWi
 let clientHeight = document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight;
 // 简历键值对数据
 let reusemekeyvaldata = {
+    // 智慧监控管理系统
+    cdimms: [
+        {
+            title: '智慧监控管理系统',
+            content: '“智慧监控管理系统”是使用Vue框架，以及Java Spring Boot服务的前后端分离项目，是中国人保财险一套智能的监管系统。提供了车行，支公司和团队的监控功能，并且支持表单以及统计进行智能分析和预测，给车行服务人员提供方便的工具。帮助其管理现有车商，支公司，团队、拓展新业务，创造业务的机会。',
+        }, {
+            title: '车行监控',
+            content: '![content](https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/reuseme/cdimms/content001.png)',
+        }, {
+            title: '支公司监管',
+            content: '![content](https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/reuseme/cdimms/content002.png)',
+        }, {
+            title: '统计分析',
+            content: '![content](https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/reuseme/cdimms/content003.png)',
+        }, {
+            title: '支公司管理',
+            content: '![content](https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/reuseme/cdimms/content004.png)',
+        },
+    ],
     // 金车管家
     flgx: [
         {
