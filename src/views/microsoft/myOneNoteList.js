@@ -28,11 +28,15 @@ class myOneNoteList extends Component {
                 value: 'english-recite', 
                 icon: '背诵',
                 label: '英语文章-背诵',
-            },  {
+            }, {
                 value: 'zhihu', 
                 icon: '知乎',
                 label: '待消化的知识',
-            }, 
+            }, {
+                value: 'gong-wu-yuan', 
+                icon: '公务员',
+                label: '相关知识点',
+            },
         ];
 
         /**

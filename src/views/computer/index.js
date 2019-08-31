@@ -384,7 +384,13 @@ class computer extends Component {
             
             recordAjaxs.saveRecord(mytitle, addRecordContent)
             .then(
-                () => _this.setState({ addRecordTitle: '', addRecordContent: '' }, _this.getRecordListBy.bind(_this)), 
+                () => {
+                    _this.setState({ 
+                        addRecordTitle: '', 
+                        addRecordContent: '' 
+                    }, _this.getRecordListBy.bind(_this));
+                    _this.ReactWangEditor.clearEdit();
+                }, 
                 error => alert(error)
             );
         }
@@ -699,7 +705,10 @@ class computer extends Component {
                     </div>
 
                     <div className="record-add-content flex-start">
-                        <ReactWangEditor edit_onchange={html => inputContentHandle(html)}></ReactWangEditor>
+                        <ReactWangEditor 
+                            onRef={ref => _this.ReactWangEditor = ref} 
+                            edit_onchange={html => inputContentHandle(html)}
+                        ></ReactWangEditor>
                         {/* <textarea className="flex-rest" 
                             value={addRecordContent}
                             onChange={inputContentHandle}
