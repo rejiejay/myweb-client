@@ -7,6 +7,8 @@ import NavHeard from './NavHeard/index';
 import Copyright from './../../components/Copyright';
 import ReactWangEditor from './../../components/ReactWangEditor';
 import convertTime from './../../utils/convertTime';
+import AndroidRecordEvent from './AndroidRecordEvent/index';
+
 // 请求类
 import recordAjaxs from './../../api/record';
 import englishAjaxs from './../../api/english/index';
@@ -27,6 +29,7 @@ class computer extends Component {
              * 导航栏
              * @param {String} home 首页合集部分
              * @param {String} resume 简历和作品
+             * @param {String} android 安卓端
              * @param {String} record 记录
              * @param {String} english 英语
              */
@@ -97,8 +100,6 @@ class computer extends Component {
             englishPagenum: 1, // 页码
             englishPageTotal: 1, // 一共有多少数据
             englishPaginationNum: 1, // 记录页跳转的数据
-
-
         };
     }
 
@@ -306,6 +307,9 @@ class computer extends Component {
             }, {
                 value: 'resume',
                 lable: '作品'
+            },{
+                value: 'android',
+                lable: 'Android'
             }, {
                 value: 'record',
                 lable: '记录'
@@ -1201,6 +1205,7 @@ class computer extends Component {
 
                             {this.renderHome.call(this) /** 渲染 首页部分 */}
                             {this.renderResume.call(this) /** 渲染 简历和作品 */}
+                            <AndroidRecordEvent navBarSelected={this.state.navBarSelected}></AndroidRecordEvent>
                             {this.renderRecord.call(this) /** 渲染 记录 */}
                             {this.renderEnglish.call(this) /** 渲染 英语 */}
 
