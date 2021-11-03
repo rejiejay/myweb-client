@@ -20,18 +20,21 @@ let initJSSDK = function initJSSDK(jsApiList) {
             wxConfig => {
 
                 // 注册 配置成功的事件
+                // eslint-disable-next-line no-undef
                 wx.ready(function () { 
                     window.clearTimeout(window.initWxConfigTimer); // 清空超时的定时器
                     resolve(true);
                 });
 
                 // 注册 配置失败的事件
+                // eslint-disable-next-line no-undef
                 wx.error(function (res) {	
                     window.clearTimeout(window.initWxConfigTimer); // 清空超时的定时器
                     reject('初始化公众号用于调用微信JS接口的权限验证配置信息失败, 原因: ' + JSON.stringify(res));
                 });
 
                 // 初始化配置信息
+                // eslint-disable-next-line no-undef
                 wx.config({ 
                     debug: false,
                     appId: wxConfig.appId,

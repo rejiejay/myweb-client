@@ -11,8 +11,6 @@ class ReactWangEditor extends Component {
         this.state = {
             id: `editor${Math.floor(Math.random() * 100)}`
         }
-
-        this.editor;
     }
 
     componentDidMount() {
@@ -20,13 +18,12 @@ class ReactWangEditor extends Component {
 
         // 创建编辑器
         this.editor = new E(`#${this.state.id}`);
-        
-        this.editor.customConfig.onchange = function (html) {
-                
-            if (_this.props.edit_onchange) {
-                _this.props.edit_onchange(html);
-            }
-        }
+
+        // this.editor.customConfig.onchange = function (html) {
+        //     if (_this.props.edit_onchange) {
+        //         _this.props.edit_onchange(html);
+        //     }
+        // }
 
         this.editor.create();
 

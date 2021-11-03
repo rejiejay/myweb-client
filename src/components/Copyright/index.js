@@ -16,7 +16,10 @@ class Copyright extends Component {
     render() {
         return (
             <div className="copyright-component">
-                <div className="copyright-describe">粤ICP备17119404号 Copyright © Rejiejay曾杰杰</div>
+                <div className="copyright-describe">
+                    <a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备17119404号-1</a>
+                    <span> Copyright © Rejiejay曾杰杰</span>
+                </div>
             </div>
         );
     }

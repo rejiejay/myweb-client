@@ -26,7 +26,7 @@ export function apibasicsgethtml(url) {
         },
     }).then(
         response => response.text(),
-        error => response.text(),
+        error => error.text(),
     );
 }
 

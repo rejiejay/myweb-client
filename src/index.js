@@ -6,6 +6,12 @@ import RouterConfig from './routes/index';
 import modelsInit from './models/init';
 // css 样式类
 import './index.scss';
+import './components/css/base.scss';
+import './components/css/row.min.scss';
+import './components/css/flex.scss';
+import './components/css/noselect.scss';
+import './components/css/github-markdown.scss';
+import './components/css/markdown.scss';
 
 // 渲染 react 组件
 ReactDOM.render(<RouterConfig />, document.getElementById('root'));

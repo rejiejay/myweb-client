@@ -82,7 +82,7 @@ class getAllPages extends Component {
         }, error => {
             _this.setState({errorMessage: JSON.stringify(error)});
 
-            if (confirm(`获取授权失败, 原因：${error}。是否跳转到授权页?`)) {
+            if (window.confirm(`获取授权失败, 原因：${error}。是否跳转到授权页?`)) {
                 window.location.href = 'microsoft/authorize.html';
             }
         });

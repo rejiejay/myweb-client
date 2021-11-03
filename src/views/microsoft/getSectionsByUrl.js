@@ -60,7 +60,7 @@ class getSectionsByUrl extends Component {
                 isPagesExpire(); // 第二步
 
             }, error => {
-                if (confirm(error + '是否跳转到授权页?')) {
+                if (window.confirm(error + '是否跳转到授权页?')) {
                     window.location.href = 'microsoft/authorize.html';
                 }
             });

@@ -34,6 +34,7 @@ const modelsInit = {
                 /**
                  * 初始化“分享给朋友”及“分享到QQ”按钮的分享
                  */
+                // eslint-disable-next-line no-undef
                 wx.updateAppMessageShareData({ 
                     title: title,
                     desc: desc,
@@ -46,6 +47,7 @@ const modelsInit = {
                 /**
                  * 初始化“分享到朋友圈”及“分享到QQ空间”
                  */
+                // eslint-disable-next-line no-undef
                 wx.updateTimelineShareData({ 
                     title: title,
                     link: link,
@@ -57,6 +59,7 @@ const modelsInit = {
                 /**
                  * 初始化“分享到朋友圈”
                  */
+                // eslint-disable-next-line no-undef
                 wx.onMenuShareTimeline({
                     title: title,
                     link: link,
@@ -69,6 +72,7 @@ const modelsInit = {
                 /**
                  * 初始化“分享给朋友”及“分享到QQ”按钮的分享
                  */
+                // eslint-disable-next-line no-undef
                 wx.onMenuShareAppMessage({
                     title: title,
                     desc: desc,

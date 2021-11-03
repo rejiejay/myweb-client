@@ -254,7 +254,7 @@ class computer extends Component {
                     <h2>Hi, Rejiejay.</h2>
 
                     <div className="computer-infor-content ReactMarkdown" onClick={this.initBannerRecord.bind(this)}>
-                        <ReactMarkdown source={this.state.bannerRecordContent} />
+                        <ReactMarkdown children={this.state.bannerRecordContent} />
                     </div>
 
                     <div className="computer-infor-describe flex-start-center" style={{paddingTop: '15px'}}>
