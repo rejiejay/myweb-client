@@ -1,0 +1,34 @@
+/**
+ * 手机端 列表的模态框
+ */
+$black1: #303133;
+$black2: #606266;
+$black3: #909399;
+$black4: #C0C4CC;
+
+// 新增模态框的遮罩层级
+$add-modal: 1;
+
+.list-modal {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: $add-modal;
+
+    // 遮罩层
+    .list-modal-shade {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: rgba($color: #000000, $alpha: 0.36);
+    }
+
+    .list-modal-main {
+        position: relative;
+        background-color: #fff;
+    }
+}

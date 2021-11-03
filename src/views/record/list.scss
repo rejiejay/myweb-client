@@ -1,0 +1,142 @@
+$black1: #303133;
+$black2: #606266;
+$black3: #909399;
+$black4: #C0C4CC;
+
+// 头部
+.record-head {
+    line-height: 45px;
+
+    .record-head-item {
+        width: 50%;
+        border-bottom: 1px solid #ddd;
+        font-size: 14px;
+        color: $black2;
+
+        span {
+            display: block;
+            text-align: center;
+        }
+    }
+}
+
+// 列表内容
+.record-list {
+
+    .list-item {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .list-item-title {
+        font-size: 18px;
+        color: $black1;
+        padding-bottom: 5px;
+    }
+
+    .list-item-content {
+        color: $black2;
+    }
+}
+
+// 新增模态框
+.add-modal {
+
+    // 标题部分
+    .add-modal-title {
+        padding-left: 15px;
+        height: 50px;
+        border-bottom: 1px solid #ddd;
+
+        input {
+            font-size: 16px;
+            color: $black1;
+            font-weight: bold;
+        }
+
+        .modal-title-close {
+            padding: 0px 15px;
+            height: 50px;
+            line-height: 50px;
+        }
+    }
+
+    // 内容部分
+    .add-modal-content textarea {
+        width: 100%;
+    }
+
+    // 内容部分
+    .add-modal-content {
+        .w-e-toolbar {
+            display: none;
+        }
+
+        .w-e-text-container {
+            height: 100% !important;
+        }
+    }
+
+    .add-modal-operate {
+        padding: 10px 15px;
+        height: 30px;
+        border-top: 1px solid #ddd;
+
+        .modal-operate-container {
+            line-height: 30px;
+            text-align: center;
+            color: #fff;
+            background: #409EFF;
+        }
+    }
+}
+
+// 编辑模态框
+.editor-modal {
+
+    // 标题部分
+    .editor-modal-title {
+        padding-left: 15px;
+        height: 50px;
+        border-bottom: 1px solid #ddd;
+
+        input {
+            font-size: 16px;
+            color: $black1;
+            font-weight: bold;
+        }
+
+        .modal-title-close {
+            padding: 0px 15px;
+            height: 50px;
+            line-height: 50px;
+        }
+    }
+
+    // 内容部分
+    .editor-modal-content {
+        .w-e-toolbar {
+            display: none;
+        }
+
+        .w-e-text-container {
+            height: 100% !important;
+        }
+    }
+
+    // 底部操作按钮部分
+    .editor-modal-operate {
+        border-top: 1px solid #ddd;
+        line-height: 50px;
+        font-size: 14px;
+
+        .modal-operate-item {
+            width: 25%;
+
+            span {
+                display: block;
+                text-align: center;
+            }
+        }
+    }
+}

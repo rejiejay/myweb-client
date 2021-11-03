@@ -1,0 +1,91 @@
+$black1: #303133;
+$black2: #606266;
+$black3: #909399;
+$black4: #C0C4CC;
+
+.microsoft {
+    position: relative;
+}
+
+.microsoft-title {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    font-size: 16px;
+    color: $black1;
+    line-height: 45px;
+    padding: 0px 15px;
+}
+
+.microsoft-body {
+    width: 100%;
+    height: 100%;
+    color: $black2;
+    font-size: 11pt;
+}
+
+.microsoft-operate {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 2;
+
+    .microsoft-operate-botton {
+        font-size: 12px;
+        padding: 0px 25px;
+        line-height: 32px;
+        border-radius: 32px;
+        background-color: #1AAD19;
+        color: #FFFFFF;
+    }
+}
+
+// 我的所有onenote列表
+.microsoft-onenote-list {
+    background: #f1f1f1;
+    padding: 15px 7.5px;
+    overflow: hidden;
+
+    .onenote-item {
+        padding-bottom: 15px;
+        float: left;
+    }
+        
+    .onenote-item-border {
+        padding: 0px 7.5px;
+    }
+        
+    .onenote-item-container {
+        background: #fff;
+    }
+
+    .onenote-item-icon {
+        color: #fff;
+        padding: 10px 0px;
+        font-size: 20px;
+    }
+
+    .onenote-item-describe {
+        height: 35px;
+        font-size: 14px;
+        color: $black2;
+    }
+}
+
+.my-microsoft-operate {
+    position: fixed;
+    height: 45px;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+
+    .microsoft-operate-botton {
+        font-size: 12px;
+        padding: 0px 25px;
+        line-height: 32px;
+        border-radius: 32px;
+        background-color: #1AAD19;
+        color: #FFFFFF;
+    }
+}

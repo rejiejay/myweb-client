@@ -1,0 +1,58 @@
+$black1: #303133;
+$black2: #606266;
+$black3: #909399;
+$black4: #C0C4CC;
+
+.english-recite {
+    position: relative;
+    background: #fff;
+}
+
+.english-recite-count {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    font-size: 12px;
+    color: $black3;
+}
+
+.english-recite-container {
+    font-size: 18px;
+    color: $black1;
+    background: #fff;
+
+    .english-recite-content {
+        padding: 15px;
+    }
+}
+
+.english-recite-operate {
+    width: 100%;
+    line-height: 45px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+
+    .recite-operate-line {
+        height: 45px;
+        width: 1px;
+        background: #ddd;
+    }
+}
+
+.microsoft-operate {
+    position: fixed;
+    height: 45px;
+    width: 100%;
+    left: 0;
+    bottom: 45px;
+    z-index: 2;
+
+    .microsoft-operate-botton {
+        font-size: 12px;
+        padding: 0px 25px;
+        line-height: 32px;
+        border-radius: 32px;
+        background-color: #1AAD19;
+        color: #FFFFFF;
+    }
+}
