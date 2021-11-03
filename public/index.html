@@ -1,62 +1,43 @@
 <!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>曾杰杰-Rejiejay Web站</title>
-    <script>
-        if (!window.Promise) {
-            document.writeln('<script src="https://cdn.bootcss.com/es6-promise/4.1.1/es6-promise.min.js"'+'>'+'<'+'/'+'script>');
-        }
-        if (!window.fetch) {
-            document.writeln('<script src="https://cdn.bootcss.com/fetch/2.0.3/fetch.min.js"'+'>'+'<'+'/'+'script>');
-        }
-    </script>
-    <script src="https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/js/jweixin-1.4.0.js"></script>
-</head>
-<body>
-    <!-- 微信分享到朋友圈图片 图片规格有要求尺寸必须大于：300px × 300px -->
-    <img src="https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/wx_sharer.png" alt="wx_sharer" style="display: none;" />
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
 
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>React App</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--
-        This HTML file is a template.
-        If you open it directly in the browser, you will see an empty page.
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
 
-        You can add webfonts, meta tags, or analytics to this file.
-        The build step will place the bundled scripts into the <body> tag.
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
 
-        To begin the development, run `npm start` or `yarn start`.
-        To create a production bundle, use `npm run build` or `yarn build`.
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
     -->
-
-<div id="loading"><div class="loading"><div class="loader"><div><div><div><div><div><div></div></div></div></div></div></div></div></div></div>
-
-<style type="text/css">
-    @keyframes rotate { 
-        0% { transform: rotate(0deg); }
-        50% { transform: rotate(180deg); }
-        100% { transform: rotate(360deg); } }
-    @keyframes rotate2 { 
-        0% { transform: rotate(0deg); border-top-color: rgba(0, 0, 0, 0.5); }
-        50% { transform: rotate(180deg); border-top-color: rgba(0, 0, 255, 0.5); }
-        100% { transform: rotate(360deg); border-top-color: rgba(0, 0, 0, 0.5); } }
-    #loading * { box-sizing: border-box; }
-    #loading .loading { position: fixed; width: 100%; height: 100%; display: -webkit-box; display: -webkit-flex; display: -moz-flex; display: -ms-flexbox; display: flex; justify-content: center; align-items: center; background: #f9f9f9; z-index: 3; }
-    #loading h1, #loading h3 { display: block; margin: 0px auto; text-align: center; font-family: 'Tahoma'; font-weight: lighter; color: rgba(0, 0, 0, 0.5); letter-spacing: 1.5px; }
-    #loading h1 { margin: 50px auto; }
-    #loading .loader { position: relative; top: -100px; margin: 75px auto; width: 150px; height: 150px; display: block; overflow: hidden; }
-    #loading .loader div { height: 100%; }
-    #loading .loader, #loading .loader div { border-radius: 50%; padding: 8px; border: 2px solid transparent; animation: rotate linear 3.5s infinite; border-top-color: rgba(0, 0, 0, 0.5); border-left-color: rgba(0, 0, 255, 0.5); animation-timing-function: cubic-bezier(0.55, 0.38, 0.21, 0.88); animation-duration: 3s; }
-    #loading .loader, #loading .loader * { will-change: transform; }
-
-    .am-drawer.am-drawer-left .am-drawer-draghandle {
-        width: 0px;
-    }
-
-    .am-drawer-open.am-drawer.am-drawer-left .am-drawer-sidebar {
-        background: #fff;
-    }
-</style>
-</body>
+  </body>
 </html>
